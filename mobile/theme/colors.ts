@@ -1,0 +1,28 @@
+export const colors = {
+  leaf50: '#f2faf1',
+  leaf100: '#e0f3de',
+  leaf200: '#c1e6bd',
+  leaf300: '#97d391',
+  leaf400: '#69b862',
+  leaf500: '#479b41',
+  leaf600: '#347d31',
+  leaf700: '#2b632a',
+  leaf800: '#254f26',
+  leaf900: '#1f4221',
+  leaf950: '#0f2411',
+
+  earth50: '#fbf7ef',
+  earth100: '#f5ecd8',
+  earth200: '#e9d5ac',
+  earth300: '#dbb877',
+  earth400: '#cf9e4f',
+  earth500: '#c1873a',
+  earth600: '#a56b2f',
+  earth700: '#83512a',
+  earth800: '#6b4228',
+  earth900: '#593824',
+
+  cream50: '#fffdf8',
+  cream100: '#fbf8ef',
+  cream200: '#f4eedb',
+}

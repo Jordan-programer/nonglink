@@ -1,0 +1,20 @@
+# Backend (Python)
+backend/__pycache__/
+backend/**/__pycache__/
+backend/.venv/
+backend/venv/
+backend/.env
+backend/*.db
+
+# Frontend / Mobile (Node)
+**/node_modules/
+frontend/dist/
+mobile/.expo/
+mobile/dist/
+*.log
+npm-debug.log*
+
+# Editor / OS
+.vscode/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,35 @@
+<svg viewBox="0 0 640 220" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="leafGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3FA34D"/>
+      <stop offset="100%" stop-color="#1F6B32"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F2B24A"/>
+      <stop offset="100%" stop-color="#D98E23"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ICON: two interlocking "link" capsules forming a chain, echoing a leaf -->
+  <g transform="translate(110,110)">
+    <!-- back link (gold) -->
+    <rect x="-60" y="-26" width="120" height="52" rx="26"
+          transform="rotate(-28)"
+          fill="none" stroke="url(#goldGrad)" stroke-width="16"/>
+    <!-- front link (green) -->
+    <rect x="-60" y="-26" width="120" height="52" rx="26"
+          transform="rotate(28) translate(6,-4)"
+          fill="none" stroke="url(#leafGrad)" stroke-width="16"/>
+    <!-- leaf vein / sprout accent growing from the link -->
+    <path d="M 0 -70 C 14 -95 40 -102 58 -96 C 46 -78 22 -66 0 -70 Z"
+          fill="url(#leafGrad)"/>
+    <path d="M 2 -68 C 12 -80 26 -88 42 -92" stroke="#0E4A22" stroke-width="2.5"
+          fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- WORDMARK -->
+  <g font-family="Arial, Helvetica, sans-serif" transform="translate(215,0)">
+    <text x="0" y="128" font-size="66" font-weight="800" fill="#1B3A2B">Agri<tspan fill="#1F6B32">Link</tspan></text>
+    <text x="4" y="164" font-size="24" font-weight="700" letter-spacing="6" fill="#D98E23">ANGOLA</text>
+  </g>
+</svg>
