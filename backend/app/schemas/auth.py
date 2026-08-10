@@ -1,10 +1,10 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 
 from app.schemas.user import UserRead
 
 
 class LoginRequest(BaseModel):
-    email: EmailStr
+    identifier: str  # email or phone number
     password: str
 
 

@@ -7,6 +7,7 @@ class FarmBase(BaseModel):
     latitude: float | None = None
     longitude: float | None = None
     size_hectares: float | None = None
+    region_id: int | None = None
 
 
 class FarmCreate(FarmBase):
@@ -19,6 +20,7 @@ class FarmUpdate(BaseModel):
     latitude: float | None = None
     longitude: float | None = None
     size_hectares: float | None = None
+    region_id: int | None = None
 
 
 class FarmRead(FarmBase):
@@ -27,3 +29,7 @@ class FarmRead(FarmBase):
 
     class Config:
         from_attributes = True
+
+
+class FarmAdminRead(FarmRead):
+    owner_name: str

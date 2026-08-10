@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Search } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { fetchProducts, type Product } from '../api/client'
 import ProductCard from '../components/ProductCard'
 
 export default function Marketplace() {
+  const { t } = useTranslation()
   const [products, setProducts] = useState<Product[]>([])
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [query, setQuery] = useState('')
@@ -29,13 +31,13 @@ export default function Marketplace() {
   }, [])
 
   const categories = useMemo(
-    () => Array.from(new Set(products.map((p) => p.category).filter(Boolean))) as string[],
+    () => Array.from(new Set(products.map((p) => p.crop_name))),
     [products],
   )
 
   const filtered = products.filter((p) => {
     const matchesQuery = p.name.toLowerCase().includes(query.toLowerCase())
-    const matchesCategory = !category || p.category === category
+    const matchesCategory = !category || p.crop_name === category
     return matchesQuery && matchesCategory
   })
 
@@ -43,12 +45,9 @@ export default function Marketplace() {
     <section className="mx-auto max-w-6xl px-6 py-14">
       <div className="max-w-2xl">
         <h1 className="text-3xl font-semibold tracking-tight text-leaf-950">
-          Mercado agrícola
+          {t('marketplace.title')}
         </h1>
-        <p className="mt-2 text-leaf-950/70">
-          Produtos frescos vendidos diretamente por agricultores em Angola,
-          sem intermediários.
-        </p>
+        <p className="mt-2 text-leaf-950/70">{t('marketplace.subtitle')}</p>
       </div>
 
       <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -60,7 +59,7 @@ export default function Marketplace() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Procurar produtos..."
+            placeholder={t('marketplace.searchPlaceholder')}
             className="w-full rounded-full border border-leaf-200 bg-white py-2.5 pl-9 pr-4 text-sm text-leaf-950 placeholder:text-leaf-950/40 focus:border-leaf-400 focus:outline-none"
           />
         </div>
@@ -75,7 +74,7 @@ export default function Marketplace() {
                   : 'bg-leaf-100 text-leaf-700 hover:bg-leaf-200'
               }`}
             >
-              Todos
+              {t('marketplace.all')}
             </button>
             {categories.map((cat) => (
               <button
@@ -108,14 +107,14 @@ export default function Marketplace() {
 
         {status === 'error' && (
           <div className="rounded-2xl border border-earth-200 bg-earth-50 p-6 text-center text-earth-800">
-            Não foi possível carregar os produtos. Verifica se o backend está
-            a correr em <code className="font-mono">http://localhost:8000</code>.
+            {t('marketplace.errorLoading')}{' '}
+            <code className="font-mono">http://localhost:8000</code>.
           </div>
         )}
 
         {status === 'ready' && filtered.length === 0 && (
           <div className="rounded-2xl border border-leaf-100 bg-leaf-50 p-10 text-center text-leaf-950/60">
-            Nenhum produto encontrado.
+            {t('marketplace.noProducts')}
           </div>
         )}
 

@@ -17,6 +17,7 @@ class OrderCreate(BaseModel):
 class OrderItemRead(BaseModel):
     id: int
     product_id: int
+    product_name: str
     quantity: float
     unit_price: float
 
@@ -27,12 +28,32 @@ class OrderItemRead(BaseModel):
 class OrderRead(BaseModel):
     id: int
     buyer_id: int
+    transporter_id: int | None
     status: OrderStatus
     total_amount: float
+    created_at: datetime
     items: list[OrderItemRead] = []
 
     class Config:
         from_attributes = True
+
+
+class AdminOrderRead(OrderRead):
+    buyer_name: str
+    buyer_email: str
+
+
+class TransportOrderRead(OrderRead):
+    buyer_name: str
+    buyer_phone: str | None
+
+
+class StatusUpdate(BaseModel):
+    status: OrderStatus
+
+
+class DeliveryStatusUpdate(BaseModel):
+    status: OrderStatus
 
 
 class SaleRead(BaseModel):

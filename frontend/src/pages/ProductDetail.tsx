@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
+import type { FormEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, CheckCircle2, Leaf, Minus, Plus } from 'lucide-react'
-import { ApiError, createOrder, fetchProduct, type Product } from '../api/client'
+import { ArrowLeft, CheckCircle2, Leaf, MessageCircle, Minus, Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { ApiError, createOrder, fetchProduct, startConversation, type Product } from '../api/client'
 import { useAuth } from '../context/AuthContext'
 
 export default function ProductDetail() {
+  const { t } = useTranslation()
   const { id } = useParams()
   const navigate = useNavigate()
-  const { token } = useAuth()
+  const { token, user } = useAuth()
 
   const [product, setProduct] = useState<Product | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
@@ -15,6 +18,11 @@ export default function ProductDetail() {
   const [ordering, setOrdering] = useState(false)
   const [orderError, setOrderError] = useState<string | null>(null)
   const [ordered, setOrdered] = useState(false)
+
+  const [contacting, setContacting] = useState(false)
+  const [contactMessage, setContactMessage] = useState('')
+  const [contactSending, setContactSending] = useState(false)
+  const [contactError, setContactError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!id) return
@@ -55,7 +63,7 @@ export default function ProductDetail() {
         quantity_available: product.quantity_available - quantity,
       })
     } catch (err) {
-      setOrderError(err instanceof ApiError ? err.message : 'Não foi possível encomendar.')
+      setOrderError(err instanceof ApiError ? err.message : t('productDetail.orderError'))
     } finally {
       setOrdering(false)
     }
@@ -79,20 +87,49 @@ export default function ProductDetail() {
   if (status === 'error' || !product) {
     return (
       <section className="mx-auto max-w-3xl px-6 py-20 text-center">
-        <p className="text-leaf-950/70">
-          Não foi possível encontrar este produto.
-        </p>
+        <p className="text-leaf-950/70">{t('productDetail.notFound')}</p>
         <Link
           to="/mercado"
           className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-leaf-700 hover:text-leaf-800"
         >
-          <ArrowLeft size={16} /> Voltar ao mercado
+          <ArrowLeft size={16} /> {t('productDetail.backToMarket')}
         </Link>
       </section>
     )
   }
 
   const maxQuantity = Math.max(product.quantity_available, 0)
+  const isOwnProduct = user?.id === product.farm_owner_id
+
+  async function handleContact(e: FormEvent) {
+    e.preventDefault()
+    if (!product || !contactMessage.trim()) return
+
+    if (!token) {
+      navigate('/entrar', { state: { from: `/mercado/${product.id}` } })
+      return
+    }
+
+    setContactSending(true)
+    setContactError(null)
+    try {
+      const conversation = await startConversation(
+        {
+          recipient_id: product.farm_owner_id,
+          product_id: product.id,
+          message: contactMessage.trim(),
+        },
+        token,
+      )
+      navigate(`/mensagens/${conversation.id}`)
+    } catch (err) {
+      setContactError(
+        err instanceof ApiError ? err.message : 'Não foi possível enviar a mensagem.',
+      )
+    } finally {
+      setContactSending(false)
+    }
+  }
 
   return (
     <section className="mx-auto max-w-5xl px-6 py-14">
@@ -100,24 +137,30 @@ export default function ProductDetail() {
         to="/mercado"
         className="inline-flex items-center gap-2 text-sm font-medium text-leaf-950/60 hover:text-leaf-800"
       >
-        <ArrowLeft size={16} /> Voltar ao mercado
+        <ArrowLeft size={16} /> {t('productDetail.backToMarket')}
       </Link>
 
       <div className="mt-6 grid gap-10 md:grid-cols-2">
-        <div className="flex h-80 items-center justify-center rounded-3xl bg-gradient-to-br from-leaf-500 to-leaf-700 shadow-lg shadow-leaf-950/10">
-          <Leaf className="text-white/90" size={64} />
-        </div>
+        {product.image_url ? (
+          <img
+            src={product.image_url}
+            alt={product.name}
+            className="h-80 w-full rounded-3xl object-cover shadow-lg shadow-leaf-950/10"
+          />
+        ) : (
+          <div className="flex h-80 items-center justify-center rounded-3xl bg-gradient-to-br from-leaf-500 to-leaf-700 shadow-lg shadow-leaf-950/10">
+            <Leaf className="text-white/90" size={64} />
+          </div>
+        )}
 
         <div>
           <div className="flex items-start justify-between gap-3">
             <h1 className="text-3xl font-semibold tracking-tight text-leaf-950">
               {product.name}
             </h1>
-            {product.category && (
-              <span className="whitespace-nowrap rounded-full bg-leaf-100 px-3 py-1 text-xs font-medium text-leaf-700">
-                {product.category}
-              </span>
-            )}
+            <span className="whitespace-nowrap rounded-full bg-leaf-100 px-3 py-1 text-xs font-medium capitalize text-leaf-700">
+              {product.crop_category}
+            </span>
           </div>
 
           {product.description && (
@@ -133,24 +176,91 @@ export default function ProductDetail() {
               </span>
             </p>
             <p className="mt-1 text-sm text-leaf-950/60">
-              {product.quantity_available} {product.unit} disponíveis
+              {product.quantity_available} {product.unit} {t('productDetail.available')}
             </p>
           </div>
 
+          <div className="mt-4 flex items-center justify-between gap-3 rounded-2xl border border-leaf-100 px-4 py-3">
+            <p className="text-sm text-leaf-950/70">
+              Vendido por{' '}
+              <span className="font-medium text-leaf-950">{product.farm_owner_name}</span>
+              {' · '}
+              {product.farm_name}
+            </p>
+            {!isOwnProduct && !contacting && (
+              <button
+                onClick={() => setContacting(true)}
+                className="flex shrink-0 items-center gap-1.5 rounded-full bg-leaf-100 px-3.5 py-2 text-xs font-semibold text-leaf-700 hover:bg-leaf-200"
+              >
+                <MessageCircle size={14} /> Contactar
+              </button>
+            )}
+          </div>
+
+          {contacting && (
+            <form onSubmit={handleContact} className="mt-3 rounded-2xl bg-leaf-50/60 p-4">
+              <label className="block">
+                <span className="text-sm font-medium text-leaf-950/80">
+                  Mensagem para {product.farm_owner_name}
+                </span>
+                <textarea
+                  autoFocus
+                  required
+                  rows={3}
+                  value={contactMessage}
+                  onChange={(e) => setContactMessage(e.target.value)}
+                  placeholder="Olá, este produto ainda está disponível?"
+                  className="mt-1.5 w-full rounded-xl border border-leaf-200 bg-white px-3.5 py-2.5 text-sm text-leaf-950 placeholder:text-leaf-950/40 focus:border-leaf-400 focus:outline-none"
+                />
+              </label>
+
+              {contactError && (
+                <p className="mt-2 rounded-lg bg-earth-50 px-3 py-2 text-sm text-earth-800">
+                  {contactError}
+                </p>
+              )}
+
+              <div className="mt-3 flex gap-2">
+                <button
+                  type="submit"
+                  disabled={contactSending || !contactMessage.trim()}
+                  className="rounded-full bg-leaf-700 px-5 py-2 text-sm font-semibold text-white hover:bg-leaf-800 disabled:opacity-60"
+                >
+                  {contactSending ? 'A enviar...' : 'Enviar mensagem'}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setContacting(false)}
+                  className="rounded-full px-5 py-2 text-sm font-medium text-leaf-950/60 hover:bg-leaf-100"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          )}
+
           {ordered ? (
-            <div className="mt-6 flex items-center gap-2 rounded-2xl bg-leaf-100 px-4 py-3 text-sm font-medium text-leaf-800">
-              <CheckCircle2 size={18} /> Encomenda registada com sucesso.
+            <div className="mt-6 space-y-3">
+              <div className="flex items-center gap-2 rounded-2xl bg-leaf-100 px-4 py-3 text-sm font-medium text-leaf-800">
+                <CheckCircle2 size={18} /> {t('productDetail.orderSuccess')}
+              </div>
+              <Link
+                to="/minhas-encomendas"
+                className="inline-flex text-sm font-medium text-leaf-700 hover:text-leaf-800"
+              >
+                {t('productDetail.viewMyOrders')} →
+              </Link>
             </div>
           ) : maxQuantity > 0 ? (
             <div className="mt-6">
-              <span className="text-sm font-medium text-leaf-950/80">Quantidade</span>
+              <span className="text-sm font-medium text-leaf-950/80">{t('productDetail.quantity')}</span>
               <div className="mt-2 flex items-center gap-4">
                 <div className="flex items-center rounded-full border border-leaf-200">
                   <button
                     type="button"
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                     className="p-2.5 text-leaf-700 hover:bg-leaf-50"
-                    aria-label="Diminuir quantidade"
+                    aria-label={t('productDetail.decrease')}
                   >
                     <Minus size={16} />
                   </button>
@@ -161,7 +271,7 @@ export default function ProductDetail() {
                     type="button"
                     onClick={() => setQuantity((q) => Math.min(maxQuantity, q + 1))}
                     className="p-2.5 text-leaf-700 hover:bg-leaf-50"
-                    aria-label="Aumentar quantidade"
+                    aria-label={t('productDetail.increase')}
                   >
                     <Plus size={16} />
                   </button>
@@ -180,12 +290,12 @@ export default function ProductDetail() {
                 disabled={ordering}
                 className="mt-5 w-full rounded-full bg-leaf-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-leaf-700/25 transition-colors hover:bg-leaf-800 disabled:opacity-60 sm:w-auto"
               >
-                {ordering ? 'A encomendar...' : 'Encomendar agora'}
+                {ordering ? t('productDetail.ordering') : t('productDetail.orderNow')}
               </button>
             </div>
           ) : (
             <p className="mt-6 text-sm font-medium text-earth-700">
-              Produto esgotado no momento.
+              {t('productDetail.outOfStock')}
             </p>
           )}
         </div>

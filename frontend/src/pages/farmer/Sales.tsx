@@ -1,27 +1,15 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import { fetchSales, type Sale } from '../../api/client'
-
-const STATUS_LABELS: Record<Sale['status'], string> = {
-  pending: 'Pendente',
-  confirmed: 'Confirmada',
-  shipped: 'Enviada',
-  delivered: 'Entregue',
-  cancelled: 'Cancelada',
-}
-
-const STATUS_STYLES: Record<Sale['status'], string> = {
-  pending: 'bg-earth-100 text-earth-700',
-  confirmed: 'bg-leaf-100 text-leaf-700',
-  shipped: 'bg-leaf-100 text-leaf-700',
-  delivered: 'bg-leaf-200 text-leaf-800',
-  cancelled: 'bg-red-100 text-red-700',
-}
+import { useOrderStatusLabels, STATUS_STYLES } from '../../utils/orderStatus'
 
 export default function Sales() {
+  const { t } = useTranslation()
   const { token } = useAuth()
   const [sales, setSales] = useState<Sale[]>([])
   const [status, setStatus] = useState<'loading' | 'ready'>('loading')
+  const statusLabels = useOrderStatusLabels()
 
   useEffect(() => {
     if (!token) return
@@ -44,25 +32,25 @@ export default function Sales() {
   if (sales.length === 0) {
     return (
       <div className="rounded-2xl border border-leaf-100 bg-leaf-50 p-10 text-center text-sm text-leaf-950/60">
-        Ainda não recebeste encomendas.
+        {t('sales.noOrdersYet')}
       </div>
     )
   }
 
   return (
     <div>
-      <h2 className="text-lg font-semibold text-leaf-950">Encomendas recebidas</h2>
+      <h2 className="text-lg font-semibold text-leaf-950">{t('sales.title')}</h2>
 
       <div className="mt-4 overflow-x-auto rounded-2xl border border-leaf-100 bg-white">
         <table className="w-full min-w-[560px] text-left text-sm">
           <thead>
             <tr className="border-b border-leaf-100 text-xs font-medium uppercase tracking-wide text-leaf-950/50">
-              <th className="px-4 py-3">Produto</th>
-              <th className="px-4 py-3">Comprador</th>
-              <th className="px-4 py-3">Quantidade</th>
-              <th className="px-4 py-3">Total</th>
-              <th className="px-4 py-3">Estado</th>
-              <th className="px-4 py-3">Data</th>
+              <th className="px-4 py-3">{t('sales.product')}</th>
+              <th className="px-4 py-3">{t('sales.buyer')}</th>
+              <th className="px-4 py-3">{t('sales.quantity')}</th>
+              <th className="px-4 py-3">{t('sales.total')}</th>
+              <th className="px-4 py-3">{t('sales.status')}</th>
+              <th className="px-4 py-3">{t('sales.date')}</th>
             </tr>
           </thead>
           <tbody>
@@ -78,7 +66,7 @@ export default function Sales() {
                   <span
                     className={`rounded-full px-2.5 py-1 text-xs font-medium ${STATUS_STYLES[sale.status]}`}
                   >
-                    {STATUS_LABELS[sale.status]}
+                    {statusLabels[sale.status]}
                   </span>
                 </td>
                 <td className="px-4 py-3 text-leaf-950/60">

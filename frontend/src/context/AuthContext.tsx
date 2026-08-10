@@ -21,8 +21,10 @@ type AuthContextValue = {
     password: string
     role: UserRole
     phone?: string
+    region_id: number
   }) => Promise<void>
   logout: () => void
+  updateUser: (user: User) => void
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
@@ -51,7 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [token])
 
   async function login(email: string, password: string) {
-    const res = await apiLogin({ email, password })
+    const res = await apiLogin({ identifier: email, password })
     localStorage.setItem(TOKEN_KEY, res.access_token)
     setToken(res.access_token)
     setUser(res.user)
@@ -63,6 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     password: string
     role: UserRole
     phone?: string
+    region_id: number
   }) {
     await apiRegister(data)
     await login(data.email, data.password)
@@ -75,7 +78,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout }}>
+    <AuthContext.Provider
+      value={{ user, token, loading, login, register, logout, updateUser: setUser }}
+    >
       {children}
     </AuthContext.Provider>
   )

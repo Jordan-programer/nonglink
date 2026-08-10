@@ -8,11 +8,13 @@ import {
   View,
   Pressable,
 } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import ProductCard from '../../components/ProductCard'
 import { fetchProducts, type Product } from '../../lib/api'
 import { colors } from '../../theme/colors'
 
 export default function Marketplace() {
+  const { t } = useTranslation()
   const [products, setProducts] = useState<Product[]>([])
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [query, setQuery] = useState('')
@@ -38,13 +40,13 @@ export default function Marketplace() {
   }, [])
 
   const categories = useMemo(
-    () => Array.from(new Set(products.map((p) => p.category).filter(Boolean))) as string[],
+    () => Array.from(new Set(products.map((p) => p.crop_name))),
     [products],
   )
 
   const filtered = products.filter((p) => {
     const matchesQuery = p.name.toLowerCase().includes(query.toLowerCase())
-    const matchesCategory = !category || p.category === category
+    const matchesCategory = !category || p.crop_name === category
     return matchesQuery && matchesCategory
   })
 
@@ -58,16 +60,13 @@ export default function Marketplace() {
         ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
         ListHeaderComponent={
           <View style={styles.header}>
-            <Text style={styles.title}>Mercado agrícola</Text>
-            <Text style={styles.subtitle}>
-              Produtos frescos vendidos diretamente por agricultores em Angola, sem
-              intermediários.
-            </Text>
+            <Text style={styles.title}>{t('marketplace.title')}</Text>
+            <Text style={styles.subtitle}>{t('marketplace.subtitle')}</Text>
 
             <TextInput
               value={query}
               onChangeText={setQuery}
-              placeholder="Procurar produtos..."
+              placeholder={t('marketplace.searchPlaceholder')}
               placeholderTextColor="rgba(15,36,17,0.4)"
               style={styles.search}
             />
@@ -79,7 +78,7 @@ export default function Marketplace() {
                   style={[styles.chip, category === null && styles.chipActive]}
                 >
                   <Text style={[styles.chipText, category === null && styles.chipTextActive]}>
-                    Todos
+                    {t('marketplace.all')}
                   </Text>
                 </Pressable>
                 {categories.map((cat) => (
@@ -104,16 +103,13 @@ export default function Marketplace() {
 
             {status === 'error' && (
               <View style={styles.errorBox}>
-                <Text style={styles.errorText}>
-                  Não foi possível carregar os produtos. Verifica se o backend está a
-                  correr em http://localhost:8000.
-                </Text>
+                <Text style={styles.errorText}>{t('marketplace.errorLoading')}</Text>
               </View>
             )}
 
             {status === 'ready' && filtered.length === 0 && (
               <View style={styles.emptyBox}>
-                <Text style={styles.emptyText}>Nenhum produto encontrado.</Text>
+                <Text style={styles.emptyText}>{t('marketplace.noProducts')}</Text>
               </View>
             )}
           </View>

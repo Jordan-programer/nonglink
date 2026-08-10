@@ -1,0 +1,264 @@
+========================================================================
+AgriLink — hisic.net Competition Application
+Draft content, ready to copy into the online form
+========================================================================
+
+
+------------------------------------------------------------------------
+企业/团队简介 / Company/Team profile
+------------------------------------------------------------------------
+AgriLink is an AgriTech startup founded to modernize the agricultural
+value chain in developing markets, starting with small and medium-scale
+farmers in Angola who are currently underserved by traditional
+distribution and information channels. The team combines backend
+engineering (Python/FastAPI), full-stack web development
+(React/TypeScript), and mobile development (React Native/Expo), applied
+directly to Angola's agricultural sector.
+
+AgriLink is built as a production-grade platform, not a prototype: a
+MySQL-backed relational data model spanning countries, regions, crops,
+farms, products, orders, and IoT sensor data, architected from day one
+for multi-market expansion. Current focus is Angola, where the
+marketplace and IoT monitoring modules are being validated with early
+farmer users before regional scale-up.
+
+The team's mission is to close the information and market-access gap
+that keeps small farmers earning far below the real value of their
+produce — giving them practical, low-cost tools instead of theoretical
+promises. Our initial focus spans four markets: Angola (home base and
+current pilot market), the Republic of the Congo and the Democratic
+Republic of the Congo (adjacent African markets sharing similar
+smallholder farming structures and market-access barriers), and China
+(both a technology/hardware partner market for sensor-kit sourcing and
+manufacturing, and a direct user market — Chinese farmers, buyers, and
+distributors can register and use AgriLink themselves). The product
+already ships with a working interface in four languages — Portuguese,
+English, French, and Chinese — across both the web and mobile apps.
+
+We are seeking innovation coaching, policy guidance, market matching,
+talent, and financing support to execute this four-market rollout.
+
+[NOTE: add real team member names, roles, and short bios here — not
+included, since this information wasn't available when drafting.]
+
+
+------------------------------------------------------------------------
+核心技术及产品简介 / Core technology and product
+------------------------------------------------------------------------
+AgriLink's product is a marketplace + IoT monitoring + data-forecasting
+platform delivered as a web app (React/Vite/TypeScript), a mobile app
+(React Native/Expo), and a FastAPI (Python) backend on MySQL.
+
+Three integrated layers:
+
+1. Marketplace — farmers list products directly; buyers (consumers,
+   distributors, food businesses) purchase without intermediaries, with
+   full order lifecycle and role-based access for farmers, buyers, and
+   admins.
+
+2. IoT monitoring — low-cost sensors (soil moisture, temperature, water
+   level, humidity) report per-farm readings, giving farmers real-time
+   field visibility without manual inspection.
+
+3. Real data-driven forecasting — price forecasting uses an XGBoost
+   model trained on real historical price data, real weather (via the
+   Open-Meteo API: historical, live forecast, and climatological
+   averages), and logged harvest timing, with recursive day-ahead
+   prediction and confidence bands. Demand forecasting uses a Ridge
+   regression model trained on real order volume with weekly
+   seasonality. Both models report "insufficient data" rather than
+   fabricating a forecast when real history is too thin — every number
+   stays backend-verifiable rather than AI-washed.
+
+- Native multi-language interface — the web app and mobile app both
+  ship with a language switcher (Português, English, Français, 中文)
+  covering the full user journey: navigation, marketplace browsing,
+  registration, login, the farmer dashboard, and the admin panel. This
+  directly addresses ease of entry into the Chinese market.
+
+The data model already supports multi-country/multi-region operation,
+so forecasting and marketplace logic generalize beyond Angola without
+rearchitecture.
+
+
+------------------------------------------------------------------------
+项目简介 / Project description
+------------------------------------------------------------------------
+Problem: Small and medium-scale farmers in Angola, the Republic of the
+Congo, and the Democratic Republic of the Congo face shared structural
+barriers — no direct market access, heavy dependence on intermediaries
+who capture most of the margin, no real-time field data, post-harvest
+waste, and no affordable technology. Farmers sell below fair value and
+lose income and production they can't afford to lose.
+
+Solution: AgriLink combines (1) a digital marketplace connecting
+farmers directly to buyers, distributors, and food businesses; (2)
+low-cost IoT sensors monitoring soil moisture, temperature, water
+level, and humidity; and (3) a data-driven decision layer turning
+sensor, weather, price-history, and order data into price/demand
+forecasts — designed to work across all three farming markets from a
+shared platform.
+
+How it works: sensors on the farm stream readings to the platform; the
+backend combines this with real weather data and transaction history to
+generate forecasts; farmers act on the recommendations and sell directly
+through the marketplace — one connected loop from field to sale,
+replicable farm-by-farm and country-by-country.
+
+Technology: Python/FastAPI backend, MySQL database, React/TypeScript
+web app, React Native/Expo mobile app, XGBoost and Ridge regression
+forecasting models, Open-Meteo weather API. Full interface localization
+in Portuguese, English, French, and Chinese.
+
+Business model: commission on marketplace sales, premium subscriptions
+for advanced analytics, sale of low-cost sensor kits, and agricultural
+data services for cooperatives, distributors, and food businesses.
+
+Market: initial rollout across four markets — Angola (home base and
+current pilot), the Republic of the Congo and the Democratic Republic
+of the Congo (adjacent African markets sharing the same smallholder
+structure and market-access barriers) for the farmer/marketplace side,
+and China, both as a technology/hardware and investment partner market
+for sensor-kit sourcing/manufacturing AND as a direct target market for
+farmers, cooperatives, and buyers using the platform themselves. The
+data model already separates Country/Region/Crop entities, so operating
+across all four markets is a configuration exercise, not a rebuild.
+
+Impact: higher farmer income by removing intermediary markup, less
+post-harvest waste, higher productivity from real-time field data, and
+improved food security across all three farming markets.
+
+
+------------------------------------------------------------------------
+项目亮点 / Project highlights
+------------------------------------------------------------------------
+- Working product, not a concept deck — a running backend, web app, and
+  native mobile app with real APIs for auth, farms, products, orders,
+  sensors, and market forecasting.
+
+- Verifiable AI, not AI-washing — forecasting models train only on real
+  price, weather, and order data, and honestly return "insufficient
+  data" instead of inventing a number when history is thin.
+
+- Three-in-one integration — marketplace + IoT + analytics in a single
+  farm-to-sale loop, where most competitors offer only one.
+
+- Built for four-market operation in four languages from day one —
+  Angola, Republic of the Congo, DRC, and China as a full user market
+  (not just a supplier), with the web and mobile apps already
+  localized in Portuguese, English, French, and Chinese — judges can
+  switch the interface language live during a demo.
+
+- Direct structural impact — removes the intermediary layer that
+  currently captures most of a smallholder's margin.
+
+- Accessible hardware — sensor kits priced for smallholder budgets, not
+  enterprise precision-agriculture systems.
+
+- Diversified monetization — transaction commissions, subscriptions,
+  hardware sales, and data services, not a single revenue line.
+
+
+------------------------------------------------------------------------
+创赛辅导 / Innovation Competition Coaching
+------------------------------------------------------------------------
+Requesting mentorship on competition positioning and pitch refinement —
+specifically how to present a technical AgriTech product (marketplace +
+IoT + ML forecasting) to non-technical judges, and how to adapt our
+story to the Chinese innovation-competition format, which our team is
+new to.
+
+
+------------------------------------------------------------------------
+政策咨询辅导 / Policy Consultation & Guidance
+------------------------------------------------------------------------
+Guidance on regulatory requirements for operating a digital agricultural
+marketplace and IoT data platform in Angola/target African markets, and
+on policy frameworks relevant to Chinese-market engagement — e.g.
+cross-border data handling, hardware import rules for sensor kits, and
+foreign-investment channels.
+
+
+------------------------------------------------------------------------
+市场对接 / Market Matching
+------------------------------------------------------------------------
+Introductions to: (1) agricultural cooperatives/distributors in Angola,
+Republic of the Congo, and DRC as pilot marketplace partners, (2)
+Chinese IoT/sensor-hardware manufacturers for low-cost sensor-kit
+sourcing and production, and (3) Chinese AgriTech or food-industry
+partners interested in Central/Southern African market entry alongside
+us.
+
+
+------------------------------------------------------------------------
+人才服务 / Talent Services
+------------------------------------------------------------------------
+Support recruiting an agronomist/agricultural-data advisor to validate
+our forecasting models against field practice, plus additional
+backend/ML engineering talent to scale the platform.
+
+
+------------------------------------------------------------------------
+金融资源对接 / Financial Resources Matching
+------------------------------------------------------------------------
+Seeking introductions to early-stage/seed investors or grant programs
+focused on AgriTech and financial inclusion in emerging markets, to
+fund sensor-kit manufacturing and hardware rollout to pilot farms.
+
+
+------------------------------------------------------------------------
+商业计划书/路演PPT / Business Plan / Roadshow PPT
+------------------------------------------------------------------------
+[NOTE: this field needs an actual uploaded file — a slide deck. Not
+included here. Suggested outline below to build the deck from.]
+
+Suggested 12-slide outline:
+ 1. Title — AgriLink name/logo, tagline ("From field to sale, without
+    the middleman"), team, contact.
+ 2. Problem — Angola/African smallholder farmers: no direct market
+    access, intermediary markup, no real-time field data, post-harvest
+    waste.
+ 3. Solution — one diagram: sensor data -> forecasting engine -> farmer
+    decision -> marketplace sale.
+ 4. Product walkthrough — screenshots: marketplace/order flow, farmer
+    sensor dashboard, price/demand forecast chart with confidence bands.
+ 5. What makes the AI real — training on real price history + real
+    Open-Meteo weather + real harvest data; show the "insufficient
+    data" honesty behavior as a trust signal.
+ 6. Tech architecture — FastAPI/MySQL backend, React web, React
+    Native/Expo mobile, XGBoost + Ridge models, Open-Meteo integration,
+    4-language localization.
+ 7. Traction — current build status, any pilot farmers/users, data
+    collected so far.
+ 8. Business model — commission, subscriptions, sensor-kit sales, data
+    services (4 revenue lines).
+ 9. Market & expansion — Angola first, Republic of the Congo, DRC,
+    China (dual role: hardware partner + user market).
+10. Competitive edge — the three-in-one integration vs. single-purpose
+    competitors.
+11. Roadmap — next 6-12 months: pilot scale-up, sensor manufacturing,
+    first paid subscriptions.
+12. The ask — which of the 5 support services above, plus any funding
+    target.
+
+
+------------------------------------------------------------------------
+Other supporting documents
+------------------------------------------------------------------------
+[NOTE: this field needs real, original documents — business license,
+venue-use certificate, financial data, R&D investment vouchers, and (for
+team entries) the responsible person's ID proof. These cannot be
+drafted or fabricated here — you'll need to gather and upload the
+actual files.]
+
+
+========================================================================
+Open items before submitting
+========================================================================
+1. Add real team member names/roles/bios to the Company/Team profile
+   section.
+2. Build the actual Roadshow PPT deck from the outline above.
+3. Gather the real supporting documents (business license, venue proof,
+   financial data, R&D vouchers, ID proof).
+4. Confirm the 5 support-service asks above still reflect what you
+   actually want from the competition.

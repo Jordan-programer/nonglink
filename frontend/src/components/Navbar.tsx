@@ -1,24 +1,64 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
-import { LayoutDashboard, LogOut, Menu, User, X } from 'lucide-react'
+import {
+  LayoutDashboard,
+  LogOut,
+  Menu,
+  MessageCircle,
+  ShieldCheck,
+  Truck,
+  User,
+  X,
+} from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import Logo from './Logo'
+import LanguageSwitcher from './LanguageSwitcher'
 import { useAuth } from '../context/AuthContext'
-
-const links = [
-  { to: '/', label: 'Início' },
-  { to: '/mercado', label: 'Mercado' },
-  { to: '/#como-funciona', label: 'Como funciona' },
-]
+import { fetchConversations } from '../api/client'
 
 export default function Navbar() {
+  const { t } = useTranslation()
   const [open, setOpen] = useState(false)
-  const { user, logout } = useAuth()
+  const { user, token, logout } = useAuth()
   const navigate = useNavigate()
+  const [unreadCount, setUnreadCount] = useState(0)
+
+  useEffect(() => {
+    if (!token) {
+      setUnreadCount(0)
+      return
+    }
+
+    function load() {
+      fetchConversations(token!)
+        .then((data) => setUnreadCount(data.reduce((sum, c) => sum + c.unread_count, 0)))
+        .catch(() => {})
+    }
+
+    load()
+    const interval = setInterval(load, 15000)
+    return () => clearInterval(interval)
+  }, [token])
+
+  const links = [
+    { to: '/', label: t('nav.home') },
+    { to: '/mercado', label: t('nav.market') },
+    { to: '/#como-funciona', label: t('nav.howItWorks') },
+  ]
+
+  const accountLink =
+    user?.role === 'admin' || user?.role === 'superadmin'
+      ? { to: '/admin', label: t('nav.admin'), icon: ShieldCheck }
+      : user?.role === 'buyer'
+        ? { to: '/comprador', label: t('nav.dashboard'), icon: LayoutDashboard }
+        : user?.role === 'transporter'
+          ? { to: '/transportador', label: t('nav.dashboard'), icon: Truck }
+          : { to: '/painel', label: t('nav.dashboard'), icon: LayoutDashboard }
 
   function handleLogout() {
     logout()
     setOpen(false)
-    navigate('/')
+    navigate('/', { replace: true })
   }
 
   return (
@@ -50,14 +90,25 @@ export default function Navbar() {
           {user ? (
             <>
               <Link
-                to="/painel"
-                className="flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-leaf-900 hover:bg-leaf-100"
+                to="/mensagens"
+                className="relative flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-leaf-900 hover:bg-leaf-100"
               >
-                <LayoutDashboard size={15} /> Painel
+                <MessageCircle size={15} /> Mensagens
+                {unreadCount > 0 && (
+                  <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-earth-600 px-1 text-[10px] font-bold text-white">
+                    {unreadCount}
+                  </span>
+                )}
               </Link>
               <Link
-                to="/painel"
-                className="flex items-center gap-1.5 rounded-full bg-leaf-100 px-3 py-1.5 text-sm font-medium text-leaf-800"
+                to={accountLink.to}
+                className="flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-leaf-900 hover:bg-leaf-100"
+              >
+                <accountLink.icon size={15} /> {accountLink.label}
+              </Link>
+              <Link
+                to="/perfil"
+                className="flex items-center gap-1.5 rounded-full bg-leaf-100 px-3 py-1.5 text-sm font-medium text-leaf-800 hover:bg-leaf-200"
               >
                 <User size={14} />
                 {user.name.split(' ')[0]}
@@ -66,7 +117,7 @@ export default function Navbar() {
                 onClick={handleLogout}
                 className="flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-leaf-900 hover:bg-leaf-100"
               >
-                <LogOut size={15} /> Sair
+                <LogOut size={15} /> {t('nav.logout')}
               </button>
             </>
           ) : (
@@ -75,22 +126,23 @@ export default function Navbar() {
                 to="/entrar"
                 className="rounded-full px-4 py-2 text-sm font-medium text-leaf-900 hover:bg-leaf-100"
               >
-                Entrar
+                {t('nav.login')}
               </Link>
               <Link
                 to="/registar"
                 className="rounded-full bg-leaf-700 px-4 py-2 text-sm font-medium text-white shadow-sm shadow-leaf-700/20 transition-colors hover:bg-leaf-800"
               >
-                Criar conta
+                {t('nav.register')}
               </Link>
             </>
           )}
+          <LanguageSwitcher />
         </div>
 
         <button
           className="rounded-lg p-2 text-leaf-900 md:hidden"
           onClick={() => setOpen((v) => !v)}
-          aria-label="Abrir menu"
+          aria-label={t('nav.openMenu')}
         >
           {open ? <X size={22} /> : <Menu size={22} />}
         </button>
@@ -113,17 +165,36 @@ export default function Navbar() {
             {user ? (
               <>
                 <Link
-                  to="/painel"
+                  to="/mensagens"
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-1.5 text-sm font-medium text-leaf-950/80"
+                >
+                  <MessageCircle size={15} /> Mensagens
+                  {unreadCount > 0 && (
+                    <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-earth-600 px-1 text-[10px] font-bold text-white">
+                      {unreadCount}
+                    </span>
+                  )}
+                </Link>
+                <Link
+                  to={accountLink.to}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center gap-1.5 text-sm font-medium text-leaf-950/80"
+                >
+                  <accountLink.icon size={15} /> {accountLink.label}
+                </Link>
+                <Link
+                  to="/perfil"
                   onClick={() => setOpen(false)}
                   className="flex items-center gap-1.5 text-sm font-medium text-leaf-800"
                 >
-                  <LayoutDashboard size={15} /> Painel ({user.name.split(' ')[0]})
+                  <User size={15} /> {t('nav.myProfile', { name: user.name.split(' ')[0] })}
                 </Link>
                 <button
                   onClick={handleLogout}
                   className="flex items-center justify-center gap-1.5 rounded-full border border-leaf-200 px-4 py-2 text-sm font-medium text-leaf-900"
                 >
-                  <LogOut size={15} /> Sair
+                  <LogOut size={15} /> {t('nav.logout')}
                 </button>
               </>
             ) : (
@@ -133,17 +204,18 @@ export default function Navbar() {
                   onClick={() => setOpen(false)}
                   className="rounded-full border border-leaf-200 px-4 py-2 text-center text-sm font-medium text-leaf-900"
                 >
-                  Entrar
+                  {t('nav.login')}
                 </Link>
                 <Link
                   to="/registar"
                   onClick={() => setOpen(false)}
                   className="rounded-full bg-leaf-700 px-4 py-2 text-center text-sm font-medium text-white"
                 >
-                  Criar conta
+                  {t('nav.register')}
                 </Link>
               </>
             )}
+            <LanguageSwitcher className="pt-2" />
           </nav>
         </div>
       )}

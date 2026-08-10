@@ -1,13 +1,21 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, require_admin
 from app.core.database import get_db
 from app.models.farm import Farm
 from app.models.order import Order, OrderItem
+from app.models.price_history import PriceSource
 from app.models.product import Product
 from app.models.user import User
-from app.schemas.order import OrderCreate, OrderRead, SaleRead
+from app.schemas.order import (
+    AdminOrderRead,
+    OrderCreate,
+    OrderRead,
+    SaleRead,
+    StatusUpdate,
+)
+from app.services.pricing import record_price
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
@@ -34,12 +42,24 @@ def create_order(
         line_total = product.price_per_unit * item.quantity
         total += line_total
 
-        db.add(OrderItem(
+        order_item = OrderItem(
             order_id=order.id,
             product_id=product.id,
             quantity=item.quantity,
             unit_price=product.price_per_unit,
-        ))
+        )
+        db.add(order_item)
+        db.flush()
+
+        record_price(
+            db,
+            crop_id=product.crop_id,
+            region_id=product.farm.region_id,
+            price=order_item.unit_price,
+            source=PriceSource.SALE,
+            product_id=product.id,
+            order_item_id=order_item.id,
+        )
 
     order.total_amount = total
     db.commit()
@@ -52,7 +72,12 @@ def list_orders(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    return db.query(Order).filter(Order.buyer_id == current_user.id).all()
+    return (
+        db.query(Order)
+        .filter(Order.buyer_id == current_user.id)
+        .order_by(Order.created_at.desc())
+        .all()
+    )
 
 
 @router.get("/sales", response_model=list[SaleRead])
@@ -86,6 +111,31 @@ def list_sales(
         )
         for item, order, product, buyer in rows
     ]
+
+
+@router.get("/all", response_model=list[AdminOrderRead])
+def list_all_orders(
+    db: Session = Depends(get_db),
+    admin: User = Depends(require_admin),
+):
+    return db.query(Order).order_by(Order.created_at.desc()).all()
+
+
+@router.patch("/{order_id}/status", response_model=AdminOrderRead)
+def update_order_status(
+    order_id: int,
+    payload: StatusUpdate,
+    db: Session = Depends(get_db),
+    admin: User = Depends(require_admin),
+):
+    order = db.query(Order).get(order_id)
+    if not order:
+        raise HTTPException(status_code=404, detail="Order not found")
+
+    order.status = payload.status
+    db.commit()
+    db.refresh(order)
+    return order
 
 
 @router.get("/{order_id}", response_model=OrderRead)

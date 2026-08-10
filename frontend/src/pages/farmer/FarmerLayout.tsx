@@ -1,23 +1,35 @@
 import { NavLink, Outlet } from 'react-router-dom'
-import { LayoutDashboard, Package, ShoppingBag, Sprout } from 'lucide-react'
-
-const links = [
-  { to: '/painel', label: 'Painel', icon: LayoutDashboard, end: true },
-  { to: '/painel/produtos', label: 'Produtos', icon: Package },
-  { to: '/painel/encomendas', label: 'Encomendas', icon: ShoppingBag },
-  { to: '/painel/lavra', label: 'A minha lavra', icon: Sprout },
-]
+import {
+  Activity,
+  LayoutDashboard,
+  Package,
+  ShoppingBag,
+  Sparkles,
+  Sprout,
+  Wheat,
+} from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export default function FarmerLayout() {
+  const { t } = useTranslation()
+
+  const links = [
+    { to: '/painel', label: t('farmerLayout.navDashboard'), icon: LayoutDashboard, end: true },
+    { to: '/painel/produtos', label: t('farmerLayout.navProducts'), icon: Package },
+    { to: '/painel/encomendas', label: t('farmerLayout.navOrders'), icon: ShoppingBag },
+    { to: '/painel/lavra', label: t('farmerLayout.navFarm'), icon: Sprout },
+    { to: '/painel/monitorizacao', label: 'Sensores', icon: Activity },
+    { to: '/painel/colheitas', label: 'Colheitas', icon: Wheat },
+    { to: '/painel/recomendacoes', label: 'Recomendações', icon: Sparkles },
+  ]
+
   return (
     <section className="mx-auto max-w-6xl px-6 py-10">
       <div className="mb-8">
         <h1 className="text-2xl font-semibold tracking-tight text-leaf-950">
-          Área do agricultor
+          {t('farmerLayout.title')}
         </h1>
-        <p className="mt-1 text-sm text-leaf-950/60">
-          Gere a tua lavra, os teus produtos e as encomendas recebidas.
-        </p>
+        <p className="mt-1 text-sm text-leaf-950/60">{t('farmerLayout.subtitle')}</p>
       </div>
 
       <div className="grid gap-8 md:grid-cols-[200px_1fr]">

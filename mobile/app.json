@@ -23,7 +23,14 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-router"
+      "expo-router",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "O AgriLink precisa de acesso às tuas fotos para adicionares imagens dos teus produtos."
+        }
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true

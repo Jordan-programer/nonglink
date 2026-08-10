@@ -1,15 +1,70 @@
+export type Country = {
+  id: number
+  name: string
+  code: string
+}
+
+export type Region = {
+  id: number
+  name: string
+  country_id: number
+  country_name: string
+  latitude: number | null
+  longitude: number | null
+}
+
+export type CropCategory =
+  | 'cereais'
+  | 'leguminosas'
+  | 'tuberculos'
+  | 'frutas'
+  | 'hortalicas'
+  | 'outros'
+
+export type Crop = {
+  id: number
+  name: string
+  category: CropCategory
+  default_unit: string
+}
+
+export type ProductQuality = 'A' | 'B' | 'C'
+export type ProductCertification = 'none' | 'organic' | 'in_transition'
+
+export type HarvestStatus = 'planted' | 'growing' | 'harvested' | 'cancelled'
+
+export type Harvest = {
+  id: number
+  farm_id: number
+  crop_id: number
+  planted_at: string
+  expected_harvest_at: string
+  actual_harvest_at: string | null
+  expected_quantity: number | null
+  status: HarvestStatus
+  created_at: string
+}
+
 export type Product = {
   id: number
   farm_id: number
   name: string
   description: string | null
-  category: string | null
+  image_url: string | null
+  crop_id: number
+  crop_name: string
+  crop_category: CropCategory
   unit: string
   price_per_unit: number
   quantity_available: number
+  quality: ProductQuality | null
+  certification: ProductCertification
+  farm_name: string
+  farm_owner_id: number
+  farm_owner_name: string
 }
 
-export type UserRole = 'farmer' | 'buyer' | 'distributor' | 'admin'
+export type UserRole = 'farmer' | 'buyer' | 'distributor' | 'transporter' | 'admin' | 'superadmin'
 
 export type User = {
   id: number
@@ -17,6 +72,8 @@ export type User = {
   email: string
   phone: string | null
   role: UserRole
+  region_id: number | null
+  is_active: boolean
 }
 
 export type AuthResponse = {
@@ -33,9 +90,27 @@ export type Farm = {
   latitude: number | null
   longitude: number | null
   size_hectares: number | null
+  region_id: number | null
 }
 
 export type OrderStatus = 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled'
+
+export type OrderItem = {
+  id: number
+  product_id: number
+  product_name: string
+  quantity: number
+  unit_price: number
+}
+
+export type Order = {
+  id: number
+  buyer_id: number
+  status: OrderStatus
+  total_amount: number
+  created_at: string
+  items: OrderItem[]
+}
 
 export type Sale = {
   order_id: number
@@ -48,6 +123,141 @@ export type Sale = {
   unit_price: number
   buyer_name: string
   buyer_email: string
+}
+
+export type AdminOrder = Order & {
+  buyer_name: string
+  buyer_email: string
+}
+
+export type TransportOrder = Order & {
+  buyer_name: string
+  buyer_phone: string | null
+}
+
+export type TransportRoute = {
+  id: number
+  origin_region_id: number
+  origin_region_name: string
+  destination_region_id: number
+  destination_region_name: string
+  created_at: string
+}
+
+export type PopularRoute = {
+  origin_region_id: number
+  origin_region_name: string
+  destination_region_id: number
+  destination_region_name: string
+  order_count: number
+}
+
+export type AdminFarm = Farm & {
+  owner_name: string
+}
+
+export type UsersByRole = {
+  farmer: number
+  buyer: number
+  distributor: number
+  transporter: number
+  admin: number
+  superadmin: number
+}
+
+export type AdminStats = {
+  total_users: number
+  users_by_role: UsersByRole
+  total_farms: number
+  total_products: number
+  total_orders: number
+  pending_orders: number
+  total_revenue: number
+  total_harvests: number
+  total_routes: number
+  active_deliveries: number
+}
+
+export type SuggestionConfidence = 'alta' | 'media' | 'baixa'
+
+export type SuggestionFactor = {
+  label: string
+  delta_pct: number
+}
+
+export type PriceSuggestion = {
+  status: string
+  suggestion_id: number | null
+  crop_id: number
+  region_id: number
+  base_price: number | null
+  suggested_price: number | null
+  range_low: number | null
+  range_high: number | null
+  confidence: SuggestionConfidence | null
+  factors: SuggestionFactor[]
+  price_forecast_status: string
+  demand_forecast_status: string
+  note: string | null
+}
+
+export type SensorType = 'soil_moisture' | 'temperature' | 'water_level' | 'humidity'
+
+export type Sensor = {
+  id: number
+  farm_id: number
+  type: SensorType
+  label: string | null
+}
+
+export type SensorReading = {
+  id: number
+  sensor_id: number
+  value: number
+  recorded_at: string
+}
+
+export type SensorDailyAggregate = {
+  day: string
+  avg_value: number
+  min_value: number
+  max_value: number
+  count: number
+}
+
+export type SensorAlert = {
+  id: number
+  sensor_id: number
+  reading_id: number
+  severity: 'critical'
+  message: string
+  acknowledged: boolean
+  created_at: string
+}
+
+export type Message = {
+  id: number
+  conversation_id: number
+  sender_id: number
+  content: string
+  created_at: string
+  read_at: string | null
+}
+
+export type Conversation = {
+  id: number
+  other_user_id: number
+  other_user_name: string
+  product_id: number | null
+  product_name: string | null
+  last_message: string | null
+  last_message_at: string | null
+  unread_count: number
+  updated_at: string
+}
+
+export type ConversationDetail = Conversation & {
+  messages: Message[]
 }
 
 export class ApiError extends Error {
@@ -100,12 +310,26 @@ export function fetchProduct(id: number | string): Promise<Product> {
   return request<Product>(`/products/${id}`)
 }
 
+export function fetchCountries(): Promise<Country[]> {
+  return request<Country[]>('/countries/')
+}
+
+export function fetchRegions(countryId?: number): Promise<Region[]> {
+  const query = countryId ? `?country_id=${countryId}` : ''
+  return request<Region[]>(`/regions/${query}`)
+}
+
+export function fetchCrops(): Promise<Crop[]> {
+  return request<Crop[]>('/crops/')
+}
+
 export function registerUser(payload: {
   name: string
   email: string
   password: string
   role: UserRole
   phone?: string
+  region_id: number
 }): Promise<User> {
   return request<User>('/users/', {
     method: 'POST',
@@ -113,7 +337,7 @@ export function registerUser(payload: {
   })
 }
 
-export function login(payload: { email: string; password: string }): Promise<AuthResponse> {
+export function login(payload: { identifier: string; password: string }): Promise<AuthResponse> {
   return request<AuthResponse>('/auth/login', {
     method: 'POST',
     body: JSON.stringify(payload),
@@ -124,15 +348,41 @@ export function fetchMe(token: string): Promise<User> {
   return request<User>('/auth/me', { token })
 }
 
+export function updateProfile(
+  payload: Partial<{ name: string; email: string; phone: string }>,
+  token: string,
+): Promise<User> {
+  return request<User>('/users/me', {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify(payload),
+  })
+}
+
+export function updatePassword(
+  payload: { current_password: string; new_password: string },
+  token: string,
+): Promise<void> {
+  return request<void>('/users/me/password', {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify(payload),
+  })
+}
+
 export function createOrder(
   items: { product_id: number; quantity: number }[],
   token: string,
-): Promise<unknown> {
-  return request('/orders/', {
+): Promise<Order> {
+  return request<Order>('/orders/', {
     method: 'POST',
     token,
     body: JSON.stringify({ items }),
   })
+}
+
+export function fetchMyOrders(token: string): Promise<Order[]> {
+  return request<Order[]>('/orders/', { token })
 }
 
 export function fetchMyFarms(token: string): Promise<Farm[]> {
@@ -146,6 +396,7 @@ export function createFarm(
     latitude?: number
     longitude?: number
     size_hectares?: number
+    region_id?: number
   },
   token: string,
 ): Promise<Farm> {
@@ -160,6 +411,7 @@ export function updateFarm(
     latitude: number
     longitude: number
     size_hectares: number
+    region_id: number
   }>,
   token: string,
 ): Promise<Farm> {
@@ -179,10 +431,14 @@ export function createProduct(
     farm_id: number
     name: string
     description?: string
-    category?: string
+    image_url?: string
+    crop_id: number
     unit?: string
     price_per_unit: number
     quantity_available?: number
+    quality?: ProductQuality
+    certification?: ProductCertification
+    price_suggestion_id?: number
   },
   token: string,
 ): Promise<Product> {
@@ -198,15 +454,36 @@ export function updateProduct(
   payload: Partial<{
     name: string
     description: string
-    category: string
+    image_url: string
+    crop_id: number
     unit: string
     price_per_unit: number
     quantity_available: number
+    quality: ProductQuality
+    certification: ProductCertification
+    price_suggestion_id: number
   }>,
   token: string,
 ): Promise<Product> {
   return request<Product>(`/products/${id}`, {
     method: 'PATCH',
+    token,
+    body: JSON.stringify(payload),
+  })
+}
+
+export function suggestPrice(
+  payload: {
+    crop_id: number
+    region_id: number
+    quality?: ProductQuality
+    certification?: ProductCertification
+    farm_id?: number
+  },
+  token?: string,
+): Promise<PriceSuggestion> {
+  return request<PriceSuggestion>('/market/price-suggestions', {
+    method: 'POST',
     token,
     body: JSON.stringify(payload),
   })
@@ -218,4 +495,236 @@ export function deleteProduct(id: number, token: string): Promise<void> {
 
 export function fetchSales(token: string): Promise<Sale[]> {
   return request<Sale[]>('/orders/sales', { token })
+}
+
+export function fetchSensors(): Promise<Sensor[]> {
+  return request<Sensor[]>('/sensors/')
+}
+
+export function fetchSensorReadings(sensorId: number): Promise<SensorReading[]> {
+  return request<SensorReading[]>(`/sensors/${sensorId}/readings`)
+}
+
+export function fetchSensorDailyReadings(sensorId: number): Promise<SensorDailyAggregate[]> {
+  return request<SensorDailyAggregate[]>(`/sensors/${sensorId}/readings/daily`)
+}
+
+export function fetchMyAlerts(token: string): Promise<SensorAlert[]> {
+  return request<SensorAlert[]>('/sensors/alerts/mine', { token })
+}
+
+export function acknowledgeAlert(alertId: number, token: string): Promise<SensorAlert> {
+  return request<SensorAlert>(`/sensors/alerts/${alertId}/acknowledge`, {
+    method: 'PATCH',
+    token,
+  })
+}
+
+export function fetchAdminStats(token: string): Promise<AdminStats> {
+  return request<AdminStats>('/admin/stats', { token })
+}
+
+export function fetchAllUsers(token: string): Promise<User[]> {
+  return request<User[]>('/users/', { token })
+}
+
+export function updateUserRole(id: number, role: UserRole, token: string): Promise<User> {
+  return request<User>(`/users/${id}/role`, {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify({ role }),
+  })
+}
+
+export function deleteUser(id: number, token: string): Promise<void> {
+  return request<void>(`/users/${id}`, { method: 'DELETE', token })
+}
+
+export function updateUserStatus(
+  id: number,
+  isActive: boolean,
+  token: string,
+): Promise<User> {
+  return request<User>(`/users/${id}/status`, {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify({ is_active: isActive }),
+  })
+}
+
+export function createAdmin(
+  payload: { name: string; email: string; password: string; phone?: string },
+  token: string,
+): Promise<User> {
+  return request<User>('/admin/users', {
+    method: 'POST',
+    token,
+    body: JSON.stringify(payload),
+  })
+}
+
+export function fetchAllFarms(token: string): Promise<AdminFarm[]> {
+  return request<AdminFarm[]>('/farms/', { token })
+}
+
+export function fetchAllOrders(token: string): Promise<AdminOrder[]> {
+  return request<AdminOrder[]>('/orders/all', { token })
+}
+
+export function updateOrderStatus(
+  id: number,
+  orderStatus: OrderStatus,
+  token: string,
+): Promise<AdminOrder> {
+  return request<AdminOrder>(`/orders/${id}/status`, {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify({ status: orderStatus }),
+  })
+}
+
+export function fetchConversations(token: string): Promise<Conversation[]> {
+  return request<Conversation[]>('/conversations/', { token })
+}
+
+export function fetchConversation(id: number, token: string): Promise<ConversationDetail> {
+  return request<ConversationDetail>(`/conversations/${id}`, { token })
+}
+
+export function startConversation(
+  payload: { recipient_id: number; product_id?: number; message: string },
+  token: string,
+): Promise<ConversationDetail> {
+  return request<ConversationDetail>('/conversations/', {
+    method: 'POST',
+    token,
+    body: JSON.stringify(payload),
+  })
+}
+
+export function sendMessage(
+  conversationId: number,
+  content: string,
+  token: string,
+): Promise<Message> {
+  return request<Message>(`/conversations/${conversationId}/messages`, {
+    method: 'POST',
+    token,
+    body: JSON.stringify({ content }),
+  })
+}
+
+export function fetchMyHarvests(token: string): Promise<Harvest[]> {
+  return request<Harvest[]>('/harvests/mine', { token })
+}
+
+export function createHarvest(
+  payload: {
+    farm_id: number
+    crop_id: number
+    planted_at: string
+    expected_harvest_at: string
+    expected_quantity?: number
+  },
+  token: string,
+): Promise<Harvest> {
+  return request<Harvest>('/harvests/', {
+    method: 'POST',
+    token,
+    body: JSON.stringify(payload),
+  })
+}
+
+export function updateHarvest(
+  id: number,
+  payload: Partial<{
+    expected_harvest_at: string
+    actual_harvest_at: string
+    expected_quantity: number
+    status: HarvestStatus
+  }>,
+  token: string,
+): Promise<Harvest> {
+  return request<Harvest>(`/harvests/${id}`, {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify(payload),
+  })
+}
+
+export async function uploadProductImage(
+  file: File,
+  token: string,
+): Promise<{ image_url: string }> {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  const res = await fetch(`${API_BASE}/products/upload-image`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  })
+
+  if (!res.ok) {
+    let message = `Erro ${res.status}`
+    try {
+      const body = await res.json()
+      if (typeof body.detail === 'string') message = body.detail
+    } catch {
+      // response wasn't JSON, keep the default message
+    }
+    throw new ApiError(message, res.status)
+  }
+
+  return res.json()
+}
+
+export function fetchAvailableDeliveries(token: string): Promise<TransportOrder[]> {
+  return request<TransportOrder[]>('/transport/available', { token })
+}
+
+export function fetchMyDeliveries(token: string): Promise<TransportOrder[]> {
+  return request<TransportOrder[]>('/transport/mine', { token })
+}
+
+export function claimDelivery(orderId: number, token: string): Promise<TransportOrder> {
+  return request<TransportOrder>(`/transport/${orderId}/claim`, {
+    method: 'PATCH',
+    token,
+  })
+}
+
+export function updateDeliveryStatus(
+  orderId: number,
+  status: 'shipped' | 'delivered',
+  token: string,
+): Promise<TransportOrder> {
+  return request<TransportOrder>(`/transport/${orderId}/status`, {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify({ status }),
+  })
+}
+
+export function fetchMyRoutes(token: string): Promise<TransportRoute[]> {
+  return request<TransportRoute[]>('/transport/routes/mine', { token })
+}
+
+export function fetchPopularRoutes(token: string): Promise<PopularRoute[]> {
+  return request<PopularRoute[]>('/transport/routes/popular', { token })
+}
+
+export function createRoute(
+  payload: { origin_region_id: number; destination_region_id: number },
+  token: string,
+): Promise<TransportRoute> {
+  return request<TransportRoute>('/transport/routes', {
+    method: 'POST',
+    token,
+    body: JSON.stringify(payload),
+  })
+}
+
+export function deleteRoute(routeId: number, token: string): Promise<void> {
+  return request<void>(`/transport/routes/${routeId}`, { method: 'DELETE', token })
 }

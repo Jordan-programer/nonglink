@@ -1,42 +1,24 @@
-const steps = [
-  {
-    number: '01',
-    title: 'Sensores instalados na lavra',
-    description: 'Equipamento IoT de baixo custo é colocado no terreno do agricultor.',
-  },
-  {
-    number: '02',
-    title: 'Dados enviados para a plataforma',
-    description: 'Leituras de humidade, temperatura e água chegam em tempo real.',
-  },
-  {
-    number: '03',
-    title: 'Sistema processa a informação',
-    description: 'Algoritmos analisam os dados e cruzam com o histórico da lavra.',
-  },
-  {
-    number: '04',
-    title: 'Agricultor recebe recomendações',
-    description: 'Alertas de irrigação e previsões de produção chegam ao telemóvel.',
-  },
-  {
-    number: '05',
-    title: 'Produtos vendidos no marketplace',
-    description: 'A colheita é anunciada e vendida direto a compradores.',
-  },
-]
+import { useTranslation } from 'react-i18next'
 
 export default function HowItWorks() {
+  const { t } = useTranslation()
+
+  const steps = [
+    { number: '01', title: t('howItWorks.step1Title'), description: t('howItWorks.step1Description') },
+    { number: '02', title: t('howItWorks.step2Title'), description: t('howItWorks.step2Description') },
+    { number: '03', title: t('howItWorks.step3Title'), description: t('howItWorks.step3Description') },
+    { number: '04', title: t('howItWorks.step4Title'), description: t('howItWorks.step4Description') },
+    { number: '05', title: t('howItWorks.step5Title'), description: t('howItWorks.step5Description') },
+  ]
+
   return (
     <section id="como-funciona" className="bg-leaf-950 py-20 text-cream-50">
       <div className="mx-auto max-w-6xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-white">
-            Como funciona
+            {t('howItWorks.title')}
           </h2>
-          <p className="mt-3 text-cream-100/70">
-            Tudo num único sistema — da sensorização à venda.
-          </p>
+          <p className="mt-3 text-cream-100/70">{t('howItWorks.subtitle')}</p>
         </div>
 
         <div className="mt-14 grid gap-8 md:grid-cols-5">

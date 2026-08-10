@@ -1,5 +1,6 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native'
-import type { Product } from '../lib/api'
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
+import { SERVER_BASE, type Product } from '../lib/api'
 import { colors } from '../theme/colors'
 
 const TILE_COLORS = [colors.leaf500, colors.earth500, colors.leaf700]
@@ -9,22 +10,30 @@ function tileColor(id: number) {
 }
 
 export default function ProductCard({ product }: { product: Product }) {
+  const { t } = useTranslation()
+
   return (
     <View style={styles.card}>
-      <View style={[styles.tile, { backgroundColor: tileColor(product.id) }]}>
-        <Text style={styles.tileIcon}>🌿</Text>
-      </View>
+      {product.image_url ? (
+        <Image
+          source={{ uri: `${SERVER_BASE}${product.image_url}` }}
+          style={styles.tile}
+          resizeMode="cover"
+        />
+      ) : (
+        <View style={[styles.tile, { backgroundColor: tileColor(product.id) }]}>
+          <Text style={styles.tileIcon}>🌿</Text>
+        </View>
+      )}
 
       <View style={styles.body}>
         <View style={styles.titleRow}>
           <Text style={styles.title} numberOfLines={1}>
             {product.name}
           </Text>
-          {product.category && (
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>{product.category}</Text>
-            </View>
-          )}
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>{product.crop_name}</Text>
+          </View>
         </View>
 
         {product.description && (
@@ -40,11 +49,11 @@ export default function ProductCard({ product }: { product: Product }) {
               <Text style={styles.unit}> / {product.unit}</Text>
             </Text>
             <Text style={styles.available}>
-              {product.quantity_available} {product.unit} disponíveis
+              {product.quantity_available} {product.unit} {t('productCard.available')}
             </Text>
           </View>
           <Pressable style={styles.cta}>
-            <Text style={styles.ctaText}>Ver detalhes</Text>
+            <Text style={styles.ctaText}>{t('productCard.viewDetails')}</Text>
           </Pressable>
         </View>
       </View>

@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, require_admin
 from app.core.database import get_db
 from app.models.farm import Farm
 from app.models.user import User
-from app.schemas.farm import FarmCreate, FarmRead, FarmUpdate
+from app.schemas.farm import FarmAdminRead, FarmCreate, FarmRead, FarmUpdate
 
 router = APIRouter(prefix="/farms", tags=["farms"])
 
@@ -16,11 +16,23 @@ def create_farm(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    farm = Farm(**payload.model_dump(), owner_id=current_user.id)
+    data = payload.model_dump()
+    if data.get("region_id") is None:
+        data["region_id"] = current_user.region_id
+
+    farm = Farm(**data, owner_id=current_user.id)
     db.add(farm)
     db.commit()
     db.refresh(farm)
     return farm
+
+
+@router.get("/", response_model=list[FarmAdminRead])
+def list_all_farms(
+    db: Session = Depends(get_db),
+    admin: User = Depends(require_admin),
+):
+    return db.query(Farm).order_by(Farm.id).all()
 
 
 @router.get("/mine", response_model=list[FarmRead])

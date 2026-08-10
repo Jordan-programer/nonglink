@@ -24,9 +24,11 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 copy .env.example .env
-uvicorn app.main:app --reload
+uvicorn app.main:app --reload --host 0.0.0.0
 ```
 API em http://localhost:8000 (docs em `/docs`).
+
+`--host 0.0.0.0` é necessário para que a app mobile (a correr num telemóvel físico) consiga alcançar a API pela rede local — com o valor por omissão (`127.0.0.1`) só o próprio PC consegue ligar-se.
 
 ### Base de dados
 Importa `database/schema.sql` (e opcionalmente `database/seed.sql`) na tua instância MySQL (ex: via phpMyAdmin do XAMPP).

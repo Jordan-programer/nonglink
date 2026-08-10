@@ -19,12 +19,30 @@ class Order(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     buyer_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    transporter_id = Column(Integer, ForeignKey("users.id"), nullable=True)
     status = Column(db_enum(OrderStatus), default=OrderStatus.PENDING, nullable=False)
     total_amount = Column(Float, default=0, nullable=False)
     created_at = Column(DateTime, server_default=func.now())
 
-    buyer = relationship("User", back_populates="orders")
+    buyer = relationship("User", back_populates="orders", foreign_keys=[buyer_id])
+    transporter = relationship("User", back_populates="deliveries", foreign_keys=[transporter_id])
     items = relationship("OrderItem", back_populates="order")
+
+    @property
+    def buyer_name(self) -> str:
+        return self.buyer.name
+
+    @property
+    def buyer_email(self) -> str:
+        return self.buyer.email
+
+    @property
+    def buyer_phone(self) -> str | None:
+        return self.buyer.phone
+
+    @property
+    def transporter_name(self) -> str | None:
+        return self.transporter.name if self.transporter else None
 
 
 class OrderItem(Base):
@@ -38,3 +56,7 @@ class OrderItem(Base):
 
     order = relationship("Order", back_populates="items")
     product = relationship("Product", back_populates="order_items")
+
+    @property
+    def product_name(self) -> str:
+        return self.product.name

@@ -1,22 +1,23 @@
 import { Leaf, ShieldCheck, TrendingUp, Wheat } from 'lucide-react'
-
-const stats = [
-  { icon: TrendingUp, label: 'Aumento da renda dos agricultores' },
-  { icon: Wheat, label: 'Redução do desperdício pós-colheita' },
-  { icon: Leaf, label: 'Melhoria da produtividade agrícola' },
-  { icon: ShieldCheck, label: 'Mais segurança alimentar' },
-]
+import { useTranslation } from 'react-i18next'
 
 export default function Impact() {
+  const { t } = useTranslation()
+
+  const stats = [
+    { icon: TrendingUp, label: t('impact.income') },
+    { icon: Wheat, label: t('impact.waste') },
+    { icon: Leaf, label: t('impact.productivity') },
+    { icon: ShieldCheck, label: t('impact.foodSecurity') },
+  ]
+
   return (
     <section id="impacto" className="mx-auto max-w-6xl px-6 py-20">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-3xl font-semibold tracking-tight text-leaf-950">
-          Impacto real na cadeia de valor agrícola
+          {t('impact.title')}
         </h2>
-        <p className="mt-3 text-leaf-950/70">
-          Começamos em Angola, com potencial de expansão para toda a África.
-        </p>
+        <p className="mt-3 text-leaf-950/70">{t('impact.subtitle')}</p>
       </div>
 
       <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
