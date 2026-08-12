@@ -1,5 +1,5 @@
 from datetime import date, datetime
-from typing import Any
+from typing import Any, Literal
 
 from pydantic import BaseModel
 
@@ -8,6 +8,11 @@ from app.models.soil import SatelliteSource
 
 class SoilAnalyzeRequest(BaseModel):
     polygon: dict[str, Any] | None = None
+
+
+class SoilRecommendation(BaseModel):
+    category: Literal["irrigation", "planting", "soil_treatment"]
+    level: str
 
 
 class SoilObservationRead(BaseModel):
@@ -38,6 +43,7 @@ class SoilObservationRead(BaseModel):
     ndvi_max: float | None = None
 
     created_at: datetime
+    recommendations: list[SoilRecommendation] = []
 
     class Config:
         from_attributes = True

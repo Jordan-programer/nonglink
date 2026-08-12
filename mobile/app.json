@@ -30,6 +30,12 @@
           "photosPermission": "O AgriLink precisa de acesso às tuas fotos para adicionares imagens dos teus produtos."
         }
       ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "O AgriLink usa a tua localização para te ajudar a encontrar a tua lavra no mapa."
+        }
+      ],
       "expo-font"
     ],
     "experiments": {

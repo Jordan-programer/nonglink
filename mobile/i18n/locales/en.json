@@ -82,7 +82,8 @@
     "selectRegionError": "Select your province.",
     "contactRequiredError": "Enter your phone number and your email.",
     "error": "Could not create the account.",
-    "roleTransporter": "Transporter"
+    "roleTransporter": "Transporter",
+    "country": "Country"
   },
   "marketplace": {
     "title": "Agricultural market",
@@ -122,6 +123,7 @@
     "productsTitle": "My products",
     "ordersTitle": "Orders",
     "monitoringTitle": "Monitoring",
+    "soilTitle": "Soil (Satellite)",
     "welcomeBack": "Welcome back, ",
     "statFarms": "Farms",
     "statActiveProducts": "Active products",
@@ -131,6 +133,7 @@
     "shortcutOrders": "Orders",
     "shortcutFarm": "My farm",
     "shortcutMonitoring": "Monitoring",
+    "shortcutSoil": "Soil",
     "createFarmCta": "Create your farm to start selling.",
     "createFarmButton": "Create farm",
     "recentOrders": "Recent orders",
@@ -293,5 +296,70 @@
     "checkingOut": "Checking out...",
     "checkoutError": "Could not complete the checkout.",
     "clearCart": "Clear cart"
+  },
+  "soil": {
+    "noFarmTitle": "You don't have a registered farm yet.",
+    "noFarmSubtitle": "Create your farm so you can run satellite soil analysis.",
+    "drawTitle": "Draw your farm's boundary",
+    "drawSubtitle": "Use the map tools to draw the outline of your plot.",
+    "savePolygon": "Save boundary",
+    "saving": "Saving...",
+    "saveError": "Could not save the boundary.",
+    "polygonSaved": "Boundary saved successfully.",
+    "noPolygonYet": "You haven't drawn this farm's boundary yet.",
+    "analysisTitle": "Soil analysis",
+    "analyzeHint": "This can take a few seconds — we're processing real-time satellite imagery.",
+    "analyzeButton": "Analyze soil now",
+    "analyzing": "Analyzing satellite imagery...",
+    "analyzeError": "Could not analyze the soil.",
+    "lastAnalysis": "Last analysis",
+    "sceneDate": "Image from",
+    "cloudCover": "Cloud cover",
+    "noObservationYet": "No analysis for this farm yet. Analyze the soil to see the results.",
+    "moisture": {
+      "title": "Soil moisture (NDMI)",
+      "dry": "Very dry soil/vegetation — likely water stress.",
+      "low": "Low moisture — consider irrigating.",
+      "moderate": "Moderate moisture — normal for most crops.",
+      "high": "High moisture — soil well hydrated."
+    },
+    "temperature": {
+      "title": "Surface temperature (LST)",
+      "hint": "Compare against previous analyses to identify zones of higher thermal stress."
+    },
+    "residue": {
+      "title": "Residue cover (NDTI)",
+      "bare": "Mostly bare soil — recent tillage.",
+      "partial": "Partial residue/straw cover.",
+      "high": "High residue cover — good straw retention."
+    },
+    "salinity": {
+      "title": "Salinity risk (SI)",
+      "low": "Low salinity risk.",
+      "moderate": "Moderate risk — worth monitoring.",
+      "high": "High risk — consider a lab soil analysis."
+    },
+    "recommendations": {
+      "title": "Recommendations",
+      "irrigation": {
+        "label": "Irrigation",
+        "critical": "Urgent irrigation recommended — the soil is very dry.",
+        "attention": "Consider watering in the next 24-48 hours.",
+        "good": "No immediate irrigation needed.",
+        "unknown": "Not enough data to recommend irrigation."
+      },
+      "planting": {
+        "label": "Planting",
+        "favorable": "Favorable conditions for planting in this zone.",
+        "wait_moisture": "Soil too dry to plant — wait for rain or irrigation before sowing.",
+        "unfavorable": "High salinity risk — a soil analysis is recommended before planting.",
+        "occupied": "Significant vegetation cover already present in this zone — focus on managing the current crop."
+      },
+      "soilTreatment": {
+        "label": "Soil treatment",
+        "salinity": "High salinity — a lab analysis and possible desalinization treatment are recommended.",
+        "residue": "Very bare soil — consider mulching or cover crops to protect and enrich the soil."
+      }
+    }
   }
 }

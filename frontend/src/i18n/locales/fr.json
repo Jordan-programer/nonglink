@@ -389,6 +389,28 @@
       "low": "Risque de salinité faible.",
       "moderate": "Risque modéré — à surveiller.",
       "high": "Risque élevé — envisagez une analyse de sol en laboratoire."
+    },
+    "recommendations": {
+      "title": "Recommandations",
+      "irrigation": {
+        "label": "Irrigation",
+        "critical": "Irrigation urgente recommandée — le sol est très sec.",
+        "attention": "Envisagez d'arroser dans les 24 à 48 prochaines heures.",
+        "good": "Aucune irrigation immédiate nécessaire.",
+        "unknown": "Pas assez de données pour recommander l'irrigation."
+      },
+      "planting": {
+        "label": "Plantation",
+        "favorable": "Conditions favorables pour planter dans cette zone.",
+        "wait_moisture": "Sol trop sec pour planter — attendez la pluie ou l'irrigation avant de semer.",
+        "unfavorable": "Risque de salinité élevé — une analyse du sol est recommandée avant de planter.",
+        "occupied": "Couverture végétale déjà significative dans cette zone — concentrez-vous sur la gestion de la culture actuelle."
+      },
+      "soilTreatment": {
+        "label": "Traitement du sol",
+        "salinity": "Salinité élevée — une analyse en laboratoire et un éventuel traitement de dessalinisation sont recommandés.",
+        "residue": "Sol très nu — envisagez le paillage ou des cultures de couverture pour protéger et enrichir le sol."
+      }
     }
   },
   "farmerInsights": {

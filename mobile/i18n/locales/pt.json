@@ -82,7 +82,8 @@
     "selectRegionError": "Seleciona a tua província.",
     "contactRequiredError": "Indica o teu telefone e o teu email.",
     "error": "Não foi possível criar a conta.",
-    "roleTransporter": "Transportador"
+    "roleTransporter": "Transportador",
+    "country": "País"
   },
   "marketplace": {
     "title": "Mercado agrícola",
@@ -122,6 +123,7 @@
     "productsTitle": "Os meus produtos",
     "ordersTitle": "Encomendas",
     "monitoringTitle": "Monitorização",
+    "soilTitle": "Solo (Satélite)",
     "welcomeBack": "Bem-vindo de volta, ",
     "statFarms": "Lavras",
     "statActiveProducts": "Produtos ativos",
@@ -131,6 +133,7 @@
     "shortcutOrders": "Encomendas",
     "shortcutFarm": "A minha lavra",
     "shortcutMonitoring": "Monitorização",
+    "shortcutSoil": "Solo",
     "createFarmCta": "Cria a tua lavra para começares a vender.",
     "createFarmButton": "Criar lavra",
     "recentOrders": "Encomendas recentes",
@@ -293,5 +296,70 @@
     "checkingOut": "A finalizar...",
     "checkoutError": "Não foi possível finalizar a compra.",
     "clearCart": "Esvaziar carrinho"
+  },
+  "soil": {
+    "noFarmTitle": "Ainda não tens uma lavra registada.",
+    "noFarmSubtitle": "Cria a tua lavra para poderes analisar o solo por satélite.",
+    "drawTitle": "Desenha o polígono da tua lavra",
+    "drawSubtitle": "Usa as ferramentas do mapa para desenhar o contorno do teu talhão.",
+    "savePolygon": "Guardar polígono",
+    "saving": "A guardar...",
+    "saveError": "Não foi possível guardar o polígono.",
+    "polygonSaved": "Polígono guardado com sucesso.",
+    "noPolygonYet": "Ainda não desenhaste o polígono desta lavra.",
+    "analysisTitle": "Análise de solo",
+    "analyzeHint": "Pode demorar alguns segundos — estamos a processar imagens de satélite em tempo real.",
+    "analyzeButton": "Analisar solo agora",
+    "analyzing": "A analisar imagens de satélite...",
+    "analyzeError": "Não foi possível analisar o solo.",
+    "lastAnalysis": "Última análise",
+    "sceneDate": "Imagem de",
+    "cloudCover": "Nuvens",
+    "noObservationYet": "Ainda não há nenhuma análise para esta lavra. Analisa o solo para ver os resultados.",
+    "moisture": {
+      "title": "Humidade do solo (NDMI)",
+      "dry": "Solo/vegetação muito seca — stress hídrico provável.",
+      "low": "Humidade baixa — considera irrigar.",
+      "moderate": "Humidade moderada — normal para a maioria das culturas.",
+      "high": "Humidade alta — solo bem hidratado."
+    },
+    "temperature": {
+      "title": "Temperatura de superfície (LST)",
+      "hint": "Compara com análises anteriores para identificar zonas de maior stress térmico."
+    },
+    "residue": {
+      "title": "Cobertura de resíduos (NDTI)",
+      "bare": "Solo praticamente descoberto — lavoura recente.",
+      "partial": "Cobertura parcial de resíduos/palha.",
+      "high": "Alta cobertura de resíduos — boa retenção de palha."
+    },
+    "salinity": {
+      "title": "Risco de salinidade (SI)",
+      "low": "Risco baixo de salinidade.",
+      "moderate": "Risco moderado — vale a pena monitorizar.",
+      "high": "Risco alto — considera uma análise laboratorial do solo."
+    },
+    "recommendations": {
+      "title": "Recomendações",
+      "irrigation": {
+        "label": "Rega",
+        "critical": "Rega urgente recomendada — o solo está muito seco.",
+        "attention": "Considera regar nas próximas 24-48 horas.",
+        "good": "Não é necessária irrigação imediata.",
+        "unknown": "Sem dados suficientes para recomendar rega."
+      },
+      "planting": {
+        "label": "Plantio",
+        "favorable": "Condições favoráveis para plantar nesta zona.",
+        "wait_moisture": "Solo demasiado seco para plantar — espera por chuva ou irrigação antes de semear.",
+        "unfavorable": "Risco de salinidade elevado — recomenda-se análise ao solo antes de plantar.",
+        "occupied": "Já existe cobertura vegetal significativa nesta zona — foca-te na gestão da cultura atual."
+      },
+      "soilTreatment": {
+        "label": "Tratamento do solo",
+        "salinity": "Salinidade elevada — recomenda-se análise laboratorial e possível tratamento de dessalinização.",
+        "residue": "Solo muito descoberto — considera cobertura morta ou culturas de cobertura para proteger e enriquecer o solo."
+      }
+    }
   }
 }

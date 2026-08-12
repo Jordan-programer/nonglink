@@ -82,7 +82,8 @@
     "selectRegionError": "Sélectionnez votre province.",
     "contactRequiredError": "Indiquez votre téléphone et votre email.",
     "error": "Impossible de créer le compte.",
-    "roleTransporter": "Transporteur"
+    "roleTransporter": "Transporteur",
+    "country": "Pays"
   },
   "marketplace": {
     "title": "Marché agricole",
@@ -122,6 +123,7 @@
     "productsTitle": "Mes produits",
     "ordersTitle": "Commandes",
     "monitoringTitle": "Surveillance",
+    "soilTitle": "Sol (Satellite)",
     "welcomeBack": "Content de vous revoir, ",
     "statFarms": "Exploitations",
     "statActiveProducts": "Produits actifs",
@@ -131,6 +133,7 @@
     "shortcutOrders": "Commandes",
     "shortcutFarm": "Mon exploitation",
     "shortcutMonitoring": "Surveillance",
+    "shortcutSoil": "Sol",
     "createFarmCta": "Créez votre exploitation pour commencer à vendre.",
     "createFarmButton": "Créer une exploitation",
     "recentOrders": "Commandes récentes",
@@ -293,5 +296,70 @@
     "checkingOut": "Finalisation...",
     "checkoutError": "Impossible de finaliser la commande.",
     "clearCart": "Vider le panier"
+  },
+  "soil": {
+    "noFarmTitle": "Vous n'avez pas encore de ferme enregistrée.",
+    "noFarmSubtitle": "Créez votre ferme pour pouvoir analyser le sol par satellite.",
+    "drawTitle": "Dessinez le contour de votre ferme",
+    "drawSubtitle": "Utilisez les outils de la carte pour dessiner le contour de votre parcelle.",
+    "savePolygon": "Enregistrer le contour",
+    "saving": "Enregistrement...",
+    "saveError": "Impossible d'enregistrer le contour.",
+    "polygonSaved": "Contour enregistré avec succès.",
+    "noPolygonYet": "Vous n'avez pas encore dessiné le contour de cette ferme.",
+    "analysisTitle": "Analyse du sol",
+    "analyzeHint": "Cela peut prendre quelques secondes — nous traitons des images satellite en temps réel.",
+    "analyzeButton": "Analyser le sol maintenant",
+    "analyzing": "Analyse des images satellite...",
+    "analyzeError": "Impossible d'analyser le sol.",
+    "lastAnalysis": "Dernière analyse",
+    "sceneDate": "Image du",
+    "cloudCover": "Nuages",
+    "noObservationYet": "Aucune analyse pour cette ferme pour l'instant. Analysez le sol pour voir les résultats.",
+    "moisture": {
+      "title": "Humidité du sol (NDMI)",
+      "dry": "Sol/végétation très sec — stress hydrique probable.",
+      "low": "Humidité faible — envisagez d'irriguer.",
+      "moderate": "Humidité modérée — normale pour la plupart des cultures.",
+      "high": "Humidité élevée — sol bien hydraté."
+    },
+    "temperature": {
+      "title": "Température de surface (LST)",
+      "hint": "Comparez avec les analyses précédentes pour identifier les zones de stress thermique."
+    },
+    "residue": {
+      "title": "Couverture de résidus (NDTI)",
+      "bare": "Sol presque nu — labour récent.",
+      "partial": "Couverture partielle de résidus/paille.",
+      "high": "Forte couverture de résidus — bonne rétention de paille."
+    },
+    "salinity": {
+      "title": "Risque de salinité (SI)",
+      "low": "Risque de salinité faible.",
+      "moderate": "Risque modéré — à surveiller.",
+      "high": "Risque élevé — envisagez une analyse de sol en laboratoire."
+    },
+    "recommendations": {
+      "title": "Recommandations",
+      "irrigation": {
+        "label": "Irrigation",
+        "critical": "Irrigation urgente recommandée — le sol est très sec.",
+        "attention": "Envisagez d'arroser dans les 24 à 48 prochaines heures.",
+        "good": "Aucune irrigation immédiate nécessaire.",
+        "unknown": "Pas assez de données pour recommander l'irrigation."
+      },
+      "planting": {
+        "label": "Plantation",
+        "favorable": "Conditions favorables pour planter dans cette zone.",
+        "wait_moisture": "Sol trop sec pour planter — attendez la pluie ou l'irrigation avant de semer.",
+        "unfavorable": "Risque de salinité élevé — une analyse du sol est recommandée avant de planter.",
+        "occupied": "Couverture végétale déjà significative dans cette zone — concentrez-vous sur la gestion de la culture actuelle."
+      },
+      "soilTreatment": {
+        "label": "Traitement du sol",
+        "salinity": "Salinité élevée — une analyse en laboratoire et un éventuel traitement de dessalinisation sont recommandés.",
+        "residue": "Sol très nu — envisagez le paillage ou des cultures de couverture pour protéger et enrichir le sol."
+      }
+    }
   }
 }

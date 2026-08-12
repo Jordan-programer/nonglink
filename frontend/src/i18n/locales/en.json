@@ -389,6 +389,28 @@
       "low": "Low salinity risk.",
       "moderate": "Moderate risk — worth monitoring.",
       "high": "High risk — consider a lab soil analysis."
+    },
+    "recommendations": {
+      "title": "Recommendations",
+      "irrigation": {
+        "label": "Irrigation",
+        "critical": "Urgent irrigation recommended — the soil is very dry.",
+        "attention": "Consider watering in the next 24-48 hours.",
+        "good": "No immediate irrigation needed.",
+        "unknown": "Not enough data to recommend irrigation."
+      },
+      "planting": {
+        "label": "Planting",
+        "favorable": "Favorable conditions for planting in this zone.",
+        "wait_moisture": "Soil too dry to plant — wait for rain or irrigation before sowing.",
+        "unfavorable": "High salinity risk — a soil analysis is recommended before planting.",
+        "occupied": "Significant vegetation cover already present in this zone — focus on managing the current crop."
+      },
+      "soilTreatment": {
+        "label": "Soil treatment",
+        "salinity": "High salinity — a lab analysis and possible desalinization treatment are recommended.",
+        "residue": "Very bare soil — consider mulching or cover crops to protect and enrich the soil."
+      }
     }
   },
   "farmerInsights": {

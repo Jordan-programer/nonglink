@@ -15,6 +15,7 @@ from app.services.earth_engine import (
     SoilDataUnavailableError,
     analyze_soil,
 )
+from app.services.soil_recommendations import generate_recommendations
 
 router = APIRouter(prefix="/soil", tags=["soil"])
 
@@ -24,6 +25,17 @@ def _get_owned_farm(db: Session, farm_id: int, current_user: User) -> Farm:
     if not farm or farm.owner_id != current_user.id:
         raise HTTPException(status_code=404, detail="Farm not found")
     return farm
+
+
+def _to_read(observation: SoilObservation) -> SoilObservationRead:
+    result = SoilObservationRead.model_validate(observation)
+    result.recommendations = generate_recommendations(
+        ndmi_mean=observation.ndmi_mean,
+        ndti_mean=observation.ndti_mean,
+        salinity_index_mean=observation.salinity_index_mean,
+        ndvi_mean=observation.ndvi_mean,
+    )
+    return result
 
 
 def _validate_polygon(polygon: dict) -> None:
@@ -73,7 +85,7 @@ def analyze(
     db.add(observation)
     db.commit()
     db.refresh(observation)
-    return observation
+    return _to_read(observation)
 
 
 @router.get("/{farm_id}/latest", response_model=SoilObservationRead)
@@ -92,7 +104,7 @@ def latest(
     )
     if not observation:
         raise HTTPException(status_code=404, detail="Sem análises de solo para esta lavra ainda.")
-    return observation
+    return _to_read(observation)
 
 
 @router.get("/{farm_id}/history", response_model=list[SoilObservationRead])
@@ -103,10 +115,11 @@ def history(
 ):
     _get_owned_farm(db, farm_id, current_user)
 
-    return (
+    observations = (
         db.query(SoilObservation)
         .filter(SoilObservation.farm_id == farm_id)
         .order_by(SoilObservation.acquisition_date.desc(), SoilObservation.created_at.desc())
         .limit(12)
         .all()
     )
+    return [_to_read(o) for o in observations]

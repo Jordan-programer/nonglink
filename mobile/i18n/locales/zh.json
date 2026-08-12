@@ -82,7 +82,8 @@
     "selectRegionError": "请选择您的省份。",
     "contactRequiredError": "请输入您的电话和电子邮箱。",
     "error": "无法创建账户。",
-    "roleTransporter": "运输商"
+    "roleTransporter": "运输商",
+    "country": "国家"
   },
   "marketplace": {
     "title": "农业市场",
@@ -122,6 +123,7 @@
     "productsTitle": "我的产品",
     "ordersTitle": "订单",
     "monitoringTitle": "监测",
+    "soilTitle": "土壤（卫星）",
     "welcomeBack": "欢迎回来，",
     "statFarms": "农场数",
     "statActiveProducts": "在售产品",
@@ -131,6 +133,7 @@
     "shortcutOrders": "订单",
     "shortcutFarm": "我的农场",
     "shortcutMonitoring": "监测",
+    "shortcutSoil": "土壤",
     "createFarmCta": "创建您的农场以开始销售。",
     "createFarmButton": "创建农场",
     "recentOrders": "最近订单",
@@ -293,5 +296,70 @@
     "checkingOut": "结算中...",
     "checkoutError": "无法完成结算。",
     "clearCart": "清空购物车"
+  },
+  "soil": {
+    "noFarmTitle": "您还没有注册农场。",
+    "noFarmSubtitle": "请先创建您的农场，才能进行卫星土壤分析。",
+    "drawTitle": "绘制您农场的边界",
+    "drawSubtitle": "使用地图工具绘制您地块的轮廓。",
+    "savePolygon": "保存边界",
+    "saving": "保存中...",
+    "saveError": "无法保存边界。",
+    "polygonSaved": "边界已成功保存。",
+    "noPolygonYet": "您还没有绘制这个农场的边界。",
+    "analysisTitle": "土壤分析",
+    "analyzeHint": "可能需要几秒钟——我们正在实时处理卫星图像。",
+    "analyzeButton": "立即分析土壤",
+    "analyzing": "正在分析卫星图像...",
+    "analyzeError": "无法分析土壤。",
+    "lastAnalysis": "最近一次分析",
+    "sceneDate": "影像日期",
+    "cloudCover": "云量",
+    "noObservationYet": "此农场尚无分析结果。分析土壤以查看结果。",
+    "moisture": {
+      "title": "土壤湿度（NDMI）",
+      "dry": "土壤/植被非常干燥——可能存在水分胁迫。",
+      "low": "湿度偏低——建议灌溉。",
+      "moderate": "湿度适中——大多数作物正常范围。",
+      "high": "湿度较高——土壤水分充足。"
+    },
+    "temperature": {
+      "title": "地表温度（LST）",
+      "hint": "与之前的分析比较，以识别热应力较高的区域。"
+    },
+    "residue": {
+      "title": "残茬覆盖（NDTI）",
+      "bare": "土壤几乎裸露——近期耕作。",
+      "partial": "部分秸秆/残茬覆盖。",
+      "high": "高残茬覆盖——秸秆保留良好。"
+    },
+    "salinity": {
+      "title": "盐渍化风险（SI）",
+      "low": "盐渍化风险较低。",
+      "moderate": "风险中等——值得监测。",
+      "high": "风险较高——建议进行实验室土壤检测。"
+    },
+    "recommendations": {
+      "title": "建议",
+      "irrigation": {
+        "label": "灌溉",
+        "critical": "建议紧急灌溉——土壤非常干燥。",
+        "attention": "建议在未来24-48小时内浇水。",
+        "good": "暂时不需要灌溉。",
+        "unknown": "数据不足，无法给出灌溉建议。"
+      },
+      "planting": {
+        "label": "种植",
+        "favorable": "该区域条件适宜种植。",
+        "wait_moisture": "土壤过于干燥，不适合种植——请先等待降雨或灌溉后再播种。",
+        "unfavorable": "盐渍化风险较高——建议先进行土壤检测再种植。",
+        "occupied": "该区域已有明显的植被覆盖——建议专注于管理现有作物。"
+      },
+      "soilTreatment": {
+        "label": "土壤处理",
+        "salinity": "盐分较高——建议进行实验室检测，并考虑进行脱盐处理。",
+        "residue": "土壤裸露严重——建议使用覆盖物或种植覆盖作物，以保护和改善土壤。"
+      }
+    }
   }
 }

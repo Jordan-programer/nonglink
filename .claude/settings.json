@@ -4,7 +4,11 @@
       "Bash(npx tsc *)",
       "Bash(netstat -ano)",
       "Bash(npx expo *)",
-      "Bash(curl -s -o /tmp/bundle_final.js -w \"HTTP %{http_code}, size %{size_download} bytes\\\\n\" \"http://localhost:8093/node_modules/expo-router/entry.bundle?platform=android&dev=true\" --max-time 120)"
+      "Bash(curl -s -o /tmp/bundle_final.js -w \"HTTP %{http_code}, size %{size_download} bytes\\\\n\" \"http://localhost:8093/node_modules/expo-router/entry.bundle?platform=android&dev=true\" --max-time 120)",
+      "PowerShell(Set-Location \"c:\\\\xampp\\\\htdocs\\\\agrilink\\\\mobile\\\\i18n\\\\locales\"; foreach \\($f in @\\('pt','en','fr','zh'\\)\\) { node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('./$f.json','utf8'\\)\\); console.log\\('$f OK'\\)\" })",
+      "Bash(.venv/Scripts/python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000)",
+      "PowerShell(Start-Sleep -Seconds 5; try { $r = Invoke-WebRequest -Uri \"http://127.0.0.1:8000/health\" -TimeoutSec 5 -UseBasicParsing; Write-Output \"health=$\\($r.StatusCode\\)\" } catch { Write-Output \"DOWN: $\\($_.Exception.Message\\)\" })",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://127.0.0.1:8000/openapi.json\" -TimeoutSec 5 -UseBasicParsing; $json = $r.Content | ConvertFrom-Json; $json.components.schemas.SoilObservationRead.properties.PSObject.Properties.Name)"
     ]
   }
 }

@@ -1,9 +1,19 @@
 import Constants from 'expo-constants'
 import { Platform } from 'react-native'
 
+export type Country = {
+  id: number
+  name: string
+  code: string
+}
+
 export type Region = {
   id: number
   name: string
+  country_id: number
+  country_name: string
+  latitude: number | null
+  longitude: number | null
 }
 
 export type CropCategory =
@@ -76,6 +86,12 @@ export type Farm = {
   longitude: number | null
   size_hectares: number | null
   region_id: number | null
+  boundary_geojson: string | null
+}
+
+export type SoilPolygon = {
+  type: 'Polygon'
+  coordinates: number[][][]
 }
 
 export type OrderStatus = 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled'
@@ -296,8 +312,13 @@ export function createOrder(
   })
 }
 
-export function fetchRegions(): Promise<Region[]> {
-  return request<Region[]>('/regions/')
+export function fetchCountries(): Promise<Country[]> {
+  return request<Country[]>('/countries/')
+}
+
+export function fetchRegions(countryId?: number): Promise<Region[]> {
+  const query = countryId ? `?country_id=${countryId}` : ''
+  return request<Region[]>(`/regions/${query}`)
 }
 
 export function fetchCrops(): Promise<Crop[]> {
@@ -356,6 +377,7 @@ export function updateFarm(
     longitude: number
     size_hectares: number
     region_id: number
+    boundary_geojson: string
   }>,
   token: string,
 ): Promise<Farm> {
@@ -364,6 +386,63 @@ export function updateFarm(
     token,
     body: JSON.stringify(payload),
   })
+}
+
+export type SatelliteSource = 'landsat_8' | 'landsat_9'
+
+export type SoilRecommendationCategory = 'irrigation' | 'planting' | 'soil_treatment'
+
+export type SoilRecommendation = {
+  category: SoilRecommendationCategory
+  level: string
+}
+
+export type SoilObservation = {
+  id: number
+  farm_id: number
+  source: SatelliteSource
+  acquisition_date: string
+  cloud_cover_pct: number
+  ndmi_mean: number | null
+  ndmi_min: number | null
+  ndmi_max: number | null
+  lst_celsius_mean: number | null
+  lst_celsius_min: number | null
+  lst_celsius_max: number | null
+  ndti_mean: number | null
+  ndti_min: number | null
+  ndti_max: number | null
+  salinity_index_mean: number | null
+  salinity_index_min: number | null
+  salinity_index_max: number | null
+  ndvi_mean: number | null
+  ndvi_min: number | null
+  ndvi_max: number | null
+  created_at: string
+  recommendations: SoilRecommendation[]
+}
+
+export function analyzeSoil(
+  farmId: number,
+  polygon: SoilPolygon | null,
+  token: string,
+): Promise<SoilObservation> {
+  return request<SoilObservation>(`/soil/${farmId}/analyze`, {
+    method: 'POST',
+    token,
+    body: JSON.stringify({ polygon }),
+  })
+}
+
+export function fetchLatestSoilObservation(
+  farmId: number,
+  token: string,
+): Promise<SoilObservation> {
+  return request<SoilObservation>(`/soil/${farmId}/latest`, { token })
+}
+
+export function fetchSoilHistory(farmId: number, token: string): Promise<SoilObservation[]> {
+  return request<SoilObservation[]>(`/soil/${farmId}/history`, { token })
 }
 
 export function fetchMyProducts(token: string): Promise<Product[]> {

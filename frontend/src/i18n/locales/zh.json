@@ -388,6 +388,28 @@
       "low": "盐渍化风险较低。",
       "moderate": "风险中等——值得监测。",
       "high": "风险较高——建议进行实验室土壤检测。"
+    },
+    "recommendations": {
+      "title": "建议",
+      "irrigation": {
+        "label": "灌溉",
+        "critical": "建议紧急灌溉——土壤非常干燥。",
+        "attention": "建议在未来24-48小时内浇水。",
+        "good": "暂时不需要灌溉。",
+        "unknown": "数据不足，无法给出灌溉建议。"
+      },
+      "planting": {
+        "label": "种植",
+        "favorable": "该区域条件适宜种植。",
+        "wait_moisture": "土壤过于干燥，不适合种植——请先等待降雨或灌溉后再播种。",
+        "unfavorable": "盐渍化风险较高——建议先进行土壤检测再种植。",
+        "occupied": "该区域已有明显的植被覆盖——建议专注于管理现有作物。"
+      },
+      "soilTreatment": {
+        "label": "土壤处理",
+        "salinity": "盐分较高——建议进行实验室检测，并考虑进行脱盐处理。",
+        "residue": "土壤裸露严重——建议使用覆盖物或种植覆盖作物，以保护和改善土壤。"
+      }
     }
   },
   "farmerInsights": {

@@ -13,7 +13,7 @@ import {
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
-import { ApiError, fetchRegions, type Region, type UserRole } from '../../lib/api'
+import { ApiError, fetchCountries, fetchRegions, type Country, type Region, type UserRole } from '../../lib/api'
 import { colors } from '../../theme/colors'
 
 export default function Register() {
@@ -33,16 +33,28 @@ export default function Register() {
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [role, setRole] = useState<UserRole>('farmer')
+  const [countries, setCountries] = useState<Country[]>([])
+  const [countryId, setCountryId] = useState<number | null>(null)
   const [regions, setRegions] = useState<Region[]>([])
   const [regionId, setRegionId] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
-    fetchRegions()
+    fetchCountries().then((data) => {
+      setCountries(data)
+      const angola = data.find((c) => c.code === 'AO')
+      setCountryId((angola ?? data[0])?.id ?? null)
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!countryId) return
+    setRegionId(null)
+    fetchRegions(countryId)
       .then(setRegions)
       .catch(() => setRegions([]))
-  }, [])
+  }, [countryId])
 
   async function handleSubmit() {
     if (!regionId) {
@@ -132,6 +144,29 @@ export default function Register() {
               keyboardType="phone-pad"
               style={styles.input}
             />
+          </View>
+
+          <View style={styles.field}>
+            <Text style={styles.label}>{t('register.country')}</Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.regionRow}
+            >
+              {countries.map((c) => (
+                <Pressable
+                  key={c.id}
+                  onPress={() => setCountryId(c.id)}
+                  style={[styles.regionChip, countryId === c.id && styles.roleChipActive]}
+                >
+                  <Text
+                    style={[styles.roleChipText, countryId === c.id && styles.roleChipTextActive]}
+                  >
+                    {c.name}
+                  </Text>
+                </Pressable>
+              ))}
+            </ScrollView>
           </View>
 
           <View style={styles.field}>

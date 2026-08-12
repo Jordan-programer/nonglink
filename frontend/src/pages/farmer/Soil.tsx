@@ -45,6 +45,36 @@ const BAND_STYLE: Record<string, string> = {
   high: 'bg-leaf-50 border-leaf-100 text-leaf-800',
 }
 
+const RECOMMENDATION_ICON: Record<string, typeof Droplets> = {
+  irrigation: Droplets,
+  planting: Sprout,
+  soil_treatment: FlaskConical,
+}
+
+const RECOMMENDATION_I18N_KEY: Record<string, string> = {
+  irrigation: 'irrigation',
+  planting: 'planting',
+  soil_treatment: 'soilTreatment',
+}
+
+const CRITICAL_LEVELS = new Set(['critical', 'unfavorable', 'salinity'])
+const ATTENTION_LEVELS = new Set(['attention', 'wait_moisture', 'residue'])
+const GOOD_LEVELS = new Set(['good', 'favorable'])
+
+function recommendationSeverity(level: string): 'critical' | 'attention' | 'good' | 'neutral' {
+  if (CRITICAL_LEVELS.has(level)) return 'critical'
+  if (ATTENTION_LEVELS.has(level)) return 'attention'
+  if (GOOD_LEVELS.has(level)) return 'good'
+  return 'neutral'
+}
+
+const SEVERITY_STYLE: Record<string, string> = {
+  critical: 'bg-[#fdf1ed] border-[#f0c9bd] text-[#8a3018]',
+  attention: 'bg-earth-50 border-earth-200 text-earth-800',
+  good: 'bg-leaf-50 border-leaf-100 text-leaf-800',
+  neutral: 'bg-leaf-50/60 border-leaf-100 text-leaf-950/70',
+}
+
 export default function Soil() {
   const { t } = useTranslation()
   const { token } = useAuth()
@@ -280,6 +310,37 @@ export default function Soil() {
               </div>
             )}
           </div>
+
+          {observation.recommendations.length > 0 && (
+            <div className="mt-6">
+              <h3 className="text-sm font-semibold text-leaf-950">
+                {t('soil.recommendations.title')}
+              </h3>
+              <div className="mt-3 space-y-2.5">
+                {observation.recommendations.map((rec) => {
+                  const Icon = RECOMMENDATION_ICON[rec.category]
+                  const key = RECOMMENDATION_I18N_KEY[rec.category]
+                  const severity = recommendationSeverity(rec.level)
+                  return (
+                    <div
+                      key={`${rec.category}-${rec.level}`}
+                      className={`flex items-start gap-3 rounded-2xl border p-4 ${SEVERITY_STYLE[severity]}`}
+                    >
+                      <Icon size={18} className="mt-0.5 shrink-0" />
+                      <div>
+                        <p className="text-sm font-semibold">
+                          {t(`soil.recommendations.${key}.label`)}
+                        </p>
+                        <p className="mt-0.5 text-sm">
+                          {t(`soil.recommendations.${key}.${rec.level}`)}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         farm.boundary_geojson && (

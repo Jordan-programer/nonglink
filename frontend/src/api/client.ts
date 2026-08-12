@@ -437,6 +437,13 @@ export function updateFarm(
 
 export type SatelliteSource = 'landsat_8' | 'landsat_9'
 
+export type SoilRecommendationCategory = 'irrigation' | 'planting' | 'soil_treatment'
+
+export type SoilRecommendation = {
+  category: SoilRecommendationCategory
+  level: string
+}
+
 export type SoilObservation = {
   id: number
   farm_id: number
@@ -459,6 +466,7 @@ export type SoilObservation = {
   ndvi_min: number | null
   ndvi_max: number | null
   created_at: string
+  recommendations: SoilRecommendation[]
 }
 
 export function analyzeSoil(
