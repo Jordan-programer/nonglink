@@ -1,4 +1,4 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { SERVER_BASE, type Product } from '../lib/api'
 import { colors } from '../theme/colors'
@@ -52,9 +52,9 @@ export default function ProductCard({ product }: { product: Product }) {
               {product.quantity_available} {product.unit} {t('productCard.available')}
             </Text>
           </View>
-          <Pressable style={styles.cta}>
+          <View style={styles.cta}>
             <Text style={styles.ctaText}>{t('productCard.viewDetails')}</Text>
-          </Pressable>
+          </View>
         </View>
       </View>
     </View>

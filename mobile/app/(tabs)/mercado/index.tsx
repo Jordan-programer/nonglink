@@ -8,13 +8,19 @@ import {
   View,
   Pressable,
 } from 'react-native'
+import { Link } from 'expo-router'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
-import ProductCard from '../../components/ProductCard'
-import { fetchProducts, type Product } from '../../lib/api'
-import { colors } from '../../theme/colors'
+import ProductCard from '../../../components/ProductCard'
+import { useCart } from '../../../context/CartContext'
+import { fetchProducts, type Product } from '../../../lib/api'
+import { colors } from '../../../theme/colors'
 
 export default function Marketplace() {
   const { t } = useTranslation()
+  const insets = useSafeAreaInsets()
+  const { itemCount } = useCart()
   const [products, setProducts] = useState<Product[]>([])
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [query, setQuery] = useState('')
@@ -55,13 +61,33 @@ export default function Marketplace() {
       <FlatList
         data={status === 'ready' ? filtered : []}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <ProductCard product={item} />}
-        contentContainerStyle={styles.listContent}
+        renderItem={({ item }) => (
+          <Link href={{ pathname: '/mercado/[id]', params: { id: String(item.id) } }} asChild>
+            <Pressable>
+              <ProductCard product={item} />
+            </Pressable>
+          </Link>
+        )}
+        contentContainerStyle={[styles.listContent, { paddingTop: insets.top + 20 }]}
         ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
         ListHeaderComponent={
           <View style={styles.header}>
-            <Text style={styles.title}>{t('marketplace.title')}</Text>
-            <Text style={styles.subtitle}>{t('marketplace.subtitle')}</Text>
+            <View style={styles.titleRow}>
+              <View style={styles.titleTextBox}>
+                <Text style={styles.title}>{t('marketplace.title')}</Text>
+                <Text style={styles.subtitle}>{t('marketplace.subtitle')}</Text>
+              </View>
+              <Link href="/mercado/carrinho" asChild>
+                <Pressable style={styles.cartButton} accessibilityLabel={t('cart.title')}>
+                  <MaterialCommunityIcons name="shopping-outline" size={22} color={colors.leaf950} />
+                  {itemCount > 0 && (
+                    <View style={styles.cartBadge}>
+                      <Text style={styles.cartBadgeText}>{itemCount}</Text>
+                    </View>
+                  )}
+                </Pressable>
+              </Link>
+            </View>
 
             <TextInput
               value={query}
@@ -130,6 +156,36 @@ const styles = StyleSheet.create({
   },
   header: {
     marginBottom: 8,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  titleTextBox: {
+    flex: 1,
+  },
+  cartButton: {
+    marginTop: 2,
+    padding: 8,
+  },
+  cartBadge: {
+    position: 'absolute',
+    top: 2,
+    right: 2,
+    minWidth: 16,
+    height: 16,
+    borderRadius: 999,
+    backgroundColor: colors.earth600,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 3,
+  },
+  cartBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#fff',
   },
   title: {
     fontSize: 24,

@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft, CheckCircle2, Leaf, MessageCircle, Minus, Plus } from 'lucide-react'
+import { ArrowLeft, CheckCircle2, Leaf, MessageCircle, Minus, Plus, ShoppingCart } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
-import { ApiError, createOrder, fetchProduct, startConversation, type Product } from '../api/client'
+import { ApiError, fetchProduct, startConversation, type Product } from '../api/client'
 import { useAuth } from '../context/AuthContext'
+import { useCart } from '../context/CartContext'
 
 export default function ProductDetail() {
   const { t } = useTranslation()
   const { id } = useParams()
   const navigate = useNavigate()
   const { token, user } = useAuth()
+  const { addItem } = useCart()
 
   const [product, setProduct] = useState<Product | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading')
   const [quantity, setQuantity] = useState(1)
-  const [ordering, setOrdering] = useState(false)
-  const [orderError, setOrderError] = useState<string | null>(null)
-  const [ordered, setOrdered] = useState(false)
+  const [added, setAdded] = useState(false)
 
   const [contacting, setContacting] = useState(false)
   const [contactMessage, setContactMessage] = useState('')
@@ -45,28 +45,10 @@ export default function ProductDetail() {
     }
   }, [id])
 
-  async function handleOrder() {
+  function handleAddToCart() {
     if (!product) return
-
-    if (!token) {
-      navigate('/entrar', { state: { from: `/mercado/${product.id}` } })
-      return
-    }
-
-    setOrdering(true)
-    setOrderError(null)
-    try {
-      await createOrder([{ product_id: product.id, quantity }], token)
-      setOrdered(true)
-      setProduct({
-        ...product,
-        quantity_available: product.quantity_available - quantity,
-      })
-    } catch (err) {
-      setOrderError(err instanceof ApiError ? err.message : t('productDetail.orderError'))
-    } finally {
-      setOrdering(false)
-    }
+    addItem(product, quantity)
+    setAdded(true)
   }
 
   if (status === 'loading') {
@@ -239,26 +221,17 @@ export default function ProductDetail() {
             </form>
           )}
 
-          {ordered ? (
-            <div className="mt-6 space-y-3">
-              <div className="flex items-center gap-2 rounded-2xl bg-leaf-100 px-4 py-3 text-sm font-medium text-leaf-800">
-                <CheckCircle2 size={18} /> {t('productDetail.orderSuccess')}
-              </div>
-              <Link
-                to="/minhas-encomendas"
-                className="inline-flex text-sm font-medium text-leaf-700 hover:text-leaf-800"
-              >
-                {t('productDetail.viewMyOrders')} →
-              </Link>
-            </div>
-          ) : maxQuantity > 0 ? (
+          {maxQuantity > 0 ? (
             <div className="mt-6">
               <span className="text-sm font-medium text-leaf-950/80">{t('productDetail.quantity')}</span>
               <div className="mt-2 flex items-center gap-4">
                 <div className="flex items-center rounded-full border border-leaf-200">
                   <button
                     type="button"
-                    onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                    onClick={() => {
+                      setQuantity((q) => Math.max(1, q - 1))
+                      setAdded(false)
+                    }}
                     className="p-2.5 text-leaf-700 hover:bg-leaf-50"
                     aria-label={t('productDetail.decrease')}
                   >
@@ -269,7 +242,10 @@ export default function ProductDetail() {
                   </span>
                   <button
                     type="button"
-                    onClick={() => setQuantity((q) => Math.min(maxQuantity, q + 1))}
+                    onClick={() => {
+                      setQuantity((q) => Math.min(maxQuantity, q + 1))
+                      setAdded(false)
+                    }}
                     className="p-2.5 text-leaf-700 hover:bg-leaf-50"
                     aria-label={t('productDetail.increase')}
                   >
@@ -279,18 +255,23 @@ export default function ProductDetail() {
                 <span className="text-sm text-leaf-950/60">{product.unit}</span>
               </div>
 
-              {orderError && (
-                <p className="mt-3 rounded-lg bg-earth-50 px-3 py-2 text-sm text-earth-800">
-                  {orderError}
-                </p>
+              {added && (
+                <div className="mt-4 flex flex-wrap items-center gap-2 rounded-2xl bg-leaf-100 px-4 py-3 text-sm font-medium text-leaf-800">
+                  <CheckCircle2 size={18} /> {t('productDetail.addedToCart')}
+                  <Link
+                    to="/carrinho"
+                    className="ml-auto font-semibold text-leaf-700 hover:text-leaf-800"
+                  >
+                    {t('productDetail.viewCart')} →
+                  </Link>
+                </div>
               )}
 
               <button
-                onClick={handleOrder}
-                disabled={ordering}
-                className="mt-5 w-full rounded-full bg-leaf-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-leaf-700/25 transition-colors hover:bg-leaf-800 disabled:opacity-60 sm:w-auto"
+                onClick={handleAddToCart}
+                className="mt-5 flex w-full items-center justify-center gap-2 rounded-full bg-leaf-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-leaf-700/25 transition-colors hover:bg-leaf-800 sm:w-auto"
               >
-                {ordering ? t('productDetail.ordering') : t('productDetail.orderNow')}
+                <ShoppingCart size={16} /> {t('productDetail.addToCart')}
               </button>
             </div>
           ) : (

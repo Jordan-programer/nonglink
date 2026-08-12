@@ -6,6 +6,7 @@ import {
   Menu,
   MessageCircle,
   ShieldCheck,
+  ShoppingCart,
   Truck,
   User,
   X,
@@ -14,12 +15,14 @@ import { useTranslation } from 'react-i18next'
 import Logo from './Logo'
 import LanguageSwitcher from './LanguageSwitcher'
 import { useAuth } from '../context/AuthContext'
+import { useCart } from '../context/CartContext'
 import { fetchConversations } from '../api/client'
 
 export default function Navbar() {
   const { t } = useTranslation()
   const [open, setOpen] = useState(false)
   const { user, token, logout } = useAuth()
+  const { itemCount } = useCart()
   const navigate = useNavigate()
   const [unreadCount, setUnreadCount] = useState(0)
 
@@ -87,6 +90,17 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
+          <Link
+            to="/carrinho"
+            className="relative flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium text-leaf-900 hover:bg-leaf-100"
+          >
+            <ShoppingCart size={15} /> {t('nav.cart')}
+            {itemCount > 0 && (
+              <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-earth-600 px-1 text-[10px] font-bold text-white">
+                {itemCount}
+              </span>
+            )}
+          </Link>
           {user ? (
             <>
               <Link
@@ -161,6 +175,19 @@ export default function Navbar() {
                 {link.label}
               </NavLink>
             ))}
+
+            <Link
+              to="/carrinho"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-1.5 text-sm font-medium text-leaf-950/80"
+            >
+              <ShoppingCart size={15} /> {t('nav.cart')}
+              {itemCount > 0 && (
+                <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-earth-600 px-1 text-[10px] font-bold text-white">
+                  {itemCount}
+                </span>
+              )}
+            </Link>
 
             {user ? (
               <>

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, func
+from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, Text, func
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base
@@ -15,6 +15,7 @@ class Farm(Base):
     longitude = Column(Float, nullable=True)
     size_hectares = Column(Float, nullable=True)
     region_id = Column(Integer, ForeignKey("regions.id"), nullable=True)
+    boundary_geojson = Column(Text, nullable=True)
     created_at = Column(DateTime, server_default=func.now())
 
     owner = relationship("User", back_populates="farms")
@@ -22,6 +23,7 @@ class Farm(Base):
     products = relationship("Product", back_populates="farm")
     sensors = relationship("Sensor", back_populates="farm")
     harvests = relationship("Harvest", back_populates="farm")
+    soil_observations = relationship("SoilObservation", back_populates="farm")
 
     @property
     def owner_name(self) -> str:

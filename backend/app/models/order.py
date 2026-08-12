@@ -33,7 +33,7 @@ class Order(Base):
         return self.buyer.name
 
     @property
-    def buyer_email(self) -> str:
+    def buyer_email(self) -> str | None:
         return self.buyer.email
 
     @property

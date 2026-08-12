@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AlertCircle, Droplets, Sprout, Thermometer, Waves } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import {
   acknowledgeAlert,
@@ -14,7 +15,7 @@ import {
   type SensorReading,
   type SensorType,
 } from '../../api/client'
-import { getSensorStatus, SENSOR_LABELS, SENSOR_UNITS, type SensorStatus } from '../../utils/sensorStatus'
+import { getSensorStatus, useSensorLabels, SENSOR_UNITS, type SensorStatus } from '../../utils/sensorStatus'
 import LineChart from '../../components/LineChart'
 
 type SensorPanel = {
@@ -37,6 +38,8 @@ const SENSOR_ICONS: Record<SensorType, typeof Sprout> = {
 }
 
 export default function Monitoring() {
+  const { t } = useTranslation()
+  const SENSOR_LABELS = useSensorLabels()
   const { token } = useAuth()
   const [panels, setPanels] = useState<SensorPanel[]>([])
   const [alerts, setAlerts] = useState<SensorAlert[]>([])
@@ -106,8 +109,8 @@ export default function Monitoring() {
     return (
       <div className="rounded-2xl border border-earth-200 bg-earth-50 p-6 text-center text-earth-800">
         <Sprout className="mx-auto mb-2" size={32} />
-        <p className="font-medium">Ainda não tens uma lavra registada.</p>
-        <p className="mt-1 text-sm">Cria a tua lavra para começares a monitorizar sensores.</p>
+        <p className="font-medium">{t('farmerMonitoring.noFarmTitle')}</p>
+        <p className="mt-1 text-sm">{t('farmerMonitoring.noFarmSubtitle')}</p>
       </div>
     )
   }
@@ -129,7 +132,7 @@ export default function Monitoring() {
                 onClick={() => handleAcknowledge(alert.id)}
                 className="shrink-0 rounded-full bg-[#c1462b] px-3 py-2 text-xs font-bold text-white hover:opacity-90"
               >
-                Marcar como visto
+                {t('farmerMonitoring.acknowledge')}
               </button>
             </div>
           ))}
@@ -138,7 +141,7 @@ export default function Monitoring() {
 
       {panels.length === 0 ? (
         <div className="rounded-2xl bg-leaf-50 p-8 text-center text-sm text-leaf-950/60">
-          Ainda não tens sensores registados.
+          {t('farmerMonitoring.noSensors')}
         </div>
       ) : (
         panels.map(({ sensor, latest, daily }) => {
@@ -170,7 +173,11 @@ export default function Monitoring() {
                       className="h-1.5 w-1.5 rounded-full"
                       style={{ backgroundColor: STATUS_COLOR[sensorStatus] }}
                     />
-                    {sensorStatus === 'normal' ? 'Normal' : sensorStatus === 'warning' ? 'Atenção' : 'Crítico'}
+                    {sensorStatus === 'normal'
+                      ? t('farmerMonitoring.statusNormal')
+                      : sensorStatus === 'warning'
+                        ? t('farmerMonitoring.statusWarning')
+                        : t('farmerMonitoring.statusCritical')}
                   </span>
                 )}
               </div>
@@ -181,12 +188,12 @@ export default function Monitoring() {
                   <span className="ml-1 text-base font-medium text-leaf-950/50">{unit}</span>
                 </p>
               ) : (
-                <p className="mt-3.5 text-sm text-leaf-950/50">Sem leituras ainda.</p>
+                <p className="mt-3.5 text-sm text-leaf-950/50">{t('farmerMonitoring.noReadingsYet')}</p>
               )}
 
               {daily.length > 1 && (
                 <div className="mt-4">
-                  <p className="mb-1.5 text-xs font-semibold text-leaf-950/60">Últimos dias</p>
+                  <p className="mb-1.5 text-xs font-semibold text-leaf-950/60">{t('farmerMonitoring.lastDays')}</p>
                   <LineChart
                     data={daily.map((d) => ({ label: d.day.slice(5), value: d.avg_value }))}
                     color={STATUS_COLOR[sensorStatus ?? 'normal']}

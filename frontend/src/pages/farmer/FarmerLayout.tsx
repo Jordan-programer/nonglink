@@ -3,6 +3,7 @@ import {
   Activity,
   LayoutDashboard,
   Package,
+  Satellite,
   ShoppingBag,
   Sparkles,
   Sprout,
@@ -21,6 +22,7 @@ export default function FarmerLayout() {
     { to: '/painel/monitorizacao', label: 'Sensores', icon: Activity },
     { to: '/painel/colheitas', label: 'Colheitas', icon: Wheat },
     { to: '/painel/recomendacoes', label: 'Recomendações', icon: Sparkles },
+    { to: '/painel/solo', label: t('farmerLayout.navSoil'), icon: Satellite },
   ]
 
   return (

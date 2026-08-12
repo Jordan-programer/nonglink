@@ -38,6 +38,9 @@ export type Product = {
   quantity_available: number
   quality: ProductQuality | null
   certification: ProductCertification
+  farm_name: string
+  farm_owner_id: number
+  farm_owner_name: string
 }
 
 export type UserRole =
@@ -87,7 +90,7 @@ export type Sale = {
   quantity: number
   unit_price: number
   buyer_name: string
-  buyer_email: string
+  buyer_email: string | null
 }
 
 export type SuggestionConfidence = 'alta' | 'media' | 'baixa'
@@ -276,6 +279,21 @@ async function request<T>(
 
 export function fetchProducts(): Promise<Product[]> {
   return request<Product[]>('/products/')
+}
+
+export function fetchProduct(id: number | string): Promise<Product> {
+  return request<Product>(`/products/${id}`)
+}
+
+export function createOrder(
+  items: { product_id: number; quantity: number }[],
+  token: string,
+): Promise<Order> {
+  return request<Order>('/orders/', {
+    method: 'POST',
+    token,
+    body: JSON.stringify({ items }),
+  })
 }
 
 export function fetchRegions(): Promise<Region[]> {

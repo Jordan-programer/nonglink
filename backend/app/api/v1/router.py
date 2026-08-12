@@ -13,6 +13,7 @@ from app.api.v1 import (
     products,
     regions,
     sensors,
+    soil,
     transport,
     users,
 )
@@ -24,6 +25,7 @@ api_router.include_router(farms.router)
 api_router.include_router(products.router)
 api_router.include_router(orders.router)
 api_router.include_router(sensors.router)
+api_router.include_router(soil.router)
 api_router.include_router(admin.router)
 api_router.include_router(countries.router)
 api_router.include_router(regions.router)

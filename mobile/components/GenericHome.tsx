@@ -1,11 +1,13 @@
 import { Link } from 'expo-router'
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
 import Logo from './Logo'
 import { colors } from '../theme/colors'
 
 export default function GenericHome() {
   const { t } = useTranslation()
+  const insets = useSafeAreaInsets()
 
   const stats = [
     { value: '+30%', label: t('home.statIncome') },
@@ -27,7 +29,10 @@ export default function GenericHome() {
   ]
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={[styles.content, { paddingTop: insets.top + 20 }]}
+    >
       <View style={styles.brandRow}>
         <Logo size={32} />
         <Text style={styles.brand}>AgriLink</Text>

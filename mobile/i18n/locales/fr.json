@@ -62,15 +62,12 @@
   },
   "register": {
     "title": "Créer un compte AgriLink",
-    "subtitle": "Rejoignez la plateforme en tant qu'agriculteur, acheteur ou distributeur.",
+    "subtitle": "Rejoignez la plateforme en tant qu'agriculteur, acheteur, distributeur ou transporteur.",
     "roleFarmer": "Agriculteur",
     "roleBuyer": "Acheteur",
     "roleDistributor": "Distributeur",
     "fullName": "Nom complet",
     "namePlaceholder": "Votre nom",
-    "contactMethod": "Comment préférez-vous vous connecter ?",
-    "methodPhone": "📱 Téléphone",
-    "methodEmail": "📧 Email",
     "email": "Email",
     "emailPlaceholder": "vous@exemple.com",
     "phone": "Téléphone",
@@ -83,8 +80,9 @@
     "haveAccount": "Vous avez déjà un compte ? ",
     "login": "Se connecter",
     "selectRegionError": "Sélectionnez votre province.",
-    "contactRequiredError": "Indiquez votre téléphone ou votre email.",
-    "error": "Impossible de créer le compte."
+    "contactRequiredError": "Indiquez votre téléphone et votre email.",
+    "error": "Impossible de créer le compte.",
+    "roleTransporter": "Transporteur"
   },
   "marketplace": {
     "title": "Marché agricole",
@@ -114,7 +112,9 @@
     "summaryAdmin": "{{users}} utilisateurs · {{pending}} commandes en attente",
     "summaryAdminGoTo": "Ouvrir le panneau d'administration",
     "summaryDeliveries": "{{count}} livraison(s) active(s)",
-    "summaryDeliveriesGoTo": "Voir vos livraisons"
+    "summaryDeliveriesGoTo": "Voir vos livraisons",
+    "guestTitle": "Vous n'êtes pas encore connecté",
+    "guestSubtitle": "Connectez-vous ou créez un compte pour voir votre profil, vos commandes et plus encore."
   },
   "painel": {
     "title": "Tableau de bord",
@@ -266,5 +266,32 @@
     "noAvailable": "Aucune commande disponible pour livraison pour le moment.",
     "noMine": "Vous n'avez encore accepté aucune livraison.",
     "actionError": "Impossible de terminer l'action."
+  },
+  "productDetail": {
+    "notFound": "Impossible de trouver ce produit.",
+    "backToMarket": "Retour au marché",
+    "available": "disponibles",
+    "soldBy": "Vendu par",
+    "addedToCart": "Ajouté au panier.",
+    "viewCart": "Voir le panier",
+    "ownProduct": "Il s'agit de votre propre produit — vous ne pouvez pas le commander.",
+    "quantity": "Quantité",
+    "decrease": "Diminuer la quantité",
+    "increase": "Augmenter la quantité",
+    "addToCart": "Ajouter au panier",
+    "outOfStock": "Ce produit est actuellement épuisé."
+  },
+  "cart": {
+    "title": "Panier",
+    "empty": "Votre panier est vide.",
+    "continueShopping": "Continuer mes achats",
+    "decrease": "Diminuer la quantité",
+    "increase": "Augmenter la quantité",
+    "remove": "Retirer du panier",
+    "total": "Total",
+    "checkout": "Finaliser la commande",
+    "checkingOut": "Finalisation...",
+    "checkoutError": "Impossible de finaliser la commande.",
+    "clearCart": "Vider le panier"
   }
 }

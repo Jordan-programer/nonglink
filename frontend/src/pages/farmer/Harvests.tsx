@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { CheckCircle2, Plus, Sprout, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import {
   ApiError,
@@ -13,13 +14,6 @@ import {
   type Farm,
   type Harvest,
 } from '../../api/client'
-
-const STATUS_LABELS: Record<Harvest['status'], string> = {
-  planted: 'Plantado',
-  growing: 'A crescer',
-  harvested: 'Colhido',
-  cancelled: 'Cancelado',
-}
 
 const STATUS_STYLES: Record<Harvest['status'], string> = {
   planted: 'bg-earth-100 text-earth-700',
@@ -41,7 +35,16 @@ const emptyForm = {
 }
 
 export default function Harvests() {
+  const { t } = useTranslation()
   const { token } = useAuth()
+
+  const STATUS_LABELS: Record<Harvest['status'], string> = {
+    planted: t('farmerHarvests.statusPlanted'),
+    growing: t('farmerHarvests.statusGrowing'),
+    harvested: t('farmerHarvests.statusHarvested'),
+    cancelled: t('farmerHarvests.statusCancelled'),
+  }
+
   const [farms, setFarms] = useState<Farm[]>([])
   const [crops, setCrops] = useState<Crop[]>([])
   const [harvests, setHarvests] = useState<Harvest[]>([])
@@ -89,7 +92,7 @@ export default function Harvests() {
       setForm(emptyForm)
       await load()
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Não foi possível registar a colheita.')
+      setError(err instanceof ApiError ? err.message : t('farmerHarvests.createError'))
     } finally {
       setSubmitting(false)
     }
@@ -118,8 +121,8 @@ export default function Harvests() {
   if (farms.length === 0) {
     return (
       <div className="rounded-2xl border border-earth-200 bg-earth-50 p-6 text-earth-800">
-        <p className="font-medium">Ainda não tens uma lavra registada.</p>
-        <p className="mt-1 text-sm">Cria a tua lavra primeiro para poderes registar colheitas.</p>
+        <p className="font-medium">{t('farmerHarvests.noFarmTitle')}</p>
+        <p className="mt-1 text-sm">{t('farmerHarvests.noFarmSubtitle')}</p>
       </div>
     )
   }
@@ -127,13 +130,13 @@ export default function Harvests() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-leaf-950">Colheitas</h2>
+        <h2 className="text-lg font-semibold text-leaf-950">{t('farmerHarvests.title')}</h2>
         {!showForm && (
           <button
             onClick={() => setShowForm(true)}
             className="flex items-center gap-1.5 rounded-full bg-leaf-700 px-4 py-2 text-sm font-semibold text-white hover:bg-leaf-800"
           >
-            <Plus size={16} /> Nova colheita
+            <Plus size={16} /> {t('farmerHarvests.newHarvest')}
           </button>
         )}
       </div>
@@ -144,12 +147,12 @@ export default function Harvests() {
           className="mt-4 rounded-2xl border border-leaf-100 bg-leaf-50/60 p-5"
         >
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-leaf-950">Nova colheita</h3>
+            <h3 className="text-sm font-semibold text-leaf-950">{t('farmerHarvests.newHarvest')}</h3>
             <button
               type="button"
               onClick={() => setShowForm(false)}
               className="text-leaf-950/50 hover:text-leaf-950"
-              aria-label="Fechar"
+              aria-label={t('farmerHarvests.close')}
             >
               <X size={18} />
             </button>
@@ -157,7 +160,7 @@ export default function Harvests() {
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <label className="block">
-              <span className="text-sm font-medium text-leaf-950/80">Cultura</span>
+              <span className="text-sm font-medium text-leaf-950/80">{t('farmerHarvests.cropLabel')}</span>
               <select
                 required
                 value={form.crop_id}
@@ -165,7 +168,7 @@ export default function Harvests() {
                 className="mt-1.5 w-full rounded-xl border border-leaf-200 bg-white px-3.5 py-2.5 text-sm text-leaf-950 focus:border-leaf-400 focus:outline-none"
               >
                 <option value="" disabled>
-                  Seleciona a cultura
+                  {t('farmerHarvests.selectCrop')}
                 </option>
                 {crops.map((c) => (
                   <option key={c.id} value={c.id}>
@@ -177,7 +180,7 @@ export default function Harvests() {
 
             <label className="block">
               <span className="text-sm font-medium text-leaf-950/80">
-                Quantidade esperada (kg)
+                {t('farmerHarvests.expectedQuantityLabel')}
               </span>
               <input
                 type="number"
@@ -190,7 +193,7 @@ export default function Harvests() {
             </label>
 
             <label className="block">
-              <span className="text-sm font-medium text-leaf-950/80">Data de plantio</span>
+              <span className="text-sm font-medium text-leaf-950/80">{t('farmerHarvests.plantedAtLabel')}</span>
               <input
                 type="date"
                 required
@@ -202,7 +205,7 @@ export default function Harvests() {
 
             <label className="block">
               <span className="text-sm font-medium text-leaf-950/80">
-                Data prevista de colheita
+                {t('farmerHarvests.expectedHarvestAtLabel')}
               </span>
               <input
                 type="date"
@@ -225,7 +228,7 @@ export default function Harvests() {
             disabled={submitting}
             className="mt-5 rounded-full bg-leaf-700 px-6 py-2.5 text-sm font-semibold text-white hover:bg-leaf-800 disabled:opacity-60"
           >
-            {submitting ? 'A guardar...' : 'Guardar colheita'}
+            {submitting ? t('farmerHarvests.saving') : t('farmerHarvests.save')}
           </button>
         </form>
       )}
@@ -233,7 +236,7 @@ export default function Harvests() {
       <div className="mt-5 space-y-3">
         {harvests.length === 0 && !showForm && (
           <div className="rounded-2xl border border-leaf-100 bg-leaf-50 p-8 text-center text-sm text-leaf-950/60">
-            Ainda não tens colheitas registadas.
+            {t('farmerHarvests.noHarvests')}
           </div>
         )}
 
@@ -253,19 +256,21 @@ export default function Harvests() {
                 </div>
                 <div className="min-w-0">
                   <p className="truncate font-semibold text-leaf-950">
-                    {crop?.name ?? `Cultura #${h.crop_id}`}
+                    {crop?.name ?? t('farmerHarvests.cropFallback', { id: h.crop_id })}
                   </p>
                   <p className="text-sm text-leaf-950/60">
-                    Plantado em {new Date(h.planted_at).toLocaleDateString('pt-AO')}
+                    {t('farmerHarvests.plantedOn', {
+                      date: new Date(h.planted_at).toLocaleDateString('pt-AO'),
+                    })}
                     {h.expected_quantity ? ` · ~${h.expected_quantity} kg` : ''}
                   </p>
                   {active && (
                     <p className="text-xs text-leaf-700">
                       {days > 0
-                        ? `Colheita prevista em ${days} dia${days === 1 ? '' : 's'}`
+                        ? t('farmerHarvests.harvestInDays', { count: days })
                         : days === 0
-                          ? 'Colheita prevista para hoje'
-                          : `Colheita atrasada ${Math.abs(days)} dia${Math.abs(days) === 1 ? '' : 's'}`}
+                          ? t('farmerHarvests.harvestToday')
+                          : t('farmerHarvests.harvestOverdue', { count: Math.abs(days) })}
                     </p>
                   )}
                 </div>
@@ -282,7 +287,7 @@ export default function Harvests() {
                     onClick={() => markHarvested(h)}
                     className="flex items-center gap-1.5 rounded-full bg-leaf-100 px-3 py-1.5 text-xs font-semibold text-leaf-700 hover:bg-leaf-200"
                   >
-                    <CheckCircle2 size={14} /> Marcar colhido
+                    <CheckCircle2 size={14} /> {t('farmerHarvests.markHarvested')}
                   </button>
                 )}
               </div>

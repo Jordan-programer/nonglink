@@ -1,6 +1,7 @@
 import { Link, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
@@ -11,6 +12,7 @@ import { colors } from '../../theme/colors'
 export default function Perfil() {
   const { t } = useTranslation()
   const { user, token, logout } = useAuth()
+  const insets = useSafeAreaInsets()
   const [summary, setSummary] = useState<{ primary: string; secondary: string } | null>(null)
 
   const roleLabels: Record<string, string> = {
@@ -88,7 +90,7 @@ export default function Perfil() {
   const { href: summaryHref, icon: summaryIcon } = summaryDestination()
 
   return (
-    <View style={styles.screen}>
+    <View style={[styles.screen, { paddingTop: insets.top + 20 }]}>
       <View style={styles.card}>
         <View style={styles.avatar}>
           <Text style={styles.avatarText}>{user?.name?.[0]?.toUpperCase() ?? '?'}</Text>

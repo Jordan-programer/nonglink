@@ -49,18 +49,19 @@ export default function Login() {
 
           <form className="mt-7 space-y-4" onSubmit={handleSubmit}>
             <label className="block">
-              <span className="text-sm font-medium text-leaf-950/80">{t('login.email')}</span>
+              <span className="text-sm font-medium text-leaf-950/80">Email ou telefone</span>
               <div className="relative mt-1.5">
                 <Mail
                   size={16}
                   className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-leaf-950/40"
                 />
                 <input
-                  type="email"
+                  type="text"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder={t('login.emailPlaceholder')}
+                  placeholder="tu@exemplo.com ou 923000000"
+                  autoCapitalize="none"
                   className="w-full rounded-xl border border-leaf-200 bg-white py-2.5 pl-9 pr-4 text-sm text-leaf-950 placeholder:text-leaf-950/40 focus:border-leaf-400 focus:outline-none"
                 />
               </div>

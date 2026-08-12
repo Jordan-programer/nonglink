@@ -10,6 +10,10 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
     BACKEND_CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:19006"]
 
+    EE_SERVICE_ACCOUNT_EMAIL: str = ""
+    EE_PRIVATE_KEY_PATH: str = ""
+    EE_GCP_PROJECT_ID: str = ""
+
     class Config:
         env_file = ".env"
 

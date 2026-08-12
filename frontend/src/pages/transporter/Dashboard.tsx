@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ArrowRight, MapPin, Package, Phone, Plus, Trash2, TrendingUp, Truck } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import {
   ApiError,
@@ -8,6 +9,7 @@ import {
   deleteRoute,
   fetchAvailableDeliveries,
   fetchCountries,
+  fetchDeliveriesTrends,
   fetchMyDeliveries,
   fetchMyRoutes,
   fetchPopularRoutes,
@@ -18,15 +20,20 @@ import {
   type Region,
   type TransportOrder,
   type TransportRoute,
+  type TrendPoint,
 } from '../../api/client'
 import { STATUS_STYLES, useOrderStatusLabels } from '../../utils/orderStatus'
+import StatTile from '../../components/StatTile'
+import TrendChartCard from '../../components/TrendChartCard'
 
 export default function TransporterDashboard() {
+  const { t } = useTranslation()
   const { user, token } = useAuth()
   const statusLabels = useOrderStatusLabels()
 
   const [available, setAvailable] = useState<TransportOrder[]>([])
   const [mine, setMine] = useState<TransportOrder[]>([])
+  const [deliveriesTrend, setDeliveriesTrend] = useState<TrendPoint[]>([])
   const [status, setStatus] = useState<'loading' | 'ready'>('loading')
   const [error, setError] = useState<string | null>(null)
   const [savingId, setSavingId] = useState<number | null>(null)
@@ -43,13 +50,16 @@ export default function TransporterDashboard() {
 
   function load() {
     if (!token) return
-    return Promise.all([fetchAvailableDeliveries(token), fetchMyDeliveries(token)]).then(
-      ([availableRes, mineRes]) => {
-        setAvailable(availableRes)
-        setMine(mineRes)
-        setStatus('ready')
-      },
-    )
+    return Promise.all([
+      fetchAvailableDeliveries(token),
+      fetchMyDeliveries(token),
+      fetchDeliveriesTrends(token),
+    ]).then(([availableRes, mineRes, trendRes]) => {
+      setAvailable(availableRes)
+      setMine(mineRes)
+      setDeliveriesTrend(trendRes)
+      setStatus('ready')
+    })
   }
 
   function loadRoutes() {
@@ -89,7 +99,7 @@ export default function TransporterDashboard() {
       setDestinationId('')
       await loadRoutes()
     } catch (err) {
-      setRouteError(err instanceof ApiError ? err.message : 'Não foi possível adicionar a rota.')
+      setRouteError(err instanceof ApiError ? err.message : t('transporterDashboard.addRouteError'))
     } finally {
       setSavingRoute(false)
     }
@@ -109,7 +119,7 @@ export default function TransporterDashboard() {
       await claimDelivery(orderId, token)
       await load()
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Não foi possível aceitar a entrega.')
+      setError(err instanceof ApiError ? err.message : t('transporterDashboard.claimError'))
     } finally {
       setSavingId(null)
     }
@@ -124,7 +134,7 @@ export default function TransporterDashboard() {
       await updateDeliveryStatus(order.id, nextStatus, token)
       await load()
     } catch (err) {
-      setError(err instanceof ApiError ? err.message : 'Não foi possível atualizar o estado.')
+      setError(err instanceof ApiError ? err.message : t('transporterDashboard.advanceError'))
     } finally {
       setSavingId(null)
     }
@@ -148,46 +158,40 @@ export default function TransporterDashboard() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-14">
       <h1 className="text-2xl font-semibold tracking-tight text-leaf-950">
-        Olá, <span className="text-leaf-700">{user?.name.split(' ')[0]}</span>
+        {t('transporterDashboard.greeting')} <span className="text-leaf-700">{user?.name.split(' ')[0]}</span>
       </h1>
-      <p className="mt-1 text-sm text-leaf-950/60">
-        Gere as tuas entregas: aceita encomendas prontas para transporte e atualiza o estado.
-      </p>
+      <p className="mt-1 text-sm text-leaf-950/60">{t('transporterDashboard.subtitle')}</p>
 
       {error && (
         <p className="mt-4 rounded-lg bg-earth-50 px-3 py-2 text-sm text-earth-800">{error}</p>
       )}
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-leaf-100 bg-white p-5">
-          <div className="inline-flex rounded-xl bg-leaf-100 p-2.5 text-leaf-700">
-            <Package size={18} />
-          </div>
-          <p className="mt-3 text-2xl font-semibold text-leaf-950">{available.length}</p>
-          <p className="text-sm text-leaf-950/60">Disponíveis para recolha</p>
-        </div>
-        <div className="rounded-2xl border border-leaf-100 bg-white p-5">
-          <div className="inline-flex rounded-xl bg-leaf-100 p-2.5 text-leaf-700">
-            <Truck size={18} />
-          </div>
-          <p className="mt-3 text-2xl font-semibold text-leaf-950">{activeDeliveries.length}</p>
-          <p className="text-sm text-leaf-950/60">Entregas em curso</p>
-        </div>
-        <div className="rounded-2xl border border-leaf-100 bg-white p-5">
-          <div className="inline-flex rounded-xl bg-leaf-100 p-2.5 text-leaf-700">
-            <Package size={18} />
-          </div>
-          <p className="mt-3 text-2xl font-semibold text-leaf-950">{pastDeliveries.length}</p>
-          <p className="text-sm text-leaf-950/60">Entregues</p>
-        </div>
+        <StatTile icon={Package} label={t('transporterDashboard.statAvailable')} value={available.length} />
+        <StatTile
+          icon={Truck}
+          label={t('transporterDashboard.statActiveDeliveries')}
+          value={activeDeliveries.length}
+          trendSeries={deliveriesTrend}
+        />
+        <StatTile icon={Package} label={t('transporterDashboard.statDelivered')} value={pastDeliveries.length} />
+      </div>
+
+      <div className="mt-6">
+        <TrendChartCard
+          title={t('transporterDashboard.trendTitle')}
+          subtitle={t('transporterDashboard.trendSubtitle')}
+          series={deliveriesTrend}
+          kind="bar"
+        />
       </div>
 
       {/* Available pool */}
       <div className="mt-10">
-        <h2 className="text-lg font-semibold text-leaf-950">Entregas disponíveis</h2>
+        <h2 className="text-lg font-semibold text-leaf-950">{t('transporterDashboard.availableTitle')}</h2>
         {available.length === 0 ? (
           <div className="mt-4 rounded-2xl border border-leaf-100 bg-leaf-50 p-8 text-center text-sm text-leaf-950/60">
-            Sem encomendas à espera de transporte neste momento.
+            {t('transporterDashboard.noAvailable')}
           </div>
         ) : (
           <div className="mt-4 space-y-3">
@@ -197,12 +201,14 @@ export default function TransporterDashboard() {
                 className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-leaf-100 bg-white p-4"
               >
                 <div>
-                  <p className="text-sm font-semibold text-leaf-950">Encomenda #{order.id}</p>
+                  <p className="text-sm font-semibold text-leaf-950">
+                    {t('transporterDashboard.orderNumber', { id: order.id })}
+                  </p>
                   <p className="text-xs text-leaf-950/60">
                     {order.items.map((i) => `${i.product_name} (${i.quantity})`).join(', ')}
                   </p>
                   <p className="mt-1 flex items-center gap-1.5 text-xs text-leaf-950/60">
-                    Para: {order.buyer_name}
+                    {t('transporterDashboard.forBuyer', { name: order.buyer_name })}
                     {order.buyer_phone && (
                       <span className="flex items-center gap-1">
                         <Phone size={12} /> {order.buyer_phone}
@@ -219,7 +225,7 @@ export default function TransporterDashboard() {
                     disabled={savingId === order.id}
                     className="rounded-full bg-leaf-700 px-4 py-2 text-xs font-semibold text-white hover:bg-leaf-800 disabled:opacity-60"
                   >
-                    Aceitar entrega
+                    {t('transporterDashboard.acceptDelivery')}
                   </button>
                 </div>
               </div>
@@ -230,10 +236,10 @@ export default function TransporterDashboard() {
 
       {/* My deliveries */}
       <div className="mt-10">
-        <h2 className="text-lg font-semibold text-leaf-950">As minhas entregas</h2>
+        <h2 className="text-lg font-semibold text-leaf-950">{t('transporterDashboard.myDeliveriesTitle')}</h2>
         {mine.length === 0 ? (
           <div className="mt-4 rounded-2xl border border-leaf-100 bg-leaf-50 p-8 text-center text-sm text-leaf-950/60">
-            Ainda não aceitaste nenhuma entrega.
+            {t('transporterDashboard.noMyDeliveries')}
           </div>
         ) : (
           <div className="mt-4 space-y-3">
@@ -244,7 +250,9 @@ export default function TransporterDashboard() {
               >
                 <div>
                   <div className="flex items-center gap-2">
-                    <p className="text-sm font-semibold text-leaf-950">Encomenda #{order.id}</p>
+                    <p className="text-sm font-semibold text-leaf-950">
+                      {t('transporterDashboard.orderNumber', { id: order.id })}
+                    </p>
                     <span
                       className={`rounded-full px-2.5 py-1 text-xs font-medium ${STATUS_STYLES[order.status]}`}
                     >
@@ -255,7 +263,7 @@ export default function TransporterDashboard() {
                     {order.items.map((i) => `${i.product_name} (${i.quantity})`).join(', ')}
                   </p>
                   <p className="mt-1 flex items-center gap-1.5 text-xs text-leaf-950/60">
-                    Para: {order.buyer_name}
+                    {t('transporterDashboard.forBuyer', { name: order.buyer_name })}
                     {order.buyer_phone && (
                       <span className="flex items-center gap-1">
                         <Phone size={12} /> {order.buyer_phone}
@@ -269,7 +277,9 @@ export default function TransporterDashboard() {
                     disabled={savingId === order.id}
                     className="rounded-full bg-leaf-700 px-4 py-2 text-xs font-semibold text-white hover:bg-leaf-800 disabled:opacity-60"
                   >
-                    {order.status === 'confirmed' ? 'Marcar como enviado' : 'Marcar como entregue'}
+                    {order.status === 'confirmed'
+                      ? t('transporterDashboard.markShipped')
+                      : t('transporterDashboard.markDelivered')}
                   </button>
                 )}
               </div>
@@ -281,16 +291,13 @@ export default function TransporterDashboard() {
       {/* Popular routes */}
       <div className="mt-10">
         <h2 className="flex items-center gap-2 text-lg font-semibold text-leaf-950">
-          <TrendingUp size={18} className="text-leaf-700" /> Rotas mais procuradas
+          <TrendingUp size={18} className="text-leaf-700" /> {t('transporterDashboard.popularRoutesTitle')}
         </h2>
-        <p className="mt-1 text-sm text-leaf-950/60">
-          Corredores com mais encomendas entregues, em toda a plataforma — usa isto para decidir
-          que rotas vale a pena cobrir.
-        </p>
+        <p className="mt-1 text-sm text-leaf-950/60">{t('transporterDashboard.popularRoutesSubtitle')}</p>
 
         {popularRoutes.length === 0 ? (
           <div className="mt-4 rounded-2xl border border-leaf-100 bg-leaf-50 p-8 text-center text-sm text-leaf-950/60">
-            Ainda não há dados suficientes de encomendas para sugerir rotas.
+            {t('transporterDashboard.noPopularRoutes')}
           </div>
         ) : (
           <div className="mt-4 space-y-2">
@@ -313,14 +320,14 @@ export default function TransporterDashboard() {
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="rounded-full bg-leaf-100 px-2.5 py-1 text-xs font-medium text-leaf-700">
-                      {r.order_count} encomenda{r.order_count === 1 ? '' : 's'}
+                      {t('transporterDashboard.orderCount', { count: r.order_count })}
                     </span>
                     <button
                       onClick={() => handleAddRoute(r.origin_region_id, r.destination_region_id)}
                       disabled={alreadyAdded || savingRoute}
                       className="rounded-full border border-leaf-300 px-3 py-1.5 text-xs font-semibold text-leaf-700 hover:bg-leaf-50 disabled:opacity-50"
                     >
-                      {alreadyAdded ? 'Já adicionada' : 'Adicionar'}
+                      {alreadyAdded ? t('transporterDashboard.alreadyAdded') : t('transporterDashboard.add')}
                     </button>
                   </div>
                 </div>
@@ -333,13 +340,13 @@ export default function TransporterDashboard() {
       {/* My routes */}
       <div className="mt-10">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-leaf-950">As minhas rotas</h2>
+          <h2 className="text-lg font-semibold text-leaf-950">{t('transporterDashboard.myRoutesTitle')}</h2>
           {!showRouteForm && (
             <button
               onClick={() => setShowRouteForm(true)}
               className="flex items-center gap-1.5 rounded-full bg-leaf-700 px-4 py-2 text-sm font-semibold text-white hover:bg-leaf-800"
             >
-              <Plus size={16} /> Nova rota
+              <Plus size={16} /> {t('transporterDashboard.newRoute')}
             </button>
           )}
         </div>
@@ -348,14 +355,14 @@ export default function TransporterDashboard() {
           <div className="mt-4 rounded-2xl border border-leaf-100 bg-leaf-50/60 p-5">
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
-                <span className="text-sm font-medium text-leaf-950/80">Origem</span>
+                <span className="text-sm font-medium text-leaf-950/80">{t('transporterDashboard.origin')}</span>
                 <select
                   value={originId}
                   onChange={(e) => setOriginId(e.target.value)}
                   className="mt-1.5 w-full rounded-xl border border-leaf-200 bg-white px-3.5 py-2.5 text-sm text-leaf-950 focus:border-leaf-400 focus:outline-none"
                 >
                   <option value="" disabled>
-                    Seleciona
+                    {t('transporterDashboard.select')}
                   </option>
                   {countries.map((c) => (
                     <optgroup key={c.id} label={c.name}>
@@ -372,14 +379,14 @@ export default function TransporterDashboard() {
               </label>
 
               <label className="block">
-                <span className="text-sm font-medium text-leaf-950/80">Destino</span>
+                <span className="text-sm font-medium text-leaf-950/80">{t('transporterDashboard.destination')}</span>
                 <select
                   value={destinationId}
                   onChange={(e) => setDestinationId(e.target.value)}
                   className="mt-1.5 w-full rounded-xl border border-leaf-200 bg-white px-3.5 py-2.5 text-sm text-leaf-950 focus:border-leaf-400 focus:outline-none"
                 >
                   <option value="" disabled>
-                    Seleciona
+                    {t('transporterDashboard.select')}
                   </option>
                   {countries.map((c) => (
                     <optgroup key={c.id} label={c.name}>
@@ -412,13 +419,13 @@ export default function TransporterDashboard() {
                 disabled={!originId || !destinationId || savingRoute}
                 className="rounded-full bg-leaf-700 px-5 py-2.5 text-sm font-semibold text-white hover:bg-leaf-800 disabled:opacity-60"
               >
-                {savingRoute ? 'A guardar...' : 'Guardar rota'}
+                {savingRoute ? t('transporterDashboard.saving') : t('transporterDashboard.saveRoute')}
               </button>
               <button
                 onClick={() => setShowRouteForm(false)}
                 className="text-sm font-medium text-leaf-950/60 hover:text-leaf-950"
               >
-                Cancelar
+                {t('transporterDashboard.cancel')}
               </button>
             </div>
           </div>
@@ -426,7 +433,7 @@ export default function TransporterDashboard() {
 
         {myRoutes.length === 0 && !showRouteForm ? (
           <div className="mt-4 rounded-2xl border border-leaf-100 bg-leaf-50 p-8 text-center text-sm text-leaf-950/60">
-            Ainda não adicionaste nenhuma rota.
+            {t('transporterDashboard.noMyRoutes')}
           </div>
         ) : (
           <div className="mt-4 space-y-2">
@@ -444,7 +451,7 @@ export default function TransporterDashboard() {
                 <button
                   onClick={() => handleDeleteRoute(r.id)}
                   className="rounded-full p-2 text-earth-700 hover:bg-earth-50"
-                  aria-label="Remover rota"
+                  aria-label={t('transporterDashboard.removeRoute')}
                 >
                   <Trash2 size={16} />
                 </button>

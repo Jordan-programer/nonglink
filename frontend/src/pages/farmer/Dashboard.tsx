@@ -10,13 +10,17 @@ import {
   fetchMyHarvests,
   fetchMyProducts,
   fetchSales,
+  fetchSalesTrends,
   type Conversation,
   type Farm,
   type Harvest,
   type Product,
   type Sale,
   type SensorAlert,
+  type TrendPoint,
 } from '../../api/client'
+import StatTile from '../../components/StatTile'
+import TrendChartCard from '../../components/TrendChartCard'
 
 export default function Dashboard() {
   const { t } = useTranslation()
@@ -24,6 +28,7 @@ export default function Dashboard() {
   const [farms, setFarms] = useState<Farm[]>([])
   const [products, setProducts] = useState<Product[]>([])
   const [sales, setSales] = useState<Sale[]>([])
+  const [salesTrend, setSalesTrend] = useState<TrendPoint[]>([])
   const [harvests, setHarvests] = useState<Harvest[]>([])
   const [alerts, setAlerts] = useState<SensorAlert[]>([])
   const [conversations, setConversations] = useState<Conversation[]>([])
@@ -35,18 +40,22 @@ export default function Dashboard() {
       fetchMyFarms(token),
       fetchMyProducts(token),
       fetchSales(token),
+      fetchSalesTrends(token),
       fetchMyHarvests(token),
       fetchMyAlerts(token),
       fetchConversations(token),
-    ]).then(([farmsRes, productsRes, salesRes, harvestsRes, alertsRes, conversationsRes]) => {
-      setFarms(farmsRes)
-      setProducts(productsRes)
-      setSales(salesRes)
-      setHarvests(harvestsRes)
-      setAlerts(alertsRes)
-      setConversations(conversationsRes)
-      setStatus('ready')
-    })
+    ]).then(
+      ([farmsRes, productsRes, salesRes, salesTrendRes, harvestsRes, alertsRes, conversationsRes]) => {
+        setFarms(farmsRes)
+        setProducts(productsRes)
+        setSales(salesRes)
+        setSalesTrend(salesTrendRes)
+        setHarvests(harvestsRes)
+        setAlerts(alertsRes)
+        setConversations(conversationsRes)
+        setStatus('ready')
+      },
+    )
   }, [token])
 
   const revenue = sales.reduce((sum, s) => sum + s.quantity * s.unit_price, 0)
@@ -65,6 +74,7 @@ export default function Dashboard() {
       icon: Wallet,
       label: t('farmerDashboard.statRevenue'),
       value: `${revenue.toLocaleString('pt-AO')} Kz`,
+      trend: salesTrend,
     },
     { icon: Wheat, label: t('farmerDashboard.statActiveHarvests'), value: activeHarvests },
     { icon: AlertCircle, label: t('farmerDashboard.statActiveAlerts'), value: activeAlerts },
@@ -89,15 +99,19 @@ export default function Dashboard() {
       </p>
 
       <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map(({ icon: Icon, label, value }) => (
-          <div key={label} className="rounded-2xl border border-leaf-100 bg-white p-5">
-            <div className="inline-flex rounded-xl bg-leaf-100 p-2.5 text-leaf-700">
-              <Icon size={18} />
-            </div>
-            <p className="mt-3 text-2xl font-semibold text-leaf-950">{value}</p>
-            <p className="text-sm text-leaf-950/60">{label}</p>
-          </div>
+        {stats.map(({ icon, label, value, trend }) => (
+          <StatTile key={label} icon={icon} label={label} value={value} trendSeries={trend} />
         ))}
+      </div>
+
+      <div className="mt-8">
+        <TrendChartCard
+          title="Vendas"
+          subtitle="Últimos 30 dias"
+          series={salesTrend}
+          kind="line"
+          unit=" Kz"
+        />
       </div>
 
       {farms.length === 0 && (

@@ -11,6 +11,7 @@ from app.models.price_history import PriceHistory
 from app.models.price_suggestion import PriceSuggestion
 from app.models.conversation import Conversation, Message
 from app.models.transport_route import TransportRoute
+from app.models.soil import SoilObservation, SatelliteSource
 
 __all__ = [
     "Country",
@@ -30,4 +31,6 @@ __all__ = [
     "Conversation",
     "Message",
     "TransportRoute",
+    "SoilObservation",
+    "SatelliteSource",
 ]

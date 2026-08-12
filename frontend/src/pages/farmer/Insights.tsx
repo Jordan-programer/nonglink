@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AlertCircle, CalendarClock, Droplets, Sparkles, Sprout } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import {
   acknowledgeAlert,
@@ -23,12 +24,6 @@ type IrrigationTip = {
   status: 'normal' | 'warning' | 'critical' | null
 }
 
-const IRRIGATION_MESSAGE: Record<'normal' | 'warning' | 'critical', string> = {
-  normal: 'Solo com humidade adequada — não é necessário irrigar nas próximas 24h.',
-  warning: 'Humidade a descer. Considera regar nas próximas horas.',
-  critical: 'Solo muito seco. Rega urgente recomendada.',
-}
-
 const IRRIGATION_STYLE: Record<'normal' | 'warning' | 'critical', string> = {
   normal: 'bg-leaf-50 border-leaf-100 text-leaf-800',
   warning: 'bg-earth-50 border-earth-200 text-earth-800',
@@ -41,6 +36,12 @@ function daysUntil(dateStr: string) {
 }
 
 export default function Insights() {
+  const { t } = useTranslation()
+  const IRRIGATION_MESSAGE: Record<'normal' | 'warning' | 'critical', string> = {
+    normal: t('farmerInsights.irrigationNormal'),
+    warning: t('farmerInsights.irrigationWarning'),
+    critical: t('farmerInsights.irrigationCritical'),
+  }
   const { token } = useAuth()
   const [hasFarm, setHasFarm] = useState(true)
   const [tips, setTips] = useState<IrrigationTip[]>([])
@@ -120,8 +121,8 @@ export default function Insights() {
     return (
       <div className="rounded-2xl border border-earth-200 bg-earth-50 p-6 text-center text-earth-800">
         <Sparkles className="mx-auto mb-2" size={32} />
-        <p className="font-medium">Ainda não tens uma lavra registada.</p>
-        <p className="mt-1 text-sm">Cria a tua lavra para começares a receber recomendações.</p>
+        <p className="font-medium">{t('farmerInsights.noFarmTitle')}</p>
+        <p className="mt-1 text-sm">{t('farmerInsights.noFarmSubtitle')}</p>
       </div>
     )
   }
@@ -136,7 +137,7 @@ export default function Insights() {
       {alerts.length > 0 && (
         <div>
           <h2 className="flex items-center gap-2 text-lg font-semibold text-leaf-950">
-            <AlertCircle size={18} className="text-[#c1462b]" /> Alertas de risco
+            <AlertCircle size={18} className="text-[#c1462b]" /> {t('farmerInsights.riskAlertsTitle')}
           </h2>
           <div className="mt-3 space-y-2.5">
             {alerts.map((alert) => (
@@ -150,7 +151,7 @@ export default function Insights() {
                   onClick={() => handleAcknowledge(alert.id)}
                   className="shrink-0 rounded-full bg-[#c1462b] px-3 py-2 text-xs font-bold text-white hover:opacity-90"
                 >
-                  Marcar como visto
+                  {t('farmerInsights.acknowledge')}
                 </button>
               </div>
             ))}
@@ -161,13 +162,13 @@ export default function Insights() {
       {/* Irrigation recommendations */}
       <div>
         <h2 className="flex items-center gap-2 text-lg font-semibold text-leaf-950">
-          <Droplets size={18} className="text-leaf-700" /> Recomendações de irrigação
+          <Droplets size={18} className="text-leaf-700" /> {t('farmerInsights.irrigationTitle')}
         </h2>
         {tips.length === 0 ? (
           <div className="mt-3 rounded-2xl bg-leaf-50 p-6 text-sm text-leaf-950/60">
-            Sem sensores de humidade do solo registados.{' '}
+            {t('farmerInsights.noMoistureSensors')}{' '}
             <Link to="/painel/monitorizacao" className="font-medium text-leaf-700 hover:underline">
-              Configurar sensores
+              {t('farmerInsights.configureSensors')}
             </Link>
           </div>
         ) : (
@@ -177,12 +178,12 @@ export default function Insights() {
                 key={sensor.id}
                 className={`rounded-2xl border p-4 ${st ? IRRIGATION_STYLE[st] : 'border-leaf-100 bg-leaf-50 text-leaf-950/60'}`}
               >
-                <p className="text-sm font-semibold">{sensor.label || 'Sensor de humidade'}</p>
+                <p className="text-sm font-semibold">{sensor.label || t('farmerInsights.defaultSensorLabel')}</p>
                 <p className="mt-1 text-2xl font-bold">
                   {value !== null ? `${value.toLocaleString('pt-AO')}%` : '—'}
                 </p>
                 <p className="mt-1.5 text-sm">
-                  {st ? IRRIGATION_MESSAGE[st] : 'Ainda sem leituras para dar uma recomendação.'}
+                  {st ? IRRIGATION_MESSAGE[st] : t('farmerInsights.noReadings')}
                 </p>
               </div>
             ))}
@@ -193,13 +194,13 @@ export default function Insights() {
       {/* Harvest timing */}
       <div>
         <h2 className="flex items-center gap-2 text-lg font-semibold text-leaf-950">
-          <CalendarClock size={18} className="text-leaf-700" /> Altura de colheita
+          <CalendarClock size={18} className="text-leaf-700" /> {t('farmerInsights.harvestTimingTitle')}
         </h2>
         {upcomingHarvests.length === 0 ? (
           <div className="mt-3 rounded-2xl bg-leaf-50 p-6 text-sm text-leaf-950/60">
-            Sem colheitas em curso.{' '}
+            {t('farmerInsights.noActiveHarvests')}{' '}
             <Link to="/painel/colheitas" className="font-medium text-leaf-700 hover:underline">
-              Registar uma colheita
+              {t('farmerInsights.registerHarvest')}
             </Link>
           </div>
         ) : (
@@ -221,14 +222,14 @@ export default function Insights() {
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="font-semibold text-leaf-950">
-                      {crop?.name ?? `Cultura #${h.crop_id}`}
+                      {crop?.name ?? t('farmerInsights.cropFallback', { id: h.crop_id })}
                     </p>
                     <p className="text-sm text-leaf-950/70">
                       {days > 0
-                        ? `Pronta a colher em ${days} dia${days === 1 ? '' : 's'}`
+                        ? t('farmerInsights.readyInDays', { count: days })
                         : days === 0
-                          ? 'Pronta a colher hoje'
-                          : `Atrasada ${Math.abs(days)} dia${Math.abs(days) === 1 ? '' : 's'}`}
+                          ? t('farmerInsights.readyToday')
+                          : t('farmerInsights.overdue', { count: Math.abs(days) })}
                     </p>
                   </div>
                 </div>

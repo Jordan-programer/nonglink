@@ -62,15 +62,12 @@
   },
   "register": {
     "title": "Criar conta no AgriLink",
-    "subtitle": "Junta-te à plataforma como agricultor, comprador ou distribuidor.",
+    "subtitle": "Junta-te à plataforma como agricultor, comprador, distribuidor ou transportador.",
     "roleFarmer": "Agricultor",
     "roleBuyer": "Comprador",
     "roleDistributor": "Distribuidor",
     "fullName": "Nome completo",
     "namePlaceholder": "O teu nome",
-    "contactMethod": "Como preferes entrar?",
-    "methodPhone": "📱 Telefone",
-    "methodEmail": "📧 Email",
     "email": "Email",
     "emailPlaceholder": "tu@exemplo.com",
     "phone": "Telefone",
@@ -83,8 +80,9 @@
     "haveAccount": "Já tens conta? ",
     "login": "Entrar",
     "selectRegionError": "Seleciona a tua província.",
-    "contactRequiredError": "Indica o teu telefone ou email.",
-    "error": "Não foi possível criar a conta."
+    "contactRequiredError": "Indica o teu telefone e o teu email.",
+    "error": "Não foi possível criar a conta.",
+    "roleTransporter": "Transportador"
   },
   "marketplace": {
     "title": "Mercado agrícola",
@@ -114,7 +112,9 @@
     "summaryAdmin": "{{users}} utilizadores · {{pending}} encomendas pendentes",
     "summaryAdminGoTo": "Abrir painel de administração",
     "summaryDeliveries": "{{count}} entrega(s) ativa(s)",
-    "summaryDeliveriesGoTo": "Ver as tuas entregas"
+    "summaryDeliveriesGoTo": "Ver as tuas entregas",
+    "guestTitle": "Ainda não tens sessão iniciada",
+    "guestSubtitle": "Entra ou cria uma conta para veres o teu perfil, encomendas e muito mais."
   },
   "painel": {
     "title": "Painel",
@@ -266,5 +266,32 @@
     "noAvailable": "Não há encomendas disponíveis para entrega neste momento.",
     "noMine": "Ainda não aceitaste nenhuma entrega.",
     "actionError": "Não foi possível concluir a ação."
+  },
+  "productDetail": {
+    "notFound": "Não foi possível encontrar este produto.",
+    "backToMarket": "Voltar ao mercado",
+    "available": "disponíveis",
+    "soldBy": "Vendido por",
+    "addedToCart": "Adicionado ao carrinho.",
+    "viewCart": "Ver carrinho",
+    "ownProduct": "Este é um produto teu — não podes encomendá-lo.",
+    "quantity": "Quantidade",
+    "decrease": "Diminuir quantidade",
+    "increase": "Aumentar quantidade",
+    "addToCart": "Adicionar ao carrinho",
+    "outOfStock": "Produto esgotado no momento."
+  },
+  "cart": {
+    "title": "Carrinho",
+    "empty": "O teu carrinho está vazio.",
+    "continueShopping": "Continuar a comprar",
+    "decrease": "Diminuir quantidade",
+    "increase": "Aumentar quantidade",
+    "remove": "Remover do carrinho",
+    "total": "Total",
+    "checkout": "Finalizar compra",
+    "checkingOut": "A finalizar...",
+    "checkoutError": "Não foi possível finalizar a compra.",
+    "clearCart": "Esvaziar carrinho"
   }
 }

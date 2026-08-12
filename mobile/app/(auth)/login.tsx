@@ -10,6 +10,7 @@ import {
   TextInput,
   View,
 } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import { ApiError } from '../../lib/api'
@@ -18,6 +19,7 @@ import { colors } from '../../theme/colors'
 export default function Login() {
   const { t } = useTranslation()
   const { login } = useAuth()
+  const insets = useSafeAreaInsets()
 
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
@@ -38,7 +40,7 @@ export default function Login() {
 
   return (
     <KeyboardAvoidingView
-      style={styles.screen}
+      style={[styles.screen, { paddingTop: insets.top }]}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">

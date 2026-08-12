@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { MessageCircle, Package, ShoppingBag, Sprout } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import {
   fetchConversations,
@@ -14,6 +15,7 @@ import ProductCard from '../../components/ProductCard'
 import { STATUS_STYLES, useOrderStatusLabels } from '../../utils/orderStatus'
 
 export default function BuyerDashboard() {
+  const { t } = useTranslation()
   const { user, token } = useAuth()
   const statusLabels = useOrderStatusLabels()
   const [products, setProducts] = useState<Product[]>([])
@@ -37,9 +39,9 @@ export default function BuyerDashboard() {
   const unreadMessages = conversations.reduce((sum, c) => sum + c.unread_count, 0)
 
   const stats = [
-    { icon: ShoppingBag, label: 'Encomendas', value: orders.length },
-    { icon: Package, label: 'Pendentes', value: pending },
-    { icon: MessageCircle, label: 'Mensagens por ler', value: unreadMessages },
+    { icon: ShoppingBag, label: t('buyerDashboard.statOrders'), value: orders.length },
+    { icon: Package, label: t('buyerDashboard.statPending'), value: pending },
+    { icon: MessageCircle, label: t('buyerDashboard.statUnreadMessages'), value: unreadMessages },
   ]
 
   if (status === 'loading') {
@@ -57,11 +59,9 @@ export default function BuyerDashboard() {
   return (
     <section className="mx-auto max-w-6xl px-6 py-14">
       <h1 className="text-2xl font-semibold tracking-tight text-leaf-950">
-        Olá, <span className="text-leaf-700">{user?.name.split(' ')[0]}</span>
+        {t('buyerDashboard.greeting')} <span className="text-leaf-700">{user?.name.split(' ')[0]}</span>
       </h1>
-      <p className="mt-1 text-sm text-leaf-950/60">
-        Aqui tens um resumo do que se passa na tua conta AgriLink.
-      </p>
+      <p className="mt-1 text-sm text-leaf-950/60">{t('buyerDashboard.subtitle')}</p>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         {stats.map(({ icon: Icon, label, value }) => (
@@ -78,15 +78,15 @@ export default function BuyerDashboard() {
       {/* Product feed */}
       <div className="mt-10">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-leaf-950">Produtos para ti</h2>
+          <h2 className="text-lg font-semibold text-leaf-950">{t('buyerDashboard.productsForYou')}</h2>
           <Link to="/mercado" className="text-sm font-medium text-leaf-700 hover:text-leaf-800">
-            Ver mercado
+            {t('buyerDashboard.viewMarket')}
           </Link>
         </div>
 
         {products.length === 0 ? (
           <div className="mt-4 rounded-2xl border border-leaf-100 bg-leaf-50 p-8 text-center text-sm text-leaf-950/60">
-            Ainda não há produtos no mercado.
+            {t('buyerDashboard.noProducts')}
           </div>
         ) : (
           <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -101,19 +101,19 @@ export default function BuyerDashboard() {
         {/* Orders overview */}
         <div>
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-leaf-950">Encomendas recentes</h2>
+            <h2 className="text-lg font-semibold text-leaf-950">{t('buyerDashboard.recentOrders')}</h2>
             <Link
               to="/minhas-encomendas"
               className="text-sm font-medium text-leaf-700 hover:text-leaf-800"
             >
-              Ver todas
+              {t('buyerDashboard.viewAll')}
             </Link>
           </div>
 
           {orders.length === 0 ? (
             <div className="mt-4 flex flex-col items-center gap-2 rounded-2xl border border-leaf-100 bg-leaf-50 p-8 text-center">
               <Sprout className="text-leaf-700/50" size={24} />
-              <p className="text-sm text-leaf-950/60">Ainda não fizeste nenhuma encomenda.</p>
+              <p className="text-sm text-leaf-950/60">{t('buyerDashboard.noOrders')}</p>
             </div>
           ) : (
             <div className="mt-4 space-y-2">
@@ -123,7 +123,9 @@ export default function BuyerDashboard() {
                   className="flex items-center justify-between rounded-2xl border border-leaf-100 bg-white px-4 py-3"
                 >
                   <div>
-                    <p className="text-sm font-medium text-leaf-950">Encomenda #{order.id}</p>
+                    <p className="text-sm font-medium text-leaf-950">
+                      {t('buyerDashboard.orderNumber', { id: order.id })}
+                    </p>
                     <p className="text-xs text-leaf-950/60">
                       {new Date(order.created_at).toLocaleDateString('pt-AO')}
                     </p>
@@ -147,16 +149,16 @@ export default function BuyerDashboard() {
         {/* Messages preview */}
         <div>
           <div className="flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-leaf-950">Mensagens</h2>
+            <h2 className="text-lg font-semibold text-leaf-950">{t('buyerDashboard.messages')}</h2>
             <Link to="/mensagens" className="text-sm font-medium text-leaf-700 hover:text-leaf-800">
-              Ver todas
+              {t('buyerDashboard.viewAll')}
             </Link>
           </div>
 
           {conversations.length === 0 ? (
             <div className="mt-4 flex flex-col items-center gap-2 rounded-2xl border border-leaf-100 bg-leaf-50 p-8 text-center">
               <MessageCircle className="text-leaf-700/50" size={24} />
-              <p className="text-sm text-leaf-950/60">Ainda não tens conversas.</p>
+              <p className="text-sm text-leaf-950/60">{t('buyerDashboard.noConversations')}</p>
             </div>
           ) : (
             <div className="mt-4 space-y-2">
@@ -171,7 +173,7 @@ export default function BuyerDashboard() {
                       {c.other_user_name}
                     </p>
                     <p className="truncate text-xs text-leaf-950/60">
-                      {c.last_message ?? 'Sem mensagens'}
+                      {c.last_message ?? t('messages.noMessages')}
                     </p>
                   </div>
                   {c.unread_count > 0 && (

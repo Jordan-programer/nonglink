@@ -13,6 +13,8 @@ from app.models.transport_route import TransportRoute
 from app.models.user import User
 from app.schemas.order import DeliveryStatusUpdate, TransportOrderRead
 from app.schemas.transport_route import PopularRouteRead, RouteCreate, RouteRead
+from app.schemas.trends import TrendPoint
+from app.services.trends import daily_series
 
 router = APIRouter(prefix="/transport", tags=["transport"])
 
@@ -85,6 +87,17 @@ def update_delivery_status(
     db.commit()
     db.refresh(order)
     return order
+
+
+@router.get("/deliveries/trends", response_model=list[TrendPoint])
+def deliveries_trends(
+    db: Session = Depends(get_db),
+    transporter: User = Depends(require_transporter),
+):
+    query = db.query(Order).filter(
+        Order.transporter_id == transporter.id, Order.status == OrderStatus.DELIVERED
+    )
+    return daily_series(query, Order.created_at)
 
 
 @router.get("/routes/mine", response_model=list[RouteRead])

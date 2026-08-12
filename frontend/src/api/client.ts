@@ -91,6 +91,7 @@ export type Farm = {
   longitude: number | null
   size_hectares: number | null
   region_id: number | null
+  boundary_geojson: string | null
 }
 
 export type OrderStatus = 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled'
@@ -176,6 +177,17 @@ export type AdminStats = {
   total_harvests: number
   total_routes: number
   active_deliveries: number
+}
+
+export type TrendPoint = {
+  day: string
+  value: number
+}
+
+export type AdminTrends = {
+  new_users: TrendPoint[]
+  revenue: TrendPoint[]
+  new_orders: TrendPoint[]
 }
 
 export type SuggestionConfidence = 'alta' | 'media' | 'baixa'
@@ -412,6 +424,7 @@ export function updateFarm(
     longitude: number
     size_hectares: number
     region_id: number
+    boundary_geojson: string
   }>,
   token: string,
 ): Promise<Farm> {
@@ -420,6 +433,55 @@ export function updateFarm(
     token,
     body: JSON.stringify(payload),
   })
+}
+
+export type SatelliteSource = 'landsat_8' | 'landsat_9'
+
+export type SoilObservation = {
+  id: number
+  farm_id: number
+  source: SatelliteSource
+  acquisition_date: string
+  cloud_cover_pct: number
+  ndmi_mean: number | null
+  ndmi_min: number | null
+  ndmi_max: number | null
+  lst_celsius_mean: number | null
+  lst_celsius_min: number | null
+  lst_celsius_max: number | null
+  ndti_mean: number | null
+  ndti_min: number | null
+  ndti_max: number | null
+  salinity_index_mean: number | null
+  salinity_index_min: number | null
+  salinity_index_max: number | null
+  ndvi_mean: number | null
+  ndvi_min: number | null
+  ndvi_max: number | null
+  created_at: string
+}
+
+export function analyzeSoil(
+  farmId: number,
+  polygon: GeoJSON.Polygon | null,
+  token: string,
+): Promise<SoilObservation> {
+  return request<SoilObservation>(`/soil/${farmId}/analyze`, {
+    method: 'POST',
+    token,
+    body: JSON.stringify({ polygon }),
+  })
+}
+
+export function fetchLatestSoilObservation(
+  farmId: number,
+  token: string,
+): Promise<SoilObservation> {
+  return request<SoilObservation>(`/soil/${farmId}/latest`, { token })
+}
+
+export function fetchSoilHistory(farmId: number, token: string): Promise<SoilObservation[]> {
+  return request<SoilObservation[]>(`/soil/${farmId}/history`, { token })
 }
 
 export function fetchMyProducts(token: string): Promise<Product[]> {
@@ -497,6 +559,10 @@ export function fetchSales(token: string): Promise<Sale[]> {
   return request<Sale[]>('/orders/sales', { token })
 }
 
+export function fetchSalesTrends(token: string): Promise<TrendPoint[]> {
+  return request<TrendPoint[]>('/orders/sales/trends', { token })
+}
+
 export function fetchSensors(): Promise<Sensor[]> {
   return request<Sensor[]>('/sensors/')
 }
@@ -522,6 +588,10 @@ export function acknowledgeAlert(alertId: number, token: string): Promise<Sensor
 
 export function fetchAdminStats(token: string): Promise<AdminStats> {
   return request<AdminStats>('/admin/stats', { token })
+}
+
+export function fetchAdminStatsTrends(token: string): Promise<AdminTrends> {
+  return request<AdminTrends>('/admin/stats/trends', { token })
 }
 
 export function fetchAllUsers(token: string): Promise<User[]> {
@@ -685,6 +755,10 @@ export function fetchAvailableDeliveries(token: string): Promise<TransportOrder[
 
 export function fetchMyDeliveries(token: string): Promise<TransportOrder[]> {
   return request<TransportOrder[]>('/transport/mine', { token })
+}
+
+export function fetchDeliveriesTrends(token: string): Promise<TrendPoint[]> {
+  return request<TrendPoint[]>('/transport/deliveries/trends', { token })
 }
 
 export function claimDelivery(orderId: number, token: string): Promise<TransportOrder> {

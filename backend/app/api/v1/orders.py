@@ -15,7 +15,9 @@ from app.schemas.order import (
     SaleRead,
     StatusUpdate,
 )
+from app.schemas.trends import TrendPoint
 from app.services.pricing import record_price
+from app.services.trends import daily_series
 
 router = APIRouter(prefix="/orders", tags=["orders"])
 
@@ -111,6 +113,21 @@ def list_sales(
         )
         for item, order, product, buyer in rows
     ]
+
+
+@router.get("/sales/trends", response_model=list[TrendPoint])
+def sales_trends(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    query = (
+        db.query(OrderItem)
+        .join(Order, OrderItem.order_id == Order.id)
+        .join(Product, OrderItem.product_id == Product.id)
+        .join(Farm, Product.farm_id == Farm.id)
+        .filter(Farm.owner_id == current_user.id)
+    )
+    return daily_series(query, Order.created_at, OrderItem.quantity * OrderItem.unit_price)
 
 
 @router.get("/all", response_model=list[AdminOrderRead])

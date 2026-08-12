@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useFocusEffect } from 'expo-router'
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import { fetchMyOrders, type Order } from '../../lib/api'
@@ -10,6 +11,7 @@ import { colors } from '../../theme/colors'
 export default function Encomendas() {
   const { t } = useTranslation()
   const { token } = useAuth()
+  const insets = useSafeAreaInsets()
   const [orders, setOrders] = useState<Order[]>([])
   const [status, setStatus] = useState<'loading' | 'ready'>('loading')
   const statusLabels = useOrderStatusLabels()
@@ -44,7 +46,7 @@ export default function Encomendas() {
       style={styles.screen}
       data={orders}
       keyExtractor={(item) => String(item.id)}
-      contentContainerStyle={styles.content}
+      contentContainerStyle={[styles.content, { paddingTop: insets.top + 20 }]}
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       ListHeaderComponent={
         <View style={styles.header}>

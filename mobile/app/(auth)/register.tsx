@@ -10,6 +10,7 @@ import {
   TextInput,
   View,
 } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import { ApiError, fetchRegions, type Region, type UserRole } from '../../lib/api'
@@ -18,16 +19,18 @@ import { colors } from '../../theme/colors'
 export default function Register() {
   const { t } = useTranslation()
   const { register } = useAuth()
+  const insets = useSafeAreaInsets()
 
   const roles: { value: UserRole; label: string }[] = [
     { value: 'farmer', label: t('register.roleFarmer') },
     { value: 'buyer', label: t('register.roleBuyer') },
     { value: 'distributor', label: t('register.roleDistributor') },
+    { value: 'transporter', label: t('register.roleTransporter') },
   ]
 
   const [name, setName] = useState('')
-  const [method, setMethod] = useState<'phone' | 'email'>('phone')
-  const [contact, setContact] = useState('')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [role, setRole] = useState<UserRole>('farmer')
   const [regions, setRegions] = useState<Region[]>([])
@@ -46,7 +49,7 @@ export default function Register() {
       setError(t('register.selectRegionError'))
       return
     }
-    if (!contact.trim()) {
+    if (!email.trim() || !phone.trim()) {
       setError(t('register.contactRequiredError'))
       return
     }
@@ -58,7 +61,8 @@ export default function Register() {
         password,
         role,
         region_id: regionId,
-        ...(method === 'email' ? { email: contact } : { phone: contact }),
+        email,
+        phone,
       })
     } catch (err) {
       setError(err instanceof ApiError ? err.message : t('register.error'))
@@ -69,7 +73,7 @@ export default function Register() {
 
   return (
     <KeyboardAvoidingView
-      style={styles.screen}
+      style={[styles.screen, { paddingTop: insets.top }]}
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
@@ -105,46 +109,27 @@ export default function Register() {
           </View>
 
           <View style={styles.field}>
-            <Text style={styles.label}>{t('register.contactMethod')}</Text>
-            <View style={styles.roleRow}>
-              <Pressable
-                onPress={() => {
-                  setMethod('phone')
-                  setContact('')
-                }}
-                style={[styles.roleChip, method === 'phone' && styles.roleChipActive]}
-              >
-                <Text style={[styles.roleChipText, method === 'phone' && styles.roleChipTextActive]}>
-                  {t('register.methodPhone')}
-                </Text>
-              </Pressable>
-              <Pressable
-                onPress={() => {
-                  setMethod('email')
-                  setContact('')
-                }}
-                style={[styles.roleChip, method === 'email' && styles.roleChipActive]}
-              >
-                <Text style={[styles.roleChipText, method === 'email' && styles.roleChipTextActive]}>
-                  {t('register.methodEmail')}
-                </Text>
-              </Pressable>
-            </View>
+            <Text style={styles.label}>{t('register.email')}</Text>
+            <TextInput
+              value={email}
+              onChangeText={setEmail}
+              placeholder={t('register.emailPlaceholder')}
+              placeholderTextColor="rgba(15,36,17,0.4)"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              style={styles.input}
+            />
           </View>
 
           <View style={styles.field}>
-            <Text style={styles.label}>
-              {method === 'phone' ? t('register.phone') : t('register.email')}
-            </Text>
+            <Text style={styles.label}>{t('register.phone')}</Text>
             <TextInput
-              value={contact}
-              onChangeText={setContact}
-              placeholder={
-                method === 'phone' ? t('register.phonePlaceholder') : t('register.emailPlaceholder')
-              }
+              value={phone}
+              onChangeText={setPhone}
+              placeholder={t('register.phonePlaceholder')}
               placeholderTextColor="rgba(15,36,17,0.4)"
               autoCapitalize="none"
-              keyboardType={method === 'phone' ? 'phone-pad' : 'email-address'}
+              keyboardType="phone-pad"
               style={styles.input}
             />
           </View>
@@ -242,6 +227,7 @@ const styles = StyleSheet.create({
   roleRow: {
     marginTop: 20,
     flexDirection: 'row',
+    flexWrap: 'wrap',
     gap: 8,
   },
   regionRow: {
@@ -250,7 +236,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   roleChip: {
-    flex: 1,
+    flexBasis: '47%',
+    flexGrow: 1,
     borderRadius: 12,
     borderWidth: 1,
     borderColor: colors.leaf200,

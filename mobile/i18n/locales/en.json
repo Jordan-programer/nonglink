@@ -62,15 +62,12 @@
   },
   "register": {
     "title": "Create your AgriLink account",
-    "subtitle": "Join the platform as a farmer, buyer, or distributor.",
+    "subtitle": "Join the platform as a farmer, buyer, distributor, or transporter.",
     "roleFarmer": "Farmer",
     "roleBuyer": "Buyer",
     "roleDistributor": "Distributor",
     "fullName": "Full name",
     "namePlaceholder": "Your name",
-    "contactMethod": "How do you want to log in?",
-    "methodPhone": "📱 Phone",
-    "methodEmail": "📧 Email",
     "email": "Email",
     "emailPlaceholder": "you@example.com",
     "phone": "Phone",
@@ -83,8 +80,9 @@
     "haveAccount": "Already have an account? ",
     "login": "Log in",
     "selectRegionError": "Select your province.",
-    "contactRequiredError": "Enter your phone number or email.",
-    "error": "Could not create the account."
+    "contactRequiredError": "Enter your phone number and your email.",
+    "error": "Could not create the account.",
+    "roleTransporter": "Transporter"
   },
   "marketplace": {
     "title": "Agricultural market",
@@ -114,7 +112,9 @@
     "summaryAdmin": "{{users}} users · {{pending}} pending orders",
     "summaryAdminGoTo": "Open admin panel",
     "summaryDeliveries": "{{count}} active deliver(y/ies)",
-    "summaryDeliveriesGoTo": "View your deliveries"
+    "summaryDeliveriesGoTo": "View your deliveries",
+    "guestTitle": "You're not logged in yet",
+    "guestSubtitle": "Log in or create an account to see your profile, orders, and more."
   },
   "painel": {
     "title": "Dashboard",
@@ -266,5 +266,32 @@
     "noAvailable": "No orders available for delivery right now.",
     "noMine": "You haven't accepted any deliveries yet.",
     "actionError": "Could not complete the action."
+  },
+  "productDetail": {
+    "notFound": "Could not find this product.",
+    "backToMarket": "Back to market",
+    "available": "available",
+    "soldBy": "Sold by",
+    "addedToCart": "Added to cart.",
+    "viewCart": "View cart",
+    "ownProduct": "This is your own product — you can't order it.",
+    "quantity": "Quantity",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "addToCart": "Add to cart",
+    "outOfStock": "This product is currently out of stock."
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty.",
+    "continueShopping": "Continue shopping",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "remove": "Remove from cart",
+    "total": "Total",
+    "checkout": "Checkout",
+    "checkingOut": "Checking out...",
+    "checkoutError": "Could not complete the checkout.",
+    "clearCart": "Clear cart"
   }
 }

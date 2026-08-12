@@ -16,6 +16,9 @@ pandas==2.2.3
 scikit-learn==1.5.2
 numpy==1.26.4
 xgboost==2.1.1
-requests==2.32.3
+requests==2.34.2
 amqtt==0.11.4
 paho-mqtt==2.1.0
+earthengine-api==1.7.39
+google-auth==2.56.3
+shapely==2.1.2

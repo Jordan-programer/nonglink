@@ -21,11 +21,13 @@ class FarmUpdate(BaseModel):
     longitude: float | None = None
     size_hectares: float | None = None
     region_id: int | None = None
+    boundary_geojson: str | None = None
 
 
 class FarmRead(FarmBase):
     id: int
     owner_id: int
+    boundary_geojson: str | None = None
 
     class Config:
         from_attributes = True

@@ -91,7 +91,7 @@ export default function Register() {
         aria-hidden
       />
 
-      <div className="relative mx-auto max-w-md px-6">
+      <div className="relative mx-auto max-w-lg px-6">
         <div className="rounded-3xl border border-leaf-100 bg-white/90 p-8 shadow-xl shadow-leaf-950/10 backdrop-blur">
           <h1 className="text-2xl font-semibold tracking-tight text-leaf-950">
             {t('register.title')}
@@ -105,7 +105,7 @@ export default function Register() {
                   key={r.value}
                   type="button"
                   onClick={() => setRole(r.value)}
-                  className={`flex-1 rounded-xl border px-3 py-2 text-xs font-semibold transition-colors ${
+                  className={`min-w-0 flex-1 rounded-xl border px-3 py-2 text-xs font-semibold transition-colors ${
                     role === r.value
                       ? 'border-leaf-600 bg-leaf-700 text-white'
                       : 'border-leaf-200 bg-white text-leaf-950/70 hover:bg-leaf-50'

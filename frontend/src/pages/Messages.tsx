@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, MessageCircle, Send } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 import {
   fetchConversation,
@@ -11,10 +12,10 @@ import {
   type ConversationDetail,
 } from '../api/client'
 
-function timeAgo(iso: string) {
+function timeAgo(iso: string, justNow: string) {
   const diffMs = Date.now() - new Date(iso).getTime()
   const minutes = Math.floor(diffMs / 60000)
-  if (minutes < 1) return 'agora'
+  if (minutes < 1) return justNow
   if (minutes < 60) return `${minutes}m`
   const hours = Math.floor(minutes / 60)
   if (hours < 24) return `${hours}h`
@@ -23,6 +24,7 @@ function timeAgo(iso: string) {
 }
 
 export default function Messages() {
+  const { t } = useTranslation()
   const { token, user } = useAuth()
   const navigate = useNavigate()
   const { id } = useParams()
@@ -114,10 +116,8 @@ export default function Messages() {
 
   return (
     <section className="mx-auto max-w-5xl px-6 py-10">
-      <h1 className="text-2xl font-semibold tracking-tight text-leaf-950">Mensagens</h1>
-      <p className="mt-1 text-sm text-leaf-950/60">
-        Fala diretamente com agricultores e compradores sobre os produtos.
-      </p>
+      <h1 className="text-2xl font-semibold tracking-tight text-leaf-950">{t('messages.title')}</h1>
+      <p className="mt-1 text-sm text-leaf-950/60">{t('messages.subtitle')}</p>
 
       <div className="mt-6 grid overflow-hidden rounded-2xl border border-leaf-100 bg-white md:grid-cols-[300px_1fr]">
         {/* Conversation list */}
@@ -133,10 +133,7 @@ export default function Messages() {
           {status === 'ready' && conversations.length === 0 && (
             <div className="flex flex-col items-center gap-2 p-8 text-center">
               <MessageCircle className="text-leaf-700/50" size={28} />
-              <p className="text-sm text-leaf-950/60">
-                Ainda não tens conversas. Contacta um vendedor a partir de um produto no
-                mercado.
-              </p>
+              <p className="text-sm text-leaf-950/60">{t('messages.noConversations')}</p>
             </div>
           )}
 
@@ -155,7 +152,7 @@ export default function Messages() {
                     </span>
                     {c.last_message_at && (
                       <span className="shrink-0 text-xs text-leaf-950/40">
-                        {timeAgo(c.last_message_at)}
+                        {timeAgo(c.last_message_at, t('messages.justNow'))}
                       </span>
                     )}
                   </div>
@@ -166,7 +163,7 @@ export default function Messages() {
                   )}
                   <div className="flex items-center justify-between gap-2">
                     <span className="truncate text-xs text-leaf-950/60">
-                      {c.last_message ?? 'Sem mensagens'}
+                      {c.last_message ?? t('messages.noMessages')}
                     </span>
                     {c.unread_count > 0 && (
                       <span className="flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-leaf-700 px-1 text-[11px] font-bold text-white">
@@ -184,7 +181,7 @@ export default function Messages() {
         <div className={`flex flex-col ${activeId ? '' : 'hidden md:flex'}`}>
           {!active ? (
             <div className="flex flex-1 items-center justify-center p-10 text-center text-sm text-leaf-950/50">
-              Seleciona uma conversa para começar.
+              {t('messages.selectConversation')}
             </div>
           ) : (
             <>
@@ -192,7 +189,7 @@ export default function Messages() {
                 <button
                   onClick={() => navigate('/mensagens')}
                   className="rounded-full p-1.5 text-leaf-950/60 hover:bg-leaf-50 md:hidden"
-                  aria-label="Voltar"
+                  aria-label={t('messages.back')}
                 >
                   <ArrowLeft size={18} />
                 </button>
@@ -241,14 +238,14 @@ export default function Messages() {
                 <input
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
-                  placeholder="Escreve uma mensagem..."
+                  placeholder={t('messages.messagePlaceholder')}
                   className="flex-1 rounded-full border border-leaf-200 bg-white px-4 py-2.5 text-sm text-leaf-950 placeholder:text-leaf-950/40 focus:border-leaf-400 focus:outline-none"
                 />
                 <button
                   type="submit"
                   disabled={sending || !draft.trim()}
                   className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-leaf-700 text-white hover:bg-leaf-800 disabled:opacity-50"
-                  aria-label="Enviar"
+                  aria-label={t('messages.send')}
                 >
                   <Send size={16} />
                 </button>
@@ -259,7 +256,7 @@ export default function Messages() {
       </div>
 
       {totalUnread === 0 && conversations.length > 0 && !activeId && (
-        <p className="mt-3 text-center text-xs text-leaf-950/40">Tudo lido.</p>
+        <p className="mt-3 text-center text-xs text-leaf-950/40">{t('messages.allRead')}</p>
       )}
     </section>
   )

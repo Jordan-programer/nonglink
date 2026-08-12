@@ -62,15 +62,12 @@
   },
   "register": {
     "title": "创建 AgriLink 账户",
-    "subtitle": "以农户、买家或经销商身份加入平台。",
+    "subtitle": "以农户、买家、经销商或运输商身份加入平台。",
     "roleFarmer": "农户",
     "roleBuyer": "买家",
     "roleDistributor": "经销商",
     "fullName": "全名",
     "namePlaceholder": "您的姓名",
-    "contactMethod": "您想用什么方式登录？",
-    "methodPhone": "📱 电话",
-    "methodEmail": "📧 电子邮箱",
     "email": "电子邮箱",
     "emailPlaceholder": "you@example.com",
     "phone": "电话",
@@ -83,8 +80,9 @@
     "haveAccount": "已经有账户了？",
     "login": "登录",
     "selectRegionError": "请选择您的省份。",
-    "contactRequiredError": "请输入您的电话或电子邮箱。",
-    "error": "无法创建账户。"
+    "contactRequiredError": "请输入您的电话和电子邮箱。",
+    "error": "无法创建账户。",
+    "roleTransporter": "运输商"
   },
   "marketplace": {
     "title": "农业市场",
@@ -114,7 +112,9 @@
     "summaryAdmin": "{{users}} 位用户 · {{pending}} 个待处理订单",
     "summaryAdminGoTo": "打开管理面板",
     "summaryDeliveries": "{{count}} 个进行中的配送",
-    "summaryDeliveriesGoTo": "查看您的配送"
+    "summaryDeliveriesGoTo": "查看您的配送",
+    "guestTitle": "您还没有登录",
+    "guestSubtitle": "登录或注册以查看您的个人资料、订单等更多内容。"
   },
   "painel": {
     "title": "控制面板",
@@ -266,5 +266,32 @@
     "noAvailable": "目前没有可配送的订单。",
     "noMine": "您还没有接受任何配送。",
     "actionError": "无法完成此操作。"
+  },
+  "productDetail": {
+    "notFound": "找不到此产品。",
+    "backToMarket": "返回市场",
+    "available": "可供应",
+    "soldBy": "卖家：",
+    "addedToCart": "已加入购物车。",
+    "viewCart": "查看购物车",
+    "ownProduct": "这是您自己的产品 —— 您无法向自己下单。",
+    "quantity": "数量",
+    "decrease": "减少数量",
+    "increase": "增加数量",
+    "addToCart": "加入购物车",
+    "outOfStock": "此产品目前缺货。"
+  },
+  "cart": {
+    "title": "购物车",
+    "empty": "您的购物车是空的。",
+    "continueShopping": "继续购物",
+    "decrease": "减少数量",
+    "increase": "增加数量",
+    "remove": "从购物车中移除",
+    "total": "总计",
+    "checkout": "去结算",
+    "checkingOut": "结算中...",
+    "checkoutError": "无法完成结算。",
+    "clearCart": "清空购物车"
   }
 }

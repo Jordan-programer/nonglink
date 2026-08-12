@@ -11,7 +11,9 @@ from app.models.product import Product
 from app.models.transport_route import TransportRoute
 from app.models.user import User, UserRole
 from app.schemas.admin import AdminStats, UsersByRole
+from app.schemas.trends import AdminTrends
 from app.schemas.user import AdminCreate, UserRead
+from app.services.trends import daily_series
 from app.utils.security import hash_password
 
 router = APIRouter(prefix="/admin", tags=["admin"])
@@ -76,4 +78,16 @@ def get_stats(
             Order.status.in_([OrderStatus.CONFIRMED, OrderStatus.SHIPPED]),
         )
         .scalar(),
+    )
+
+
+@router.get("/stats/trends", response_model=AdminTrends)
+def get_stats_trends(
+    db: Session = Depends(get_db),
+    admin: User = Depends(require_admin),
+):
+    return AdminTrends(
+        new_users=daily_series(db.query(User), User.created_at),
+        revenue=daily_series(db.query(Order), Order.created_at, Order.total_amount),
+        new_orders=daily_series(db.query(Order), Order.created_at),
     )

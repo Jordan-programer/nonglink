@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react'
 import { useFocusEffect } from 'expo-router'
 import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import {
@@ -19,6 +20,7 @@ type Tab = 'available' | 'mine'
 export default function Entregas() {
   const { t } = useTranslation()
   const { token } = useAuth()
+  const insets = useSafeAreaInsets()
   const [tab, setTab] = useState<Tab>('available')
   const [available, setAvailable] = useState<TransportOrder[]>([])
   const [mine, setMine] = useState<TransportOrder[]>([])
@@ -80,7 +82,7 @@ export default function Entregas() {
       style={styles.screen}
       data={data}
       keyExtractor={(item) => String(item.id)}
-      contentContainerStyle={styles.content}
+      contentContainerStyle={[styles.content, { paddingTop: insets.top + 20 }]}
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
       ListHeaderComponent={
         <View style={styles.header}>

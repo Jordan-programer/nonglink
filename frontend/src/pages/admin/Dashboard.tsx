@@ -2,12 +2,20 @@ import { useEffect, useState } from 'react'
 import { Package, ShoppingBag, Sprout, Truck, Users, Wallet, Wheat } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
-import { fetchAdminStats, type AdminStats } from '../../api/client'
+import {
+  fetchAdminStats,
+  fetchAdminStatsTrends,
+  type AdminStats,
+  type AdminTrends,
+} from '../../api/client'
+import StatTile from '../../components/StatTile'
+import TrendChartCard from '../../components/TrendChartCard'
 
 export default function Dashboard() {
   const { t } = useTranslation()
   const { token } = useAuth()
   const [stats, setStats] = useState<AdminStats | null>(null)
+  const [trends, setTrends] = useState<AdminTrends | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready'>('loading')
 
   const roleLabels: Record<keyof AdminStats['users_by_role'], string> = {
@@ -21,13 +29,14 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!token) return
-    fetchAdminStats(token).then((data) => {
-      setStats(data)
+    Promise.all([fetchAdminStats(token), fetchAdminStatsTrends(token)]).then(([s, tr]) => {
+      setStats(s)
+      setTrends(tr)
       setStatus('ready')
     })
   }, [token])
 
-  if (status === 'loading' || !stats) {
+  if (status === 'loading' || !stats || !trends) {
     return (
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {Array.from({ length: 4 }).map((_, i) => (
@@ -38,7 +47,7 @@ export default function Dashboard() {
   }
 
   const cards = [
-    { icon: Users, label: t('adminDashboard.users'), value: stats.total_users },
+    { icon: Users, label: t('adminDashboard.users'), value: stats.total_users, trend: trends.new_users },
     { icon: Sprout, label: t('adminDashboard.farms'), value: stats.total_farms },
     { icon: Package, label: t('adminDashboard.products'), value: stats.total_products },
     { icon: ShoppingBag, label: t('adminDashboard.pendingOrders'), value: stats.pending_orders },
@@ -46,6 +55,7 @@ export default function Dashboard() {
       icon: Wallet,
       label: t('adminDashboard.totalRevenue'),
       value: `${stats.total_revenue.toLocaleString('pt-AO')} Kz`,
+      trend: trends.revenue,
     },
     { icon: Wheat, label: t('adminDashboard.harvests'), value: stats.total_harvests },
     { icon: Truck, label: t('adminDashboard.routes'), value: stats.total_routes },
@@ -59,30 +69,46 @@ export default function Dashboard() {
   return (
     <div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {cards.map(({ icon: Icon, label, value }) => (
-          <div key={label} className="rounded-2xl border border-leaf-100 bg-white p-5">
-            <div className="inline-flex rounded-xl bg-leaf-100 p-2.5 text-leaf-700">
-              <Icon size={18} />
-            </div>
-            <p className="mt-3 text-2xl font-semibold text-leaf-950">{value}</p>
-            <p className="text-sm text-leaf-950/60">{label}</p>
-          </div>
+        {cards.map(({ icon, label, value, trend }) => (
+          <StatTile key={label} icon={icon} label={label} value={value} trendSeries={trend} />
         ))}
+      </div>
+
+      <div className="mt-8 grid gap-4 lg:grid-cols-3">
+        <TrendChartCard
+          title="Novos utilizadores"
+          subtitle="Últimos 30 dias"
+          series={trends.new_users}
+          kind="bar"
+        />
+        <TrendChartCard
+          title="Receita"
+          subtitle="Últimos 30 dias"
+          series={trends.revenue}
+          kind="line"
+          unit=" Kz"
+        />
+        <TrendChartCard
+          title="Novas encomendas"
+          subtitle="Últimos 30 dias"
+          series={trends.new_orders}
+          kind="bar"
+        />
       </div>
 
       <div className="mt-8">
         <h2 className="text-lg font-semibold text-leaf-950">{t('adminDashboard.usersByRole')}</h2>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 overflow-hidden rounded-2xl border border-leaf-100 bg-white">
           {(Object.keys(stats.users_by_role) as (keyof AdminStats['users_by_role'])[]).map(
-            (role) => (
+            (role, i) => (
               <div
                 key={role}
-                className="rounded-2xl bg-leaf-50 p-5 text-center"
+                className={`flex items-center justify-between px-5 py-3 text-sm ${
+                  i > 0 ? 'border-t border-leaf-50' : ''
+                }`}
               >
-                <p className="text-2xl font-semibold text-leaf-900">
-                  {stats.users_by_role[role]}
-                </p>
-                <p className="text-sm text-leaf-950/60">{roleLabels[role]}</p>
+                <span className="text-leaf-950/70">{roleLabels[role]}</span>
+                <span className="font-semibold text-leaf-950">{stats.users_by_role[role]}</span>
               </div>
             ),
           )}

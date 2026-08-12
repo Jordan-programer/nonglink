@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import type { SensorType } from '../api/client'
 
 export type SensorStatus = 'normal' | 'warning' | 'critical'
@@ -25,11 +26,14 @@ export function getSensorStatus(type: SensorType, value: number): SensorStatus {
   return 'normal'
 }
 
-export const SENSOR_LABELS: Record<SensorType, string> = {
-  soil_moisture: 'Humidade do solo',
-  temperature: 'Temperatura',
-  humidity: 'Humidade do ar',
-  water_level: 'Nível de água',
+export function useSensorLabels(): Record<SensorType, string> {
+  const { t } = useTranslation()
+  return {
+    soil_moisture: t('sensorTypes.soilMoisture'),
+    temperature: t('sensorTypes.temperature'),
+    humidity: t('sensorTypes.humidity'),
+    water_level: t('sensorTypes.waterLevel'),
+  }
 }
 
 export const SENSOR_UNITS: Record<SensorType, string> = {

@@ -1,6 +1,7 @@
 import { Link, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
@@ -27,6 +28,7 @@ type CropForecast = {
 export default function FarmerHome() {
   const { t } = useTranslation()
   const { user, token } = useAuth()
+  const insets = useSafeAreaInsets()
   const [farms, setFarms] = useState<Farm[]>([])
   const [products, setProducts] = useState<Product[]>([])
   const [sales, setSales] = useState<Sale[]>([])
@@ -120,7 +122,10 @@ export default function FarmerHome() {
   ]
 
   return (
-    <ScrollView style={styles.screen} contentContainerStyle={styles.content}>
+    <ScrollView
+      style={styles.screen}
+      contentContainerStyle={[styles.content, { paddingTop: insets.top + 20 }]}
+    >
       <Text style={styles.welcome}>
         {t('painel.welcomeBack')}
         <Text style={styles.welcomeName}>{user?.name}</Text>.

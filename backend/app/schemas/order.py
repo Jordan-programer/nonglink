@@ -40,7 +40,7 @@ class OrderRead(BaseModel):
 
 class AdminOrderRead(OrderRead):
     buyer_name: str
-    buyer_email: str
+    buyer_email: str | None
 
 
 class TransportOrderRead(OrderRead):
@@ -66,4 +66,4 @@ class SaleRead(BaseModel):
     quantity: float
     unit_price: float
     buyer_name: str
-    buyer_email: str
+    buyer_email: str | None

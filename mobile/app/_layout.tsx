@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar'
 import { ActivityIndicator, View } from 'react-native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { AuthProvider, useAuth } from '../context/AuthContext'
+import { CartProvider } from '../context/CartContext'
 import { OnboardingProvider, useOnboarding } from '../context/OnboardingContext'
 import { colors } from '../theme/colors'
 import '../i18n'
@@ -39,8 +40,10 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <OnboardingProvider>
         <AuthProvider>
-          <StatusBar style="dark" />
-          <RootNavigator />
+          <CartProvider>
+            <StatusBar style="dark" />
+            <RootNavigator />
+          </CartProvider>
         </AuthProvider>
       </OnboardingProvider>
     </SafeAreaProvider>
