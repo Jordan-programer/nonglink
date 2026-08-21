@@ -84,6 +84,11 @@ export default function Encomendas() {
                 {new Date(item.created_at).toLocaleDateString('pt-AO')}
               </Text>
             </View>
+            {item.payment_method && (
+              <Text style={styles.paymentMethod}>
+                {t('orders.paymentMethod')}: {item.payment_method.name}
+              </Text>
+            )}
           </View>
         )
       }}
@@ -175,6 +180,11 @@ const styles = StyleSheet.create({
   },
   date: {
     fontSize: 12,
+    color: 'rgba(15,36,17,0.5)',
+  },
+  paymentMethod: {
+    marginTop: 4,
+    fontSize: 11,
     color: 'rgba(15,36,17,0.5)',
   },
 })

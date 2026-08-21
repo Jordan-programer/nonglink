@@ -10,6 +10,8 @@ from app.api.v1 import (
     harvests,
     market,
     orders,
+    payment_methods,
+    paypal,
     products,
     regions,
     sensors,
@@ -34,3 +36,5 @@ api_router.include_router(harvests.router)
 api_router.include_router(market.router)
 api_router.include_router(conversations.router)
 api_router.include_router(transport.router)
+api_router.include_router(payment_methods.router)
+api_router.include_router(paypal.router)

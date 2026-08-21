@@ -23,12 +23,12 @@ export default function Cart() {
     setCheckingOut(true)
     setError(null)
     try {
-      await createOrder(
+      const order = await createOrder(
         items.map((i) => ({ product_id: i.product_id, quantity: i.quantity })),
         token,
       )
       clearCart()
-      navigate('/minhas-encomendas')
+      navigate(`/pagamento/${order.id}`)
     } catch (err) {
       setError(err instanceof ApiError ? err.message : t('cart.checkoutError'))
     } finally {

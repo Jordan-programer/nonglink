@@ -12,6 +12,7 @@ import {
   type Region,
   type UserRole,
 } from '../api/client'
+import SocialLoginButtons from '../components/SocialLoginButtons'
 
 const CALLING_CODES: Record<string, string> = {
   AO: '+244',
@@ -250,6 +251,11 @@ export default function Register() {
               {!submitting && <ArrowRight size={16} />}
             </button>
           </form>
+
+          <SocialLoginButtons
+            onSuccess={() => navigate('/', { replace: true })}
+            onError={setError}
+          />
 
           <p className="mt-6 text-center text-sm text-leaf-950/60">
             {t('register.haveAccount')}{' '}

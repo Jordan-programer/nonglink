@@ -53,6 +53,7 @@ class AdminCreate(BaseModel):
 class UserRead(UserBase):
     id: int
     is_active: bool
+    email_verified: bool
 
     class Config:
         from_attributes = True

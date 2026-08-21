@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { useFocusEffect } from 'expo-router'
 import { ActivityIndicator, FlatList, Pressable, StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import {
@@ -9,7 +10,9 @@ import {
   claimDelivery,
   fetchAvailableDeliveries,
   fetchMyDeliveries,
+  fetchTransportEarnings,
   updateDeliveryStatus,
+  type EarningsSummary,
   type TransportOrder,
 } from '../../lib/api'
 import { STATUS_COLORS, useOrderStatusLabels } from '../../lib/orderStatus'
@@ -24,16 +27,18 @@ export default function Entregas() {
   const [tab, setTab] = useState<Tab>('available')
   const [available, setAvailable] = useState<TransportOrder[]>([])
   const [mine, setMine] = useState<TransportOrder[]>([])
+  const [earnings, setEarnings] = useState<EarningsSummary | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready'>('loading')
   const [error, setError] = useState<string | null>(null)
   const statusLabels = useOrderStatusLabels()
 
   const load = useCallback(() => {
     if (!token) return
-    Promise.all([fetchAvailableDeliveries(token), fetchMyDeliveries(token)])
-      .then(([availableRes, mineRes]) => {
+    Promise.all([fetchAvailableDeliveries(token), fetchMyDeliveries(token), fetchTransportEarnings(token)])
+      .then(([availableRes, mineRes, earningsRes]) => {
         setAvailable(availableRes)
         setMine(mineRes)
+        setEarnings(earningsRes)
       })
       .finally(() => setStatus('ready'))
   }, [token])
@@ -88,6 +93,32 @@ export default function Entregas() {
         <View style={styles.header}>
           <Text style={styles.title}>{t('entregas.title')}</Text>
           <Text style={styles.subtitle}>{t('entregas.subtitle')}</Text>
+
+          {earnings && (
+            <View style={styles.summaryGrid}>
+              <View style={styles.summaryCard}>
+                <MaterialCommunityIcons name="wallet-outline" size={18} color={colors.leaf700} />
+                <Text style={styles.summaryValue}>
+                  {earnings.gross_sales.toLocaleString('pt-AO')} Kz
+                </Text>
+                <Text style={styles.summaryLabel}>{t('entregas.statTotalSales')}</Text>
+              </View>
+              <View style={styles.summaryCard}>
+                <MaterialCommunityIcons name="percent-outline" size={18} color={colors.leaf700} />
+                <Text style={styles.summaryValue}>
+                  {earnings.commission.toLocaleString('pt-AO')} Kz
+                </Text>
+                <Text style={styles.summaryLabel}>{t('entregas.statCommission')}</Text>
+              </View>
+              <View style={styles.summaryCard}>
+                <MaterialCommunityIcons name="cash-multiple" size={18} color={colors.leaf700} />
+                <Text style={styles.summaryValue}>
+                  {earnings.available_balance.toLocaleString('pt-AO')} Kz
+                </Text>
+                <Text style={styles.summaryLabel}>{t('entregas.statAvailableBalance')}</Text>
+              </View>
+            </View>
+          )}
 
           <View style={styles.tabRow}>
             <Pressable
@@ -196,6 +227,32 @@ const styles = StyleSheet.create({
   subtitle: {
     marginTop: 4,
     fontSize: 13,
+    color: 'rgba(15,36,17,0.6)',
+  },
+  summaryGrid: {
+    marginTop: 16,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  summaryCard: {
+    flexBasis: '30%',
+    flexGrow: 1,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.leaf100,
+    backgroundColor: '#fff',
+    padding: 12,
+  },
+  summaryValue: {
+    marginTop: 8,
+    fontSize: 15,
+    fontWeight: '700',
+    color: colors.leaf950,
+  },
+  summaryLabel: {
+    marginTop: 2,
+    fontSize: 11,
     color: 'rgba(15,36,17,0.6)',
   },
   tabRow: {

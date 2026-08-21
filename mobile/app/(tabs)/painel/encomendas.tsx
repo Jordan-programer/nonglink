@@ -1,9 +1,10 @@
 import { useCallback, useState } from 'react'
 import { useFocusEffect } from 'expo-router'
 import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../../context/AuthContext'
-import { fetchSales, type Sale } from '../../../lib/api'
+import { fetchSales, fetchSalesSummary, type EarningsSummary, type Sale } from '../../../lib/api'
 import { STATUS_COLORS, useOrderStatusLabels } from '../../../lib/orderStatus'
 import { colors } from '../../../theme/colors'
 
@@ -11,6 +12,7 @@ export default function Sales() {
   const { t } = useTranslation()
   const { token } = useAuth()
   const [sales, setSales] = useState<Sale[]>([])
+  const [summary, setSummary] = useState<EarningsSummary | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready'>('loading')
   const statusLabels = useOrderStatusLabels()
 
@@ -19,9 +21,10 @@ export default function Sales() {
       if (!token) return
       let cancelled = false
 
-      fetchSales(token).then((data) => {
+      Promise.all([fetchSales(token), fetchSalesSummary(token)]).then(([salesRes, summaryRes]) => {
         if (cancelled) return
-        setSales(data)
+        setSales(salesRes)
+        setSummary(summaryRes)
         setStatus('ready')
       })
 
@@ -46,6 +49,31 @@ export default function Sales() {
       keyExtractor={(item) => String(item.order_item_id)}
       contentContainerStyle={styles.content}
       ItemSeparatorComponent={() => <View style={{ height: 10 }} />}
+      ListHeaderComponent={
+        summary ? (
+          <View style={styles.summaryGrid}>
+            <View style={styles.summaryCard}>
+              <MaterialCommunityIcons name="wallet-outline" size={18} color={colors.leaf700} />
+              <Text style={styles.summaryValue}>
+                {summary.gross_sales.toLocaleString('pt-AO')} Kz
+              </Text>
+              <Text style={styles.summaryLabel}>{t('sales.summaryTotal')}</Text>
+            </View>
+            <View style={styles.summaryCard}>
+              <MaterialCommunityIcons name="percent-outline" size={18} color={colors.leaf700} />
+              <Text style={styles.summaryValue}>{summary.commission.toLocaleString('pt-AO')} Kz</Text>
+              <Text style={styles.summaryLabel}>{t('sales.summaryCommission')}</Text>
+            </View>
+            <View style={styles.summaryCard}>
+              <MaterialCommunityIcons name="cash-multiple" size={18} color={colors.leaf700} />
+              <Text style={styles.summaryValue}>
+                {summary.available_balance.toLocaleString('pt-AO')} Kz
+              </Text>
+              <Text style={styles.summaryLabel}>{t('sales.summaryBalance')}</Text>
+            </View>
+          </View>
+        ) : null
+      }
       ListEmptyComponent={
         <View style={styles.emptyBox}>
           <Text style={styles.emptyText}>{t('sales.noOrdersYet')}</Text>
@@ -97,6 +125,32 @@ const styles = StyleSheet.create({
   content: {
     padding: 20,
     flexGrow: 1,
+  },
+  summaryGrid: {
+    marginBottom: 16,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+  },
+  summaryCard: {
+    flexBasis: '30%',
+    flexGrow: 1,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.leaf100,
+    backgroundColor: '#fff',
+    padding: 12,
+  },
+  summaryValue: {
+    marginTop: 8,
+    fontSize: 15,
+    fontWeight: '700',
+    color: colors.leaf950,
+  },
+  summaryLabel: {
+    marginTop: 2,
+    fontSize: 11,
+    color: 'rgba(15,36,17,0.6)',
   },
   emptyBox: {
     borderRadius: 16,

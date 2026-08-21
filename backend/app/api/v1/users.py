@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, require_admin, require_superadmin
@@ -12,6 +12,7 @@ from app.schemas.user import (
     UserRead,
     UserUpdate,
 )
+from app.services import email as email_service
 from app.utils.security import hash_password, verify_password
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -20,7 +21,7 @@ ADMIN_TIER = {UserRole.ADMIN, UserRole.SUPERADMIN}
 
 
 @router.post("/", response_model=UserRead)
-def create_user(payload: UserCreate, db: Session = Depends(get_db)):
+def create_user(payload: UserCreate, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     if payload.role in ADMIN_TIER:
         raise HTTPException(
             status_code=403,
@@ -44,6 +45,13 @@ def create_user(payload: UserCreate, db: Session = Depends(get_db)):
     db.add(user)
     db.commit()
     db.refresh(user)
+
+    if user.email:
+        token = email_service.create_verification_token(user, db)
+        background_tasks.add_task(
+            email_service.send_verification_email, user.email, user.name, token
+        )
+
     return user
 
 

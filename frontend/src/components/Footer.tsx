@@ -43,8 +43,11 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10 px-6 py-5 text-center text-xs text-cream-100/50">
-        {t('footer.rights', { year: new Date().getFullYear() })}
+      <div className="flex flex-col items-center gap-2 border-t border-white/10 px-6 py-5 text-center text-xs text-cream-100/50 sm:flex-row sm:justify-between">
+        <span>{t('footer.rights', { year: new Date().getFullYear() })}</span>
+        <Link to="/politica-de-privacidade" className="hover:text-white">
+          {t('footer.privacyPolicy')}
+        </Link>
       </div>
     </footer>
   )

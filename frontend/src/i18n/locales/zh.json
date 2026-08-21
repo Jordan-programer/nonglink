@@ -28,7 +28,8 @@
     "cooperatives": "合作社",
     "contact": "联系方式",
     "location": "罗安达，安哥拉",
-    "rights": "© {{year}} AgriLink。保留所有权利。"
+    "rights": "© {{year}} AgriLink。保留所有权利。",
+    "privacyPolicy": "隐私政策"
   },
   "hero": {
     "badge": "为安哥拉打造的农业科技",
@@ -97,7 +98,12 @@
     "submit": "登录",
     "noAccount": "还没有账户？",
     "createAccount": "注册",
-    "error": "登录失败。"
+    "error": "登录失败。",
+    "orContinueWith": "或继续使用",
+    "continueWithFacebook": "使用 Facebook 继续",
+    "facebookLoading": "正在连接 Facebook...",
+    "googleError": "无法使用 Google 登录。",
+    "facebookError": "无法使用 Facebook 登录。"
   },
   "register": {
     "title": "创建 AgriLink 账户",
@@ -241,7 +247,10 @@
     "quantity": "数量",
     "total": "总计",
     "status": "状态",
-    "date": "日期"
+    "date": "日期",
+    "summaryTotal": "总销售额",
+    "summaryCommission": "平台佣金（10%）",
+    "summaryBalance": "可提现余额"
   },
   "profile": {
     "title": "我的资料",
@@ -267,7 +276,22 @@
     "roleBuyer": "买家",
     "roleDistributor": "经销商",
     "roleTransporter": "运输商",
-    "roleAdmin": "管理员"
+    "roleAdmin": "管理员",
+    "emailNotVerified": "您的电子邮箱尚未验证。",
+    "resendVerificationButton": "重新发送验证邮件",
+    "resendVerificationSending": "发送中...",
+    "resendVerificationSent": "验证邮件已重新发送，请查收您的邮箱。",
+    "resendVerificationError": "无法重新发送验证邮件。"
+  },
+  "verifyEmail": {
+    "verifying": "正在验证您的电子邮箱...",
+    "successTitle": "邮箱验证成功！",
+    "successSubtitle": "您的AgriLink账户现已完全确认。",
+    "continue": "继续",
+    "errorTitle": "验证失败",
+    "missingToken": "此验证链接不完整。",
+    "genericError": "验证链接无效或已过期。",
+    "backToProfile": "前往我的个人资料"
   },
   "myOrders": {
     "title": "我的订单",
@@ -275,7 +299,8 @@
     "noOrdersYet": "您还没有下过任何订单。",
     "exploreMarket": "浏览市场",
     "orderNumber": "订单 #{{id}}",
-    "total": "总计"
+    "total": "总计",
+    "paymentMethod": "支付方式"
   },
   "transporterDashboard": {
     "greeting": "你好，",
@@ -312,7 +337,11 @@
     "removeRoute": "删除路线",
     "addRouteError": "无法添加路线。",
     "claimError": "无法接受配送。",
-    "advanceError": "无法更新状态。"
+    "advanceError": "无法更新状态。",
+    "earningsTitle": "收入",
+    "statTotalSales": "总销售额",
+    "statCommission": "平台佣金（10%）",
+    "statAvailableBalance": "可提现余额"
   },
   "buyerDashboard": {
     "greeting": "你好，",
@@ -461,6 +490,7 @@
   },
   "cart": {
     "title": "购物车",
+    "paymentMethod": "支付方式",
     "empty": "您的购物车是空的。",
     "continueShopping": "继续购物",
     "decrease": "减少数量",
@@ -470,7 +500,25 @@
     "checkout": "去结算",
     "checkingOut": "结算中...",
     "checkoutError": "无法完成结算。",
-    "clearCart": "清空购物车"
+    "clearCart": "清空购物车",
+    "payWithPaypal": "使用 PayPal 付款",
+    "paypalLoading": "正在加载 PayPal...",
+    "paypalUnavailable": "PayPal 目前不可用。",
+    "paypalCaptureError": "无法确认付款。",
+    "paypalInitError": "无法加载 PayPal。",
+    "paypalStartError": "无法开始付款。",
+    "completePaypalPayment": "您的订单已创建。请使用 PayPal 完成付款以确认订单。",
+    "cancelPaypalPayment": "取消付款"
+  },
+  "payment": {
+    "title": "付款",
+    "subtitle": "订单 #{{id}} · {{total}} Kz",
+    "orderNotFound": "找不到此订单。",
+    "viewOrders": "查看我的订单",
+    "alreadyPaid": "此订单已付款。",
+    "methodSaved": "已保存选择。请直接与卖家协商付款方式。",
+    "saveError": "无法保存支付方式。",
+    "saving": "保存中..."
   },
   "messages": {
     "title": "消息",
@@ -566,5 +614,84 @@
     "colOwner": "所有者",
     "colLocation": "位置",
     "colArea": "面积"
+  },
+  "privacyPolicy": {
+    "title": "隐私政策",
+    "lastUpdated": "最后更新：2026年8月21日",
+    "intro": "AgriLink（“我们”、“平台”）连接安哥拉、刚果民主共和国、刚果共和国和中国的农民、买家、经销商和运输商。本政策说明我们收集哪些个人数据、为何收集，以及我们如何使用和保护这些数据。",
+    "sections": [
+      {
+        "heading": "1. 我们收集的数据",
+        "body": [
+          "账户数据：姓名、电子邮箱、电话号码、密码（以加密方式存储）、平台角色（农民、买家、经销商、运输商或管理员）、国家和地区。",
+          "社交登录数据：如果您选择使用谷歌或脸书登录，我们会根据您授予的权限，获取与该账户关联的姓名、电子邮箱和头像。",
+          "农场及位置数据：您农场的位置、您在地图上绘制以划定种植区域的多边形、物联网传感器读数（湿度、温度等）、作物、收成及其日期。",
+          "商业数据：发布的产品、订单、与其他用户交换的消息、选择的支付方式以及PayPal交易标识。",
+          "技术数据：IP地址、设备类型和使用日志，用于保障平台的安全与正常运行。"
+        ]
+      },
+      {
+        "heading": "2. 我们如何使用您的数据",
+        "body": [
+          "用于创建和管理您的账户，并支持在平台上买卖农产品。",
+          "根据您在地图上绘制的农场坐标，利用谷歌地球引擎处理的卫星影像，生成灌溉、土壤处理、最佳种植和收获时机等农业建议。",
+          "用于通过PayPal处理付款，并计算平台从农民销售额和运输商配送费中收取的10%佣金，以及可提现的余额。",
+          "用于支持买家、农民和运输商在平台内的沟通。",
+          "用于发送有关订单、配送和传感器警报的相关通知。",
+          "用于改进平台、预防欺诈及遵守法律义务。"
+        ]
+      },
+      {
+        "heading": "3. 位置与卫星数据",
+        "body": [
+          "当您在地图上绘制农场的多边形时，地理坐标会被发送至谷歌地球引擎，仅用于计算土壤指数（湿度、植被、盐分）并生成您的农业建议。这些坐标不会用于任何其他目的，也不会在此处理所需范围之外与第三方共享。",
+          "只有在您授权的情况下，我们才会使用设备的当前位置来将地图居中并帮助识别您所在的区域——绝不会在后台收集位置信息。"
+        ]
+      },
+      {
+        "heading": "4. 与第三方共享数据",
+        "body": [
+          "我们绝不出售您的个人数据。我们仅与以下各方共享严格必要的数据：PayPal（用于处理付款）；谷歌地球引擎（用于分析您农场坐标的卫星影像）；谷歌和脸书（仅当您选择通过这些服务登录时）；以及运输商（用于配送您的订单）。",
+          "在法律要求或为保护AgriLink及其用户的权利和安全时，我们也可能披露数据。"
+        ]
+      },
+      {
+        "heading": "5. 数据保留",
+        "body": [
+          "只要您的账户处于活跃状态，我们就会保留您的数据，并在履行法律、税务或争议解决义务所需的额外期限内继续保留。您可以随时申请删除您的账户。"
+        ]
+      },
+      {
+        "heading": "6. 安全",
+        "body": [
+          "我们使用加密连接（HTTPS）、哈希加密的密码和会话令牌来保护您账户的访问安全。没有任何系统是绝对无懈可击的，但我们会持续努力保障您数据的安全。"
+        ]
+      },
+      {
+        "heading": "7. 您的权利",
+        "body": [
+          "您有权访问、更正、导出或删除您的个人数据，也可以随时在设备设置中撤回对位置访问的同意。",
+          "如需行使上述任何权利，请通过本页底部列出的电子邮箱与我们联系。"
+        ]
+      },
+      {
+        "heading": "8. 未成年人",
+        "body": [
+          "AgriLink不面向18岁以下的用户，也不会故意收集未成年人的数据。"
+        ]
+      },
+      {
+        "heading": "9. 本政策的变更",
+        "body": [
+          "我们可能会定期更新本政策，以反映新功能或法律要求的变化。本页顶部会始终显示最后更新日期。"
+        ]
+      },
+      {
+        "heading": "10. 联系我们",
+        "body": [
+          "如对本政策或您的个人数据有任何疑问，请通过 contacto@agrilink.ao 与我们联系。"
+        ]
+      }
+    ]
   }
 }

@@ -1,21 +1,26 @@
 from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, require_admin
 from app.core.database import get_db
 from app.models.farm import Farm
 from app.models.order import Order, OrderItem
+from app.models.payment_method import PaymentMethod
 from app.models.price_history import PriceSource
 from app.models.product import Product
 from app.models.user import User
+from app.schemas.earnings import EarningsSummary
 from app.schemas.order import (
     AdminOrderRead,
     OrderCreate,
+    OrderPaymentMethodUpdate,
     OrderRead,
     SaleRead,
     StatusUpdate,
 )
 from app.schemas.trends import TrendPoint
+from app.services.earnings import compute_earnings
 from app.services.pricing import record_price
 from app.services.trends import daily_series
 
@@ -28,7 +33,11 @@ def create_order(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    order = Order(buyer_id=current_user.id, total_amount=0)
+    order = Order(
+        buyer_id=current_user.id,
+        payment_method_id=payload.payment_method_id,
+        total_amount=0,
+    )
     db.add(order)
     db.flush()
 
@@ -130,6 +139,22 @@ def sales_trends(
     return daily_series(query, Order.created_at, OrderItem.quantity * OrderItem.unit_price)
 
 
+@router.get("/sales/summary", response_model=EarningsSummary)
+def sales_summary(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    gross = (
+        db.query(func.coalesce(func.sum(OrderItem.quantity * OrderItem.unit_price), 0.0))
+        .join(Order, OrderItem.order_id == Order.id)
+        .join(Product, OrderItem.product_id == Product.id)
+        .join(Farm, Product.farm_id == Farm.id)
+        .filter(Farm.owner_id == current_user.id)
+        .scalar()
+    )
+    return compute_earnings(float(gross))
+
+
 @router.get("/all", response_model=list[AdminOrderRead])
 def list_all_orders(
     db: Session = Depends(get_db),
@@ -150,6 +175,27 @@ def update_order_status(
         raise HTTPException(status_code=404, detail="Order not found")
 
     order.status = payload.status
+    db.commit()
+    db.refresh(order)
+    return order
+
+
+@router.patch("/{order_id}/payment-method", response_model=OrderRead)
+def set_order_payment_method(
+    order_id: int,
+    payload: OrderPaymentMethodUpdate,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    order = db.query(Order).get(order_id)
+    if not order or order.buyer_id != current_user.id:
+        raise HTTPException(status_code=404, detail="Order not found")
+
+    method = db.query(PaymentMethod).get(payload.payment_method_id)
+    if not method:
+        raise HTTPException(status_code=404, detail="Payment method not found")
+
+    order.payment_method_id = method.id
     db.commit()
     db.refresh(order)
     return order

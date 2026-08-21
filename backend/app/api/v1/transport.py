@@ -11,9 +11,11 @@ from app.models.product import Product
 from app.models.region import Region
 from app.models.transport_route import TransportRoute
 from app.models.user import User
+from app.schemas.earnings import EarningsSummary
 from app.schemas.order import DeliveryStatusUpdate, TransportOrderRead
 from app.schemas.transport_route import PopularRouteRead, RouteCreate, RouteRead
 from app.schemas.trends import TrendPoint
+from app.services.earnings import compute_earnings
 from app.services.trends import daily_series
 
 router = APIRouter(prefix="/transport", tags=["transport"])
@@ -45,6 +47,19 @@ def list_my_deliveries(
         .order_by(Order.created_at.desc())
         .all()
     )
+
+
+@router.get("/earnings", response_model=EarningsSummary)
+def my_earnings(
+    db: Session = Depends(get_db),
+    transporter: User = Depends(require_transporter),
+):
+    gross = (
+        db.query(func.coalesce(func.sum(Order.total_amount), 0.0))
+        .filter(Order.transporter_id == transporter.id)
+        .scalar()
+    )
+    return compute_earnings(float(gross))
 
 
 @router.patch("/{order_id}/claim", response_model=TransportOrderRead)

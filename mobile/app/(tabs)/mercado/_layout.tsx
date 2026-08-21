@@ -17,6 +17,7 @@ export default function MercadoLayout() {
       <Stack.Screen name="index" options={{ headerShown: false }} />
       <Stack.Screen name="[id]" options={{ title: '' }} />
       <Stack.Screen name="carrinho" options={{ title: t('cart.title') }} />
+      <Stack.Screen name="pagamento/[orderId]" options={{ title: t('payment.title') }} />
     </Stack>
   )
 }

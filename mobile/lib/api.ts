@@ -69,6 +69,7 @@ export type User = {
   role: UserRole
   region_id: number | null
   is_active: boolean
+  email_verified: boolean
 }
 
 export type AuthResponse = {
@@ -206,11 +207,21 @@ export type OrderItem = {
   unit_price: number
 }
 
+export type PaymentMethod = {
+  id: number
+  name: string
+  code: string
+}
+
+export type PaymentStatus = 'pending' | 'paid' | 'failed'
+
 export type Order = {
   id: number
   buyer_id: number
   transporter_id: number | null
+  payment_method: PaymentMethod | null
   status: OrderStatus
+  payment_status: PaymentStatus
   total_amount: number
   created_at: string
   items: OrderItem[]
@@ -304,11 +315,12 @@ export function fetchProduct(id: number | string): Promise<Product> {
 export function createOrder(
   items: { product_id: number; quantity: number }[],
   token: string,
+  paymentMethodId?: number | null,
 ): Promise<Order> {
   return request<Order>('/orders/', {
     method: 'POST',
     token,
-    body: JSON.stringify({ items }),
+    body: JSON.stringify({ items, payment_method_id: paymentMethodId ?? null }),
   })
 }
 
@@ -346,8 +358,32 @@ export function login(payload: { identifier: string; password: string }): Promis
   })
 }
 
+export function loginWithGoogle(idToken: string): Promise<AuthResponse> {
+  return request<AuthResponse>('/auth/google', {
+    method: 'POST',
+    body: JSON.stringify({ id_token: idToken }),
+  })
+}
+
+export function loginWithFacebook(payload: {
+  code: string
+  redirect_uri: string
+}): Promise<AuthResponse> {
+  return request<AuthResponse>('/auth/facebook', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+}
+
 export function fetchMe(token: string): Promise<User> {
   return request<User>('/auth/me', { token })
+}
+
+export function resendVerificationEmail(token: string): Promise<void> {
+  return request<void>('/auth/resend-verification', {
+    method: 'POST',
+    token,
+  })
 }
 
 export function fetchMyFarms(token: string): Promise<Farm[]> {
@@ -562,6 +598,21 @@ export function fetchSales(token: string): Promise<Sale[]> {
   return request<Sale[]>('/orders/sales', { token })
 }
 
+export type EarningsSummary = {
+  gross_sales: number
+  commission_rate: number
+  commission: number
+  available_balance: number
+}
+
+export function fetchSalesSummary(token: string): Promise<EarningsSummary> {
+  return request<EarningsSummary>('/orders/sales/summary', { token })
+}
+
+export function fetchTransportEarnings(token: string): Promise<EarningsSummary> {
+  return request<EarningsSummary>('/transport/earnings', { token })
+}
+
 export function fetchSensors(): Promise<Sensor[]> {
   return request<Sensor[]>('/sensors/')
 }
@@ -587,6 +638,52 @@ export function acknowledgeAlert(alertId: number, token: string): Promise<Sensor
 
 export function fetchMyOrders(token: string): Promise<Order[]> {
   return request<Order[]>('/orders/', { token })
+}
+
+export function fetchOrder(id: number, token: string): Promise<Order> {
+  return request<Order>(`/orders/${id}`, { token })
+}
+
+export function setOrderPaymentMethod(
+  orderId: number,
+  paymentMethodId: number,
+  token: string,
+): Promise<Order> {
+  return request<Order>(`/orders/${orderId}/payment-method`, {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify({ payment_method_id: paymentMethodId }),
+  })
+}
+
+export function fetchMyPaymentMethods(token: string): Promise<PaymentMethod[]> {
+  return request<PaymentMethod[]>('/payment-methods/mine', { token })
+}
+
+export function fetchPayPalClientId(): Promise<{
+  client_id: string
+  sdk_url: string
+  environment: 'sandbox' | 'live'
+}> {
+  return request('/paypal/browser-safe-client-id')
+}
+
+export function createPayPalOrder(
+  orderId: number,
+  token: string,
+): Promise<{ id: string; status: string }> {
+  return request('/paypal/orders', {
+    method: 'POST',
+    token,
+    body: JSON.stringify({ order_id: orderId }),
+  })
+}
+
+export function capturePayPalOrder(
+  paypalOrderId: string,
+  token: string,
+): Promise<{ id: string; status: string }> {
+  return request(`/paypal/orders/${paypalOrderId}/capture`, { method: 'POST', token })
 }
 
 export function fetchAdminStats(token: string): Promise<AdminStats> {

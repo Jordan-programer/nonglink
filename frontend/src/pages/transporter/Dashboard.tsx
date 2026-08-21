@@ -1,5 +1,17 @@
 import { useEffect, useState } from 'react'
-import { ArrowRight, MapPin, Package, Phone, Plus, Trash2, TrendingUp, Truck } from 'lucide-react'
+import {
+  ArrowRight,
+  Banknote,
+  MapPin,
+  Package,
+  Percent,
+  Phone,
+  Plus,
+  Trash2,
+  TrendingUp,
+  Truck,
+  Wallet,
+} from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import {
@@ -14,8 +26,10 @@ import {
   fetchMyRoutes,
   fetchPopularRoutes,
   fetchRegions,
+  fetchTransportEarnings,
   updateDeliveryStatus,
   type Country,
+  type EarningsSummary,
   type PopularRoute,
   type Region,
   type TransportOrder,
@@ -34,6 +48,7 @@ export default function TransporterDashboard() {
   const [available, setAvailable] = useState<TransportOrder[]>([])
   const [mine, setMine] = useState<TransportOrder[]>([])
   const [deliveriesTrend, setDeliveriesTrend] = useState<TrendPoint[]>([])
+  const [earnings, setEarnings] = useState<EarningsSummary | null>(null)
   const [status, setStatus] = useState<'loading' | 'ready'>('loading')
   const [error, setError] = useState<string | null>(null)
   const [savingId, setSavingId] = useState<number | null>(null)
@@ -54,10 +69,12 @@ export default function TransporterDashboard() {
       fetchAvailableDeliveries(token),
       fetchMyDeliveries(token),
       fetchDeliveriesTrends(token),
-    ]).then(([availableRes, mineRes, trendRes]) => {
+      fetchTransportEarnings(token),
+    ]).then(([availableRes, mineRes, trendRes, earningsRes]) => {
       setAvailable(availableRes)
       setMine(mineRes)
       setDeliveriesTrend(trendRes)
+      setEarnings(earningsRes)
       setStatus('ready')
     })
   }
@@ -185,6 +202,32 @@ export default function TransporterDashboard() {
           kind="bar"
         />
       </div>
+
+      {/* Earnings */}
+      {earnings && (
+        <div className="mt-10">
+          <h2 className="text-lg font-semibold text-leaf-950">
+            {t('transporterDashboard.earningsTitle')}
+          </h2>
+          <div className="mt-4 grid gap-4 sm:grid-cols-3">
+            <StatTile
+              icon={Wallet}
+              label={t('transporterDashboard.statTotalSales')}
+              value={`${earnings.gross_sales.toLocaleString('pt-AO')} Kz`}
+            />
+            <StatTile
+              icon={Percent}
+              label={t('transporterDashboard.statCommission')}
+              value={`${earnings.commission.toLocaleString('pt-AO')} Kz`}
+            />
+            <StatTile
+              icon={Banknote}
+              label={t('transporterDashboard.statAvailableBalance')}
+              value={`${earnings.available_balance.toLocaleString('pt-AO')} Kz`}
+            />
+          </div>
+        </div>
+      )}
 
       {/* Available pool */}
       <div className="mt-10">

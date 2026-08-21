@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import { ApiError, fetchCountries, fetchRegions, type Country, type Region, type UserRole } from '../../lib/api'
 import { colors } from '../../theme/colors'
+import SocialLoginButtons from '../../components/SocialLoginButtons'
 
 export default function Register() {
   const { t } = useTranslation()
@@ -219,6 +220,8 @@ export default function Register() {
               {submitting ? t('register.submitting') : t('register.submit')}
             </Text>
           </Pressable>
+
+          <SocialLoginButtons onSuccess={() => {}} onError={setError} />
 
           <View style={styles.footerRow}>
             <Text style={styles.footerText}>{t('register.haveAccount')}</Text>

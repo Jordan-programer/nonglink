@@ -7,11 +7,14 @@ import Home from './pages/Home'
 import Marketplace from './pages/Marketplace'
 import ProductDetail from './pages/ProductDetail'
 import Cart from './pages/Cart'
+import Payment from './pages/Payment'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Profile from './pages/Profile'
 import Orders from './pages/Orders'
 import Messages from './pages/Messages'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import VerifyEmail from './pages/VerifyEmail'
 import FarmerLayout from './pages/farmer/FarmerLayout'
 import Dashboard from './pages/farmer/Dashboard'
 import MyFarm from './pages/farmer/MyFarm'
@@ -39,6 +42,16 @@ function App() {
           <Route path="/mercado" element={<Marketplace />} />
           <Route path="/mercado/:id" element={<ProductDetail />} />
           <Route path="/carrinho" element={<Cart />} />
+          <Route
+            path="/pagamento/:orderId"
+            element={
+              <RequireAuth>
+                <Payment />
+              </RequireAuth>
+            }
+          />
+          <Route path="/politica-de-privacidade" element={<PrivacyPolicy />} />
+          <Route path="/verificar-email" element={<VerifyEmail />} />
           <Route path="/entrar" element={<Login />} />
           <Route path="/registar" element={<Register />} />
           <Route

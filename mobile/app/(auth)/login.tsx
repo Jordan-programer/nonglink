@@ -15,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import { ApiError } from '../../lib/api'
 import { colors } from '../../theme/colors'
+import SocialLoginButtons from '../../components/SocialLoginButtons'
 
 export default function Login() {
   const { t } = useTranslation()
@@ -85,6 +86,8 @@ export default function Login() {
           >
             <Text style={styles.submitText}>{submitting ? t('login.submitting') : t('login.submit')}</Text>
           </Pressable>
+
+          <SocialLoginButtons onSuccess={() => {}} onError={setError} />
 
           <View style={styles.footerRow}>
             <Text style={styles.footerText}>{t('login.noAccount')}</Text>

@@ -2,7 +2,8 @@ from datetime import datetime
 
 from pydantic import BaseModel
 
-from app.models.order import OrderStatus
+from app.models.order import OrderStatus, PaymentStatus
+from app.schemas.payment_method import PaymentMethodRead
 
 
 class OrderItemCreate(BaseModel):
@@ -12,6 +13,11 @@ class OrderItemCreate(BaseModel):
 
 class OrderCreate(BaseModel):
     items: list[OrderItemCreate]
+    payment_method_id: int | None = None
+
+
+class OrderPaymentMethodUpdate(BaseModel):
+    payment_method_id: int
 
 
 class OrderItemRead(BaseModel):
@@ -29,7 +35,9 @@ class OrderRead(BaseModel):
     id: int
     buyer_id: int
     transporter_id: int | None
+    payment_method: PaymentMethodRead | None = None
     status: OrderStatus
+    payment_status: PaymentStatus
     total_amount: float
     created_at: datetime
     items: list[OrderItemRead] = []

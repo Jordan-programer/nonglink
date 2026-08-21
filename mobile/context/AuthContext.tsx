@@ -4,7 +4,10 @@ import type { ReactNode } from 'react'
 import {
   fetchMe,
   login as apiLogin,
+  loginWithFacebook as apiLoginWithFacebook,
+  loginWithGoogle as apiLoginWithGoogle,
   registerUser as apiRegister,
+  resendVerificationEmail as apiResendVerificationEmail,
   type User,
   type UserRole,
 } from '../lib/api'
@@ -16,6 +19,8 @@ type AuthContextValue = {
   token: string | null
   loading: boolean
   login: (identifier: string, password: string) => Promise<void>
+  loginWithGoogle: (idToken: string) => Promise<void>
+  loginWithFacebook: (payload: { code: string; redirect_uri: string }) => Promise<void>
   register: (data: {
     name: string
     email?: string
@@ -25,6 +30,7 @@ type AuthContextValue = {
     region_id: number
   }) => Promise<void>
   logout: () => void
+  resendVerification: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
@@ -61,6 +67,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(res.user)
   }
 
+  async function loginWithGoogle(idToken: string) {
+    const res = await apiLoginWithGoogle(idToken)
+    await AsyncStorage.setItem(TOKEN_KEY, res.access_token)
+    setToken(res.access_token)
+    setUser(res.user)
+  }
+
+  async function loginWithFacebook(payload: { code: string; redirect_uri: string }) {
+    const res = await apiLoginWithFacebook(payload)
+    await AsyncStorage.setItem(TOKEN_KEY, res.access_token)
+    setToken(res.access_token)
+    setUser(res.user)
+  }
+
   async function register(data: {
     name: string
     email?: string
@@ -79,8 +99,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null)
   }
 
+  async function resendVerification() {
+    if (!token) throw new Error('Not authenticated')
+    await apiResendVerificationEmail(token)
+  }
+
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, register, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        loading,
+        login,
+        loginWithGoogle,
+        loginWithFacebook,
+        register,
+        logout,
+        resendVerification,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

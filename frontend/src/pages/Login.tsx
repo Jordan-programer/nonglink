@@ -5,6 +5,7 @@ import { ArrowRight, Lock, Mail } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 import { ApiError } from '../api/client'
+import SocialLoginButtons from '../components/SocialLoginButtons'
 
 export default function Login() {
   const { t } = useTranslation()
@@ -100,6 +101,11 @@ export default function Login() {
               {!submitting && <ArrowRight size={16} />}
             </button>
           </form>
+
+          <SocialLoginButtons
+            onSuccess={() => navigate(from, { replace: true })}
+            onError={setError}
+          />
 
           <p className="mt-6 text-center text-sm text-leaf-950/60">
             {t('login.noAccount')}{' '}

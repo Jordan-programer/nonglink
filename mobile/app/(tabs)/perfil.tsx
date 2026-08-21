@@ -6,14 +6,34 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import LanguageSwitcher from '../../components/LanguageSwitcher'
-import { fetchAdminStats, fetchMyDeliveries, fetchMyFarms, fetchMyOrders } from '../../lib/api'
+import {
+  ApiError,
+  fetchAdminStats,
+  fetchMyDeliveries,
+  fetchMyFarms,
+  fetchMyOrders,
+} from '../../lib/api'
 import { colors } from '../../theme/colors'
 
 export default function Perfil() {
   const { t } = useTranslation()
-  const { user, token, logout } = useAuth()
+  const { user, token, logout, resendVerification } = useAuth()
   const insets = useSafeAreaInsets()
   const [summary, setSummary] = useState<{ primary: string; secondary: string } | null>(null)
+  const [resendStatus, setResendStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [resendError, setResendError] = useState<string | null>(null)
+
+  async function handleResendVerification() {
+    setResendStatus('sending')
+    setResendError(null)
+    try {
+      await resendVerification()
+      setResendStatus('sent')
+    } catch (err) {
+      setResendStatus('error')
+      setResendError(err instanceof ApiError ? err.message : t('perfil.resendVerificationError'))
+    }
+  }
 
   const roleLabels: Record<string, string> = {
     farmer: t('perfil.roleFarmer'),
@@ -106,6 +126,27 @@ export default function Perfil() {
         )}
       </View>
 
+      {user?.email && !user.email_verified && (
+        <View style={styles.verifyBanner}>
+          <MaterialCommunityIcons name="email-alert-outline" size={18} color={colors.earth700} />
+          <View style={styles.verifyBannerText}>
+            <Text style={styles.verifyBannerTitle}>{t('perfil.emailNotVerified')}</Text>
+            {resendStatus === 'sent' ? (
+              <Text style={styles.verifyBannerSubtitle}>{t('perfil.resendVerificationSent')}</Text>
+            ) : (
+              <Pressable onPress={handleResendVerification} disabled={resendStatus === 'sending'}>
+                <Text style={styles.verifyBannerLink}>
+                  {resendStatus === 'sending'
+                    ? t('perfil.resendVerificationSending')
+                    : t('perfil.resendVerificationButton')}
+                </Text>
+              </Pressable>
+            )}
+            {resendError && <Text style={styles.verifyBannerSubtitle}>{resendError}</Text>}
+          </View>
+        </View>
+      )}
+
       {summary && (
         <Link href={summaryHref} asChild>
           <Pressable style={styles.summaryCard}>
@@ -125,6 +166,14 @@ export default function Perfil() {
         <Text style={styles.sectionLabel}>{t('perfil.language')}</Text>
         <LanguageSwitcher />
       </View>
+
+      <Link href="/politica-privacidade" asChild>
+        <Pressable style={styles.linkRow}>
+          <MaterialCommunityIcons name="shield-lock-outline" size={20} color={colors.leaf700} />
+          <Text style={styles.linkRowText}>{t('perfil.privacyPolicy')}</Text>
+          <MaterialCommunityIcons name="chevron-right" size={20} color={colors.leaf700} />
+        </Pressable>
+      </Link>
 
       <Pressable style={styles.logout} onPress={logout}>
         <Text style={styles.logoutText}>{t('perfil.logout')}</Text>
@@ -183,6 +232,37 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: colors.leaf700,
   },
+  verifyBanner: {
+    marginTop: 14,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 10,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.earth200,
+    backgroundColor: colors.earth50,
+    padding: 14,
+  },
+  verifyBannerText: {
+    flex: 1,
+  },
+  verifyBannerTitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: colors.earth700,
+  },
+  verifyBannerSubtitle: {
+    marginTop: 4,
+    fontSize: 12,
+    color: colors.earth700,
+  },
+  verifyBannerLink: {
+    marginTop: 4,
+    fontSize: 13,
+    fontWeight: '700',
+    color: colors.earth700,
+    textDecorationLine: 'underline',
+  },
   summaryCard: {
     marginTop: 14,
     flexDirection: 'row',
@@ -229,6 +309,23 @@ const styles = StyleSheet.create({
     color: 'rgba(15,36,17,0.8)',
     marginBottom: 12,
     textAlign: 'center',
+  },
+  linkRow: {
+    marginTop: 14,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.leaf100,
+    backgroundColor: '#fff',
+    padding: 16,
+  },
+  linkRowText: {
+    flex: 1,
+    fontSize: 14,
+    fontWeight: '600',
+    color: colors.leaf950,
   },
   logout: {
     marginTop: 20,

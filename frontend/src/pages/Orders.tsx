@@ -94,12 +94,17 @@ export default function Orders() {
                   ))}
                 </div>
 
-                <div className="mt-3 flex items-center justify-between border-t border-leaf-100 pt-3">
+                <div className="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-leaf-100 pt-3">
                   <span className="text-sm font-medium text-leaf-950/70">{t('myOrders.total')}</span>
                   <span className="text-base font-semibold text-leaf-900">
                     {order.total_amount.toLocaleString('pt-AO')} Kz
                   </span>
                 </div>
+                {order.payment_method && (
+                  <p className="mt-1 text-xs text-leaf-950/50">
+                    {t('myOrders.paymentMethod')}: {order.payment_method.name}
+                  </p>
+                )}
               </div>
             ))}
           </div>

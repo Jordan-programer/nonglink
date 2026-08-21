@@ -28,7 +28,8 @@
     "cooperatives": "Cooperatives",
     "contact": "Contact",
     "location": "Luanda, Angola",
-    "rights": "© {{year}} AgriLink. All rights reserved."
+    "rights": "© {{year}} AgriLink. All rights reserved.",
+    "privacyPolicy": "Privacy Policy"
   },
   "hero": {
     "badge": "AgriTech built for Angola",
@@ -97,7 +98,12 @@
     "submit": "Log in",
     "noAccount": "Don't have an account yet?",
     "createAccount": "Sign up",
-    "error": "Could not log in."
+    "error": "Could not log in.",
+    "orContinueWith": "or continue with",
+    "continueWithFacebook": "Continue with Facebook",
+    "facebookLoading": "Connecting to Facebook...",
+    "googleError": "Could not sign in with Google.",
+    "facebookError": "Could not sign in with Facebook."
   },
   "register": {
     "title": "Create your AgriLink account",
@@ -241,7 +247,10 @@
     "quantity": "Quantity",
     "total": "Total",
     "status": "Status",
-    "date": "Date"
+    "date": "Date",
+    "summaryTotal": "Total sales",
+    "summaryCommission": "Platform commission (10%)",
+    "summaryBalance": "Available balance for withdrawal"
   },
   "profile": {
     "title": "My profile",
@@ -267,7 +276,22 @@
     "roleBuyer": "Buyer",
     "roleDistributor": "Distributor",
     "roleTransporter": "Transporter",
-    "roleAdmin": "Administrator"
+    "roleAdmin": "Administrator",
+    "emailNotVerified": "Your email hasn't been verified yet.",
+    "resendVerificationButton": "Resend verification email",
+    "resendVerificationSending": "Sending...",
+    "resendVerificationSent": "Verification email resent. Check your inbox.",
+    "resendVerificationError": "Couldn't resend the verification email."
+  },
+  "verifyEmail": {
+    "verifying": "Verifying your email...",
+    "successTitle": "Email verified!",
+    "successSubtitle": "Your AgriLink account is now fully confirmed.",
+    "continue": "Continue",
+    "errorTitle": "Couldn't verify",
+    "missingToken": "This verification link is incomplete.",
+    "genericError": "The verification link is invalid or has expired.",
+    "backToProfile": "Go to my profile"
   },
   "myOrders": {
     "title": "My orders",
@@ -275,7 +299,8 @@
     "noOrdersYet": "You haven't placed any orders yet.",
     "exploreMarket": "Explore the market",
     "orderNumber": "Order #{{id}}",
-    "total": "Total"
+    "total": "Total",
+    "paymentMethod": "Payment method"
   },
   "transporterDashboard": {
     "greeting": "Hi,",
@@ -313,7 +338,11 @@
     "removeRoute": "Remove route",
     "addRouteError": "Could not add the route.",
     "claimError": "Could not accept the delivery.",
-    "advanceError": "Could not update the status."
+    "advanceError": "Could not update the status.",
+    "earningsTitle": "Earnings",
+    "statTotalSales": "Total sales",
+    "statCommission": "Platform commission (10%)",
+    "statAvailableBalance": "Available balance for withdrawal"
   },
   "buyerDashboard": {
     "greeting": "Hi,",
@@ -466,6 +495,7 @@
   },
   "cart": {
     "title": "Cart",
+    "paymentMethod": "Payment method",
     "empty": "Your cart is empty.",
     "continueShopping": "Continue shopping",
     "decrease": "Decrease quantity",
@@ -475,7 +505,25 @@
     "checkout": "Checkout",
     "checkingOut": "Checking out...",
     "checkoutError": "Could not complete the checkout.",
-    "clearCart": "Clear cart"
+    "clearCart": "Clear cart",
+    "payWithPaypal": "Pay with PayPal",
+    "paypalLoading": "Loading PayPal...",
+    "paypalUnavailable": "PayPal is not available right now.",
+    "paypalCaptureError": "Could not confirm the payment.",
+    "paypalInitError": "Could not load PayPal.",
+    "paypalStartError": "Could not start the payment.",
+    "completePaypalPayment": "Your order was created. Complete payment with PayPal to confirm it.",
+    "cancelPaypalPayment": "Cancel payment"
+  },
+  "payment": {
+    "title": "Payment",
+    "subtitle": "Order #{{id}} · {{total}} Kz",
+    "orderNotFound": "Could not find this order.",
+    "viewOrders": "View my orders",
+    "alreadyPaid": "This order has already been paid.",
+    "methodSaved": "Choice saved. Arrange payment directly with the seller.",
+    "saveError": "Could not save the payment method.",
+    "saving": "Saving..."
   },
   "messages": {
     "title": "Messages",
@@ -571,5 +619,84 @@
     "colOwner": "Owner",
     "colLocation": "Location",
     "colArea": "Area"
+  },
+  "privacyPolicy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: August 21, 2026",
+    "intro": "AgriLink (\"we\", \"the platform\") connects farmers, buyers, distributors and transporters in Angola, the Democratic Republic of the Congo, the Republic of the Congo and China. This policy explains what personal data we collect, why we collect it, and how we use and protect it.",
+    "sections": [
+      {
+        "heading": "1. Data we collect",
+        "body": [
+          "Account data: name, email, phone number, password (stored encrypted), role on the platform (farmer, buyer, distributor, transporter or administrator), country and region.",
+          "Social login data: if you choose to sign in with Google or Facebook, we receive the name, email and profile photo associated with that account, according to the permissions you grant.",
+          "Farm and location data: the location of your farms, polygons drawn on the map to delimit growing zones, IoT sensor readings (moisture, temperature, etc.), crops, harvests and their dates.",
+          "Commercial data: products listed, orders, messages exchanged with other users, selected payment method and PayPal transaction identifiers.",
+          "Technical data: IP address, device type and usage logs, needed to keep the platform secure and functional."
+        ]
+      },
+      {
+        "heading": "2. How we use your data",
+        "body": [
+          "To create and manage your account and enable buying and selling agricultural products on the platform.",
+          "To generate farming recommendations (irrigation, soil treatment, ideal planting and harvest timing) from satellite imagery processed by Google Earth Engine, based on the farm coordinates you drew on the map.",
+          "To process payments through PayPal and calculate the 10% commission the platform retains on farmers' sales and transporters' deliveries, as well as the balance available for withdrawal.",
+          "To enable communication between buyers, farmers and transporters within the platform.",
+          "To send relevant notifications about orders, deliveries and sensor alerts.",
+          "To improve the platform, prevent fraud and comply with legal obligations."
+        ]
+      },
+      {
+        "heading": "3. Location and satellite data",
+        "body": [
+          "When you draw your farm's polygon on the map, the geographic coordinates are sent to Google Earth Engine solely to calculate soil indices (moisture, vegetation, salinity) and generate your farming recommendations. These coordinates are not used for any other purpose and are not shared with third parties beyond what this processing requires.",
+          "Your device's current location is only used, with your permission, to center the map and help identify your zone — it is never collected in the background."
+        ]
+      },
+      {
+        "heading": "4. Sharing data with third parties",
+        "body": [
+          "We never sell your personal data. We share only what is strictly necessary with: PayPal, to process payments; Google Earth Engine, to analyze satellite imagery of your farm's coordinates; Google and Facebook, only if you choose to sign in through these services; and transporters, to enable delivery of your orders.",
+          "We may also disclose data when required by law or to protect the rights and safety of AgriLink and its users."
+        ]
+      },
+      {
+        "heading": "5. Data retention",
+        "body": [
+          "We keep your data for as long as your account is active and for the additional period required to meet legal, tax or dispute-resolution obligations. You may request deletion of your account at any time."
+        ]
+      },
+      {
+        "heading": "6. Security",
+        "body": [
+          "We use encrypted connections (HTTPS), hashed passwords and session tokens to protect access to your account. No system is completely foolproof, but we work continuously to keep your data secure."
+        ]
+      },
+      {
+        "heading": "7. Your rights",
+        "body": [
+          "You have the right to access, correct, export or delete your personal data, and to withdraw consent for location access at any time in your device settings.",
+          "To exercise any of these rights, contact us at the email address listed at the bottom of this page."
+        ]
+      },
+      {
+        "heading": "8. Minors",
+        "body": [
+          "AgriLink is not intended for users under 18 and does not knowingly collect data from minors."
+        ]
+      },
+      {
+        "heading": "9. Changes to this policy",
+        "body": [
+          "We may update this policy periodically to reflect new features or legal requirements. The date of the last update is always shown at the top of this page."
+        ]
+      },
+      {
+        "heading": "10. Contact",
+        "body": [
+          "For questions about this policy or your personal data, contact us at contacto@agrilink.ao."
+        ]
+      }
+    ]
   }
 }
