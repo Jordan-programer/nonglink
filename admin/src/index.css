@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  --color-leaf-50: #f2faf1;
+  --color-leaf-100: #e0f3de;
+  --color-leaf-200: #c1e6bd;
+  --color-leaf-300: #97d391;
+  --color-leaf-400: #69b862;
+  --color-leaf-500: #479b41;
+  --color-leaf-600: #347d31;
+  --color-leaf-700: #2b632a;
+  --color-leaf-800: #254f26;
+  --color-leaf-900: #1f4221;
+  --color-leaf-950: #0f2411;
+
+  --color-earth-50: #fbf7ef;
+  --color-earth-100: #f5ecd8;
+  --color-earth-200: #e9d5ac;
+  --color-earth-300: #dbb877;
+  --color-earth-400: #cf9e4f;
+  --color-earth-500: #c1873a;
+  --color-earth-600: #a56b2f;
+  --color-earth-700: #83512a;
+  --color-earth-800: #6b4228;
+  --color-earth-900: #593824;
+
+  --color-cream-50: #fffdf8;
+  --color-cream-100: #fbf8ef;
+  --color-cream-200: #f4eedb;
+}
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--color-cream-50);
+  color: var(--color-leaf-950);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}

@@ -3,7 +3,6 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import EmailVerificationBanner from './components/EmailVerificationBanner'
 import RequireAuth from './components/RequireAuth'
-import RequireAdmin from './components/RequireAdmin'
 import { useAuth } from './context/AuthContext'
 import { needsProfileCompletion } from './utils/onboarding'
 import Home from './pages/Home'
@@ -30,11 +29,6 @@ import Insights from './pages/farmer/Insights'
 import Soil from './pages/farmer/Soil'
 import BuyerDashboard from './pages/buyer/Dashboard'
 import TransporterDashboard from './pages/transporter/Dashboard'
-import AdminLayout from './pages/admin/AdminLayout'
-import AdminDashboard from './pages/admin/Dashboard'
-import AdminUsers from './pages/admin/Users'
-import AdminOrders from './pages/admin/Orders'
-import AdminFarms from './pages/admin/Farms'
 
 function OnboardingRedirect() {
   const { user } = useAuth()
@@ -46,41 +40,7 @@ function OnboardingRedirect() {
   return null
 }
 
-// admin.agrilink.store serves only the admin panel, standalone (no public
-// nav/footer), so admins don't land on the marketplace by mistake.
-const isAdminHost =
-  typeof window !== 'undefined' && window.location.hostname.startsWith('admin.')
-
-function AdminApp() {
-  return (
-    <main className="flex-1">
-      <Routes>
-        <Route path="/" element={<Navigate to="/admin" replace />} />
-        <Route path="/entrar" element={<Login />} />
-        <Route
-          path="/admin"
-          element={
-            <RequireAdmin>
-              <AdminLayout />
-            </RequireAdmin>
-          }
-        >
-          <Route index element={<AdminDashboard />} />
-          <Route path="utilizadores" element={<AdminUsers />} />
-          <Route path="encomendas" element={<AdminOrders />} />
-          <Route path="lavras" element={<AdminFarms />} />
-        </Route>
-        <Route path="*" element={<Navigate to="/admin" replace />} />
-      </Routes>
-    </main>
-  )
-}
-
 function App() {
-  if (isAdminHost) {
-    return <AdminApp />
-  }
-
   return (
     <>
       <Navbar />
@@ -180,20 +140,6 @@ function App() {
               </RequireAuth>
             }
           />
-
-          <Route
-            path="/admin"
-            element={
-              <RequireAdmin>
-                <AdminLayout />
-              </RequireAdmin>
-            }
-          >
-            <Route index element={<AdminDashboard />} />
-            <Route path="utilizadores" element={<AdminUsers />} />
-            <Route path="encomendas" element={<AdminOrders />} />
-            <Route path="lavras" element={<AdminFarms />} />
-          </Route>
         </Routes>
       </main>
       <Footer />
