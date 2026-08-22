@@ -77,6 +77,8 @@ export type User = {
   email_verified: boolean
   country_id: number | null
   country_name: string | null
+  profile_photo_url: string | null
+  bio: string | null
 }
 
 export type AuthResponse = {
@@ -402,7 +404,14 @@ export function resendVerificationEmail(token: string): Promise<void> {
 }
 
 export function updateProfile(
-  payload: Partial<{ name: string; email: string; phone: string; region_id: number; role: UserRole }>,
+  payload: Partial<{
+    name: string
+    email: string
+    phone: string
+    region_id: number
+    role: UserRole
+    bio: string
+  }>,
   token: string,
 ): Promise<User> {
   return request<User>('/users/me', {
@@ -837,6 +846,30 @@ export async function uploadProductImage(
   formData.append('file', file)
 
   const res = await fetch(`${API_BASE}/products/upload-image`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  })
+
+  if (!res.ok) {
+    let message = `Erro ${res.status}`
+    try {
+      const body = await res.json()
+      if (typeof body.detail === 'string') message = body.detail
+    } catch {
+      // response wasn't JSON, keep the default message
+    }
+    throw new ApiError(message, res.status)
+  }
+
+  return res.json()
+}
+
+export async function uploadProfilePhoto(file: File, token: string): Promise<User> {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  const res = await fetch(`${API_BASE}/users/me/photo`, {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}` },
     body: formData,

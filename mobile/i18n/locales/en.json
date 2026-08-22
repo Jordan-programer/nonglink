@@ -125,6 +125,14 @@
     "resendVerificationSending": "Sending...",
     "resendVerificationSent": "Email resent. Check your inbox.",
     "resendVerificationError": "Couldn't resend the verification email.",
+    "bio": "Bio",
+    "bioPlaceholder": "Tell us a bit about yourself or your business...",
+    "saveBio": "Save",
+    "savingBio": "Saving...",
+    "bioError": "Couldn't save the bio.",
+    "uploadingPhoto": "Uploading photo...",
+    "photoError": "Couldn't upload the photo.",
+    "photoPermissionError": "We need access to your photos to continue.",
     "language": "Language",
     "roleTransporter": "Transporter",
     "roleSuperadmin": "Superadmin",
@@ -481,7 +489,7 @@
       {
         "heading": "10. Contact",
         "body": [
-          "For questions about this policy or your personal data, contact us at contacto@agrilink.ao."
+          "For questions about this policy or your personal data, contact us at contact@agrilink.store."
         ]
       }
     ]

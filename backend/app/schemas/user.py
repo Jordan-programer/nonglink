@@ -28,6 +28,7 @@ class UserUpdate(BaseModel):
     phone: str | None = None
     region_id: int | None = None
     role: UserRole | None = None
+    bio: str | None = Field(default=None, max_length=300)
 
 
 class PasswordUpdate(BaseModel):
@@ -57,6 +58,8 @@ class UserRead(UserBase):
     email_verified: bool
     country_id: int | None = None
     country_name: str | None = None
+    profile_photo_url: str | None = None
+    bio: str | None = None
 
     class Config:
         from_attributes = True

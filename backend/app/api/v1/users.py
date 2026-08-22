@@ -1,4 +1,4 @@
-from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
+from fastapi import APIRouter, BackgroundTasks, Depends, File, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user, require_admin, require_superadmin
@@ -13,6 +13,7 @@ from app.schemas.user import (
     UserUpdate,
 )
 from app.services import email as email_service
+from app.services.file_storage import save_profile_photo
 from app.utils.security import hash_password, verify_password
 
 router = APIRouter(prefix="/users", tags=["users"])
@@ -88,6 +89,18 @@ def update_me(
     for field, value in updates.items():
         setattr(current_user, field, value)
 
+    db.commit()
+    db.refresh(current_user)
+    return current_user
+
+
+@router.post("/me/photo", response_model=UserRead)
+async def upload_my_photo(
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    current_user.profile_photo_url = await save_profile_photo(file)
     db.commit()
     db.refresh(current_user)
     return current_user

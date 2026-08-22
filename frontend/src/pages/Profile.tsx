@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import type { FormEvent } from 'react'
-import { KeyRound, Mail, Phone, User as UserIcon } from 'lucide-react'
+import type { ChangeEvent, FormEvent } from 'react'
+import { Camera, KeyRound, Mail, Phone, User as UserIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
-import { ApiError, updatePassword, updateProfile } from '../api/client'
+import { ApiError, updatePassword, updateProfile, uploadProfilePhoto } from '../api/client'
 
 export default function Profile() {
   const { t } = useTranslation()
@@ -20,9 +20,13 @@ export default function Profile() {
   const [name, setName] = useState(user?.name ?? '')
   const [email, setEmail] = useState(user?.email ?? '')
   const [phone, setPhone] = useState(user?.phone ?? '')
+  const [bio, setBio] = useState(user?.bio ?? '')
   const [profileError, setProfileError] = useState<string | null>(null)
   const [profileSaved, setProfileSaved] = useState(false)
   const [savingProfile, setSavingProfile] = useState(false)
+
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
+  const [photoError, setPhotoError] = useState<string | null>(null)
 
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
@@ -39,13 +43,33 @@ export default function Profile() {
     setProfileSaved(false)
     setSavingProfile(true)
     try {
-      const updated = await updateProfile({ name, email, phone: phone || undefined }, token!)
+      const updated = await updateProfile(
+        { name, email, phone: phone || undefined, bio: bio || undefined },
+        token!,
+      )
       updateUser(updated)
       setProfileSaved(true)
     } catch (err) {
       setProfileError(err instanceof ApiError ? err.message : t('profile.profileError'))
     } finally {
       setSavingProfile(false)
+    }
+  }
+
+  async function handlePhotoChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+
+    setPhotoError(null)
+    setUploadingPhoto(true)
+    try {
+      const updated = await uploadProfilePhoto(file, token!)
+      updateUser(updated)
+    } catch (err) {
+      setPhotoError(err instanceof ApiError ? err.message : t('profile.photoError'))
+    } finally {
+      setUploadingPhoto(false)
     }
   }
 
@@ -86,9 +110,27 @@ export default function Profile() {
       <div className="relative mx-auto max-w-md space-y-6 px-6">
         <div className="rounded-3xl border border-leaf-100 bg-white/90 p-8 shadow-xl shadow-leaf-950/10 backdrop-blur">
           <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-leaf-100 text-leaf-700">
-              <UserIcon size={20} />
-            </div>
+            <label className="group relative flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-leaf-100 text-leaf-700">
+              {user.profile_photo_url ? (
+                <img
+                  src={user.profile_photo_url}
+                  alt={user.name}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <UserIcon size={20} />
+              )}
+              <span className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 transition-opacity group-hover:opacity-100">
+                <Camera size={16} className="text-white" />
+              </span>
+              <input
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                onChange={handlePhotoChange}
+                disabled={uploadingPhoto}
+                className="hidden"
+              />
+            </label>
             <div>
               <h1 className="text-xl font-semibold tracking-tight text-leaf-950">
                 {t('profile.title')}
@@ -98,6 +140,12 @@ export default function Profile() {
               </span>
             </div>
           </div>
+          {uploadingPhoto && (
+            <p className="mt-2 text-xs text-leaf-950/50">{t('profile.uploadingPhoto')}</p>
+          )}
+          {photoError && (
+            <p className="mt-2 text-xs text-earth-700">{photoError}</p>
+          )}
 
           <form className="mt-7 space-y-4" onSubmit={handleProfileSubmit}>
             <label className="block">
@@ -147,6 +195,21 @@ export default function Profile() {
                   className="w-full rounded-xl border border-leaf-200 bg-white py-2.5 pl-9 pr-4 text-sm text-leaf-950 placeholder:text-leaf-950/40 focus:border-leaf-400 focus:outline-none"
                 />
               </div>
+            </label>
+
+            <label className="block">
+              <span className="text-sm font-medium text-leaf-950/80">{t('profile.bio')}</span>
+              <textarea
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+                placeholder={t('profile.bioPlaceholder')}
+                maxLength={300}
+                rows={3}
+                className="mt-1.5 w-full resize-none rounded-xl border border-leaf-200 bg-white px-3.5 py-2.5 text-sm text-leaf-950 placeholder:text-leaf-950/40 focus:border-leaf-400 focus:outline-none"
+              />
+              <span className="mt-1 block text-right text-xs text-leaf-950/40">
+                {bio.length}/300
+              </span>
             </label>
 
             {profileError && (

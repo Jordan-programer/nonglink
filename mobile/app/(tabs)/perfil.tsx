@@ -1,8 +1,9 @@
 import { Link, useFocusEffect } from 'expo-router'
 import { useCallback, useState } from 'react'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Image, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import * as ImagePicker from 'expo-image-picker'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import LanguageSwitcher from '../../components/LanguageSwitcher'
@@ -12,16 +13,24 @@ import {
   fetchMyDeliveries,
   fetchMyFarms,
   fetchMyOrders,
+  SERVER_BASE,
+  updateProfile,
+  uploadProfilePhoto,
 } from '../../lib/api'
 import { colors } from '../../theme/colors'
 
 export default function Perfil() {
   const { t } = useTranslation()
-  const { user, token, logout, resendVerification } = useAuth()
+  const { user, token, logout, resendVerification, updateUser } = useAuth()
   const insets = useSafeAreaInsets()
   const [summary, setSummary] = useState<{ primary: string; secondary: string } | null>(null)
   const [resendStatus, setResendStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
   const [resendError, setResendError] = useState<string | null>(null)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
+  const [photoError, setPhotoError] = useState<string | null>(null)
+  const [bio, setBio] = useState(user?.bio ?? '')
+  const [savingBio, setSavingBio] = useState(false)
+  const [bioError, setBioError] = useState<string | null>(null)
 
   async function handleResendVerification() {
     setResendStatus('sending')
@@ -32,6 +41,48 @@ export default function Perfil() {
     } catch (err) {
       setResendStatus('error')
       setResendError(err instanceof ApiError ? err.message : t('perfil.resendVerificationError'))
+    }
+  }
+
+  async function handlePickPhoto() {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (!permission.granted) {
+      setPhotoError(t('perfil.photoPermissionError'))
+      return
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.6,
+    })
+
+    if (result.canceled || !token) return
+
+    setUploadingPhoto(true)
+    setPhotoError(null)
+    try {
+      const updated = await uploadProfilePhoto(result.assets[0].uri, token)
+      updateUser(updated)
+    } catch (err) {
+      setPhotoError(err instanceof ApiError ? err.message : t('perfil.photoError'))
+    } finally {
+      setUploadingPhoto(false)
+    }
+  }
+
+  async function handleSaveBio() {
+    if (!token) return
+    setSavingBio(true)
+    setBioError(null)
+    try {
+      const updated = await updateProfile({ bio }, token)
+      updateUser(updated)
+    } catch (err) {
+      setBioError(err instanceof ApiError ? err.message : t('perfil.bioError'))
+    } finally {
+      setSavingBio(false)
     }
   }
 
@@ -112,9 +163,23 @@ export default function Perfil() {
   return (
     <View style={[styles.screen, { paddingTop: insets.top + 20 }]}>
       <View style={styles.card}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>{user?.name?.[0]?.toUpperCase() ?? '?'}</Text>
-        </View>
+        <Pressable onPress={handlePickPhoto} disabled={uploadingPhoto} style={styles.avatar}>
+          {user?.profile_photo_url ? (
+            <Image
+              source={{ uri: `${SERVER_BASE}${user.profile_photo_url}` }}
+              style={styles.avatarImage}
+            />
+          ) : (
+            <Text style={styles.avatarText}>{user?.name?.[0]?.toUpperCase() ?? '?'}</Text>
+          )}
+          <View style={styles.avatarEditBadge}>
+            <MaterialCommunityIcons name="camera" size={12} color="#fff" />
+          </View>
+        </Pressable>
+        {uploadingPhoto && (
+          <Text style={styles.photoStatusText}>{t('perfil.uploadingPhoto')}</Text>
+        )}
+        {photoError && <Text style={styles.photoErrorText}>{photoError}</Text>}
         <Text style={styles.name}>{user?.name}</Text>
         {(user?.email || user?.phone) && (
           <Text style={styles.email}>{user?.email || user?.phone}</Text>
@@ -124,6 +189,31 @@ export default function Perfil() {
             <Text style={styles.badgeText}>{roleLabels[user.role] ?? user.role}</Text>
           </View>
         )}
+
+        <View style={styles.bioWrap}>
+          <Text style={styles.sectionLabel}>{t('perfil.bio')}</Text>
+          <TextInput
+            value={bio}
+            onChangeText={setBio}
+            placeholder={t('perfil.bioPlaceholder')}
+            placeholderTextColor="rgba(15,36,17,0.4)"
+            multiline
+            maxLength={300}
+            style={styles.bioInput}
+          />
+          {bioError && <Text style={styles.photoErrorText}>{bioError}</Text>}
+          {bio !== (user?.bio ?? '') && (
+            <Pressable
+              style={[styles.bioSave, savingBio && styles.submitDisabled]}
+              onPress={handleSaveBio}
+              disabled={savingBio}
+            >
+              <Text style={styles.bioSaveText}>
+                {savingBio ? t('perfil.savingBio') : t('perfil.saveBio')}
+              </Text>
+            </Pressable>
+          )}
+        </View>
       </View>
 
       {user?.email && !user.email_verified && (
@@ -203,11 +293,72 @@ const styles = StyleSheet.create({
     backgroundColor: colors.leaf700,
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
+  },
+  avatarImage: {
+    height: '100%',
+    width: '100%',
+  },
+  avatarEditBadge: {
+    position: 'absolute',
+    bottom: -2,
+    right: -2,
+    height: 22,
+    width: 22,
+    borderRadius: 11,
+    backgroundColor: colors.leaf950,
+    borderWidth: 2,
+    borderColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   avatarText: {
     fontSize: 24,
     fontWeight: '700',
     color: '#fff',
+  },
+  photoStatusText: {
+    marginTop: 8,
+    fontSize: 12,
+    color: 'rgba(15,36,17,0.5)',
+  },
+  photoErrorText: {
+    marginTop: 8,
+    fontSize: 12,
+    color: colors.earth700,
+  },
+  bioWrap: {
+    marginTop: 18,
+    width: '100%',
+  },
+  bioInput: {
+    marginTop: 8,
+    minHeight: 64,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.leaf200,
+    backgroundColor: colors.cream50,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    fontSize: 13,
+    color: colors.leaf950,
+    textAlignVertical: 'top',
+  },
+  bioSave: {
+    marginTop: 10,
+    alignSelf: 'flex-start',
+    borderRadius: 999,
+    backgroundColor: colors.leaf700,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  bioSaveText: {
+    fontSize: 12,
+    fontWeight: '700',
+    color: '#fff',
+  },
+  submitDisabled: {
+    opacity: 0.6,
   },
   name: {
     marginTop: 14,

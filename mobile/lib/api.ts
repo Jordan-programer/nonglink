@@ -70,6 +70,8 @@ export type User = {
   region_id: number | null
   is_active: boolean
   email_verified: boolean
+  profile_photo_url: string | null
+  bio: string | null
 }
 
 export type AuthResponse = {
@@ -387,13 +389,35 @@ export function resendVerificationEmail(token: string): Promise<void> {
 }
 
 export function updateProfile(
-  payload: Partial<{ name: string; email: string; phone: string; region_id: number; role: UserRole }>,
+  payload: Partial<{
+    name: string
+    email: string
+    phone: string
+    region_id: number
+    role: UserRole
+    bio: string
+  }>,
   token: string,
 ): Promise<User> {
   return request<User>('/users/me', {
     method: 'PATCH',
     token,
     body: JSON.stringify(payload),
+  })
+}
+
+export async function uploadProfilePhoto(uri: string, token: string): Promise<User> {
+  const filename = uri.split('/').pop() || 'photo.jpg'
+  const ext = /\.(\w+)$/.exec(filename)?.[1]?.toLowerCase()
+  const mime = ext === 'png' ? 'image/png' : ext === 'webp' ? 'image/webp' : 'image/jpeg'
+
+  const formData = new FormData()
+  formData.append('file', { uri, name: filename, type: mime } as unknown as Blob)
+
+  return request<User>('/users/me/photo', {
+    method: 'POST',
+    token,
+    body: formData,
   })
 }
 

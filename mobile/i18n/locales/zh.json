@@ -125,6 +125,14 @@
     "resendVerificationSending": "发送中...",
     "resendVerificationSent": "邮件已重新发送，请查收您的邮箱。",
     "resendVerificationError": "无法重新发送验证邮件。",
+    "bio": "个人简介",
+    "bioPlaceholder": "简单介绍一下你自己或你的业务...",
+    "saveBio": "保存",
+    "savingBio": "正在保存...",
+    "bioError": "无法保存个人简介。",
+    "uploadingPhoto": "正在上传照片...",
+    "photoError": "无法上传照片。",
+    "photoPermissionError": "我们需要访问你的照片才能继续。",
     "language": "语言",
     "roleTransporter": "运输商",
     "roleSuperadmin": "超级管理员",
@@ -481,7 +489,7 @@
       {
         "heading": "10. 联系我们",
         "body": [
-          "如对本政策或您的个人数据有任何疑问，请通过 contacto@agrilink.ao 与我们联系。"
+          "如对本政策或您的个人数据有任何疑问，请通过 contact@agrilink.store 与我们联系。"
         ]
       }
     ]

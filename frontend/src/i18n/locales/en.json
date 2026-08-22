@@ -267,6 +267,10 @@
     "email": "Email",
     "phone": "Phone",
     "phonePlaceholder": "923 000 000",
+    "bio": "Bio",
+    "bioPlaceholder": "Tell us a bit about yourself or your business...",
+    "uploadingPhoto": "Uploading photo...",
+    "photoError": "Couldn't upload the photo.",
     "savingChanges": "Saving...",
     "saveChanges": "Save changes",
     "profileUpdated": "Profile updated successfully.",
@@ -707,7 +711,7 @@
       {
         "heading": "10. Contact",
         "body": [
-          "For questions about this policy or your personal data, contact us at contacto@agrilink.ao."
+          "For questions about this policy or your personal data, contact us at contact@agrilink.store."
         ]
       }
     ]

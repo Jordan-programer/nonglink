@@ -35,6 +35,8 @@ class User(Base):
     # Not used for farmer/buyer/distributor/transporter accounts — those are
     # scoped via region_id instead.
     country_id = Column(Integer, ForeignKey("countries.id"), nullable=True)
+    profile_photo_url = Column(String(255), nullable=True)
+    bio = Column(String(300), nullable=True)
     created_at = Column(DateTime, server_default=func.now())
 
     region = relationship("Region", back_populates="users")
