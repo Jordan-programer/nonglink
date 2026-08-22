@@ -38,7 +38,7 @@ export default function Footer() {
           <h3 className="text-sm font-semibold text-white">{t('footer.contact')}</h3>
           <ul className="mt-4 space-y-2 text-sm text-cream-100/70">
             <li>{t('footer.location')}</li>
-            <li>contacto@agrilink.ao</li>
+            <li>contact@agrilink.store</li>
           </ul>
         </div>
       </div>
