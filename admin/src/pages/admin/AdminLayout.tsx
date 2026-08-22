@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { LayoutDashboard, Sprout, ShoppingBag, Users } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from '../../components/LanguageSwitcher'
 
 export default function AdminLayout() {
   const { t } = useTranslation()
@@ -14,11 +15,14 @@ export default function AdminLayout() {
 
   return (
     <section className="mx-auto max-w-6xl px-6 py-10">
-      <div className="mb-8">
-        <h1 className="text-2xl font-semibold tracking-tight text-leaf-950">
-          {t('adminLayout.title')}
-        </h1>
-        <p className="mt-1 text-sm text-leaf-950/60">{t('adminLayout.subtitle')}</p>
+      <div className="mb-8 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold tracking-tight text-leaf-950">
+            {t('adminLayout.title')}
+          </h1>
+          <p className="mt-1 text-sm text-leaf-950/60">{t('adminLayout.subtitle')}</p>
+        </div>
+        <LanguageSwitcher />
       </div>
 
       <div className="grid gap-8 md:grid-cols-[200px_1fr]">

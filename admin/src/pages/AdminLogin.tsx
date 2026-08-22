@@ -5,6 +5,7 @@ import { ArrowRight, Lock, Mail } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 import { ApiError } from '../api/client'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 
 export default function AdminLogin() {
   const { t } = useTranslation()
@@ -41,6 +42,10 @@ export default function AdminLogin() {
       />
 
       <div className="relative mx-auto w-full max-w-md px-6">
+        <div className="mb-3 flex justify-end">
+          <LanguageSwitcher />
+        </div>
+
         <div className="rounded-3xl border border-leaf-100 bg-white/90 p-8 shadow-xl shadow-leaf-950/10 backdrop-blur">
           <h1 className="text-2xl font-semibold tracking-tight text-leaf-950">
             AgriLink Admin
