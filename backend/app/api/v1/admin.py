@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.api.deps import require_admin, require_superadmin
 from app.core.database import get_db
+from app.models.country import Country
 from app.models.farm import Farm
 from app.models.harvest import Harvest
 from app.models.order import Order, OrderStatus
@@ -28,12 +29,16 @@ def create_admin(
     if db.query(User).filter(User.email == payload.email).first():
         raise HTTPException(status_code=400, detail="Email already registered")
 
+    if not db.query(Country).filter(Country.id == payload.country_id).first():
+        raise HTTPException(status_code=404, detail="País não encontrado")
+
     user = User(
         name=payload.name,
         email=payload.email,
         phone=payload.phone,
         role=UserRole.ADMIN,
-        region_id=payload.region_id,
+        country_id=payload.country_id,
+        email_verified=True,
         hashed_password=hash_password(payload.password),
     )
     db.add(user)

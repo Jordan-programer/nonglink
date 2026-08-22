@@ -75,6 +75,8 @@ export type User = {
   region_id: number | null
   is_active: boolean
   email_verified: boolean
+  country_id: number | null
+  country_name: string | null
 }
 
 export type AuthResponse = {
@@ -728,7 +730,7 @@ export function updateUserStatus(
 }
 
 export function createAdmin(
-  payload: { name: string; email: string; password: string; phone?: string },
+  payload: { name: string; email: string; password: string; phone?: string; country_id: number },
   token: string,
 ): Promise<User> {
   return request<User>('/admin/users', {

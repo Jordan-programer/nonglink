@@ -84,6 +84,18 @@ export default function SocialLoginButtons({
   const googleButtonRef = useRef<HTMLDivElement>(null)
   const [facebookLoading, setFacebookLoading] = useState(false)
 
+  // Kept fresh on every render but read via ref inside the effect below, so
+  // the effect itself only depends on [] and initializes the Google button
+  // exactly once per mount. Depending on onSuccess/onError/loginWithGoogle
+  // directly re-ran google.accounts.id.initialize()/renderButton() on every
+  // parent re-render (they're new function identities each time), stacking
+  // duplicate button instances in the same container and causing the
+  // in-flight credential to bind to a stale/torn-down instance.
+  const latest = useRef({ loginWithGoogle, onSuccess, onError, t })
+  useEffect(() => {
+    latest.current = { loginWithGoogle, onSuccess, onError, t }
+  })
+
   useEffect(() => {
     if (!GOOGLE_CLIENT_ID || !googleButtonRef.current) return
     let cancelled = false
@@ -95,10 +107,12 @@ export default function SocialLoginButtons({
         client_id: GOOGLE_CLIENT_ID,
         callback: async (response) => {
           try {
-            await loginWithGoogle(response.credential)
-            onSuccess()
+            await latest.current.loginWithGoogle(response.credential)
+            latest.current.onSuccess()
           } catch (err) {
-            onError(err instanceof ApiError ? err.message : t('login.googleError'))
+            latest.current.onError(
+              err instanceof ApiError ? err.message : latest.current.t('login.googleError'),
+            )
           }
         },
       })
@@ -112,7 +126,8 @@ export default function SocialLoginButtons({
     return () => {
       cancelled = true
     }
-  }, [loginWithGoogle, onError, onSuccess, t])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   async function handleFacebookClick() {
     if (!FACEBOOK_APP_ID) return

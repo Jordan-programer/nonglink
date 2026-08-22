@@ -8,8 +8,10 @@ import {
   createAdmin,
   deleteUser,
   fetchAllUsers,
+  fetchCountries,
   updateUserRole,
   updateUserStatus,
+  type Country,
   type User,
   type UserRole,
 } from '../../api/client'
@@ -25,12 +27,23 @@ export default function Users() {
   const [error, setError] = useState<string | null>(null)
   const [savingId, setSavingId] = useState<number | null>(null)
 
+  const [countries, setCountries] = useState<Country[]>([])
   const [showNewAdmin, setShowNewAdmin] = useState(false)
-  const [newAdmin, setNewAdmin] = useState({ name: '', email: '', phone: '', password: '' })
+  const [newAdmin, setNewAdmin] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    password: '',
+    country_id: '',
+  })
   const [newAdminError, setNewAdminError] = useState<string | null>(null)
   const [creatingAdmin, setCreatingAdmin] = useState(false)
 
   const isSuperadmin = currentUser?.role === 'superadmin'
+
+  useEffect(() => {
+    fetchCountries().then(setCountries)
+  }, [])
 
   const roleLabels: Record<UserRole, string> = {
     farmer: t('adminUsers.roleFarmer'),
@@ -94,6 +107,10 @@ export default function Users() {
   async function handleCreateAdmin(e: FormEvent) {
     e.preventDefault()
     if (!token) return
+    if (!newAdmin.country_id) {
+      setNewAdminError(t('adminUsers.selectCountryError'))
+      return
+    }
     setNewAdminError(null)
     setCreatingAdmin(true)
     try {
@@ -103,12 +120,13 @@ export default function Users() {
           email: newAdmin.email,
           password: newAdmin.password,
           phone: newAdmin.phone || undefined,
+          country_id: Number(newAdmin.country_id),
         },
         token,
       )
       setUsers((prev) => [...prev, created])
       setShowNewAdmin(false)
-      setNewAdmin({ name: '', email: '', phone: '', password: '' })
+      setNewAdmin({ name: '', email: '', phone: '', password: '', country_id: '' })
     } catch (err) {
       setNewAdminError(err instanceof ApiError ? err.message : t('adminUsers.createError'))
     } finally {
@@ -204,6 +222,25 @@ export default function Users() {
                 className="mt-1.5 w-full rounded-xl border border-leaf-200 bg-white px-3.5 py-2.5 text-sm text-leaf-950 focus:border-leaf-400 focus:outline-none"
               />
             </label>
+
+            <label className="block">
+              <span className="text-sm font-medium text-leaf-950/80">{t('adminUsers.country')}</span>
+              <select
+                required
+                value={newAdmin.country_id}
+                onChange={(e) => setNewAdmin({ ...newAdmin, country_id: e.target.value })}
+                className="mt-1.5 w-full rounded-xl border border-leaf-200 bg-white px-3.5 py-2.5 text-sm text-leaf-950 focus:border-leaf-400 focus:outline-none"
+              >
+                <option value="" disabled>
+                  {t('adminUsers.selectCountry')}
+                </option>
+                {countries.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </label>
           </div>
 
           {newAdminError && (
@@ -234,6 +271,7 @@ export default function Users() {
               <th className="px-4 py-3">{t('adminUsers.colEmail')}</th>
               <th className="px-4 py-3">{t('adminUsers.colPhone')}</th>
               <th className="px-4 py-3">{t('adminUsers.colRole')}</th>
+              <th className="px-4 py-3">{t('adminUsers.colCountry')}</th>
               <th className="px-4 py-3">{t('adminUsers.colStatus')}</th>
               <th className="px-4 py-3" />
             </tr>
@@ -278,6 +316,7 @@ export default function Users() {
                       <span className="text-leaf-950/80">{roleLabels[u.role]}</span>
                     )}
                   </td>
+                  <td className="px-4 py-3 text-leaf-950/60">{u.country_name ?? '—'}</td>
                   <td className="px-4 py-3">
                     <span
                       className={`rounded-full px-2.5 py-1 text-xs font-medium ${

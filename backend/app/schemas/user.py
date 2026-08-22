@@ -47,13 +47,15 @@ class AdminCreate(BaseModel):
     email: EmailStr
     password: str
     phone: str | None = None
-    region_id: int | None = None
+    country_id: int
 
 
 class UserRead(UserBase):
     id: int
     is_active: bool
     email_verified: bool
+    country_id: int | None = None
+    country_name: str | None = None
 
     class Config:
         from_attributes = True
