@@ -131,7 +131,7 @@
   },
   "marketplace": {
     "title": "Mercado agrícola",
-    "subtitle": "Produtos frescos vendidos diretamente por agricultores em Angola, sem intermediários.",
+    "subtitle": "Produtos frescos vendidos diretamente por agricultores, sem intermediários.",
     "searchPlaceholder": "Procurar produtos...",
     "all": "Todos",
     "errorLoading": "Não foi possível carregar os produtos. Verifica se o backend está a correr em",

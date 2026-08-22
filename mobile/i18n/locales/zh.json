@@ -103,7 +103,7 @@
   },
   "marketplace": {
     "title": "农业市场",
-    "subtitle": "安哥拉农户直接销售的新鲜产品，无需中间商。",
+    "subtitle": "农民直接出售新鲜农产品，无需中间商。",
     "searchPlaceholder": "搜索产品...",
     "all": "全部",
     "errorLoading": "无法加载产品。请检查后端是否在 http://localhost:8000 运行。",

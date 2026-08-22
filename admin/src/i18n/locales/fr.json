@@ -131,7 +131,7 @@
   },
   "marketplace": {
     "title": "Marché agricole",
-    "subtitle": "Produits frais vendus directement par des agriculteurs en Angola, sans intermédiaires.",
+    "subtitle": "Produits frais vendus directement par des agriculteurs, sans intermédiaires.",
     "searchPlaceholder": "Rechercher des produits...",
     "all": "Tous",
     "errorLoading": "Impossible de charger les produits. Vérifiez que le backend fonctionne sur",

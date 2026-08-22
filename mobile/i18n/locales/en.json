@@ -103,7 +103,7 @@
   },
   "marketplace": {
     "title": "Agricultural market",
-    "subtitle": "Fresh products sold directly by farmers in Angola, with no middlemen.",
+    "subtitle": "Fresh products sold directly by farmers, with no middlemen.",
     "searchPlaceholder": "Search products...",
     "all": "All",
     "errorLoading": "Could not load products. Check that the backend is running at http://localhost:8000.",
