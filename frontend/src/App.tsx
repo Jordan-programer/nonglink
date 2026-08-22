@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import EmailVerificationBanner from './components/EmailVerificationBanner'
 import RequireAuth from './components/RequireAuth'
 import RequireAdmin from './components/RequireAdmin'
 import { useAuth } from './context/AuthContext'
@@ -45,10 +46,45 @@ function OnboardingRedirect() {
   return null
 }
 
+// admin.agrilink.store serves only the admin panel, standalone (no public
+// nav/footer), so admins don't land on the marketplace by mistake.
+const isAdminHost =
+  typeof window !== 'undefined' && window.location.hostname.startsWith('admin.')
+
+function AdminApp() {
+  return (
+    <main className="flex-1">
+      <Routes>
+        <Route path="/" element={<Navigate to="/admin" replace />} />
+        <Route path="/entrar" element={<Login />} />
+        <Route
+          path="/admin"
+          element={
+            <RequireAdmin>
+              <AdminLayout />
+            </RequireAdmin>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="utilizadores" element={<AdminUsers />} />
+          <Route path="encomendas" element={<AdminOrders />} />
+          <Route path="lavras" element={<AdminFarms />} />
+        </Route>
+        <Route path="*" element={<Navigate to="/admin" replace />} />
+      </Routes>
+    </main>
+  )
+}
+
 function App() {
+  if (isAdminHost) {
+    return <AdminApp />
+  }
+
   return (
     <>
       <Navbar />
+      <EmailVerificationBanner />
       <main className="flex-1">
         <OnboardingRedirect />
         <Routes>
