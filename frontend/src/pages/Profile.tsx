@@ -1,28 +1,13 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { KeyRound, Mail, MailWarning, Phone, User as UserIcon } from 'lucide-react'
+import { KeyRound, Mail, Phone, User as UserIcon } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 import { ApiError, updatePassword, updateProfile } from '../api/client'
 
 export default function Profile() {
   const { t } = useTranslation()
-  const { user, token, updateUser, resendVerification } = useAuth()
-
-  const [resendStatus, setResendStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
-  const [resendError, setResendError] = useState<string | null>(null)
-
-  async function handleResendVerification() {
-    setResendStatus('sending')
-    setResendError(null)
-    try {
-      await resendVerification()
-      setResendStatus('sent')
-    } catch (err) {
-      setResendStatus('error')
-      setResendError(err instanceof ApiError ? err.message : t('profile.resendVerificationError'))
-    }
-  }
+  const { user, token, updateUser } = useAuth()
 
   const roleLabels: Record<string, string> = {
     farmer: t('profile.roleFarmer'),
@@ -99,32 +84,6 @@ export default function Profile() {
       />
 
       <div className="relative mx-auto max-w-md space-y-6 px-6">
-        {user.email && !user.email_verified && (
-          <div className="flex items-start gap-3 rounded-2xl border border-earth-200 bg-earth-50 p-4">
-            <MailWarning size={18} className="mt-0.5 shrink-0 text-earth-700" />
-            <div className="flex-1">
-              <p className="text-sm font-medium text-earth-800">{t('profile.emailNotVerified')}</p>
-              {resendStatus === 'sent' ? (
-                <p className="mt-1 text-sm text-earth-700">{t('profile.resendVerificationSent')}</p>
-              ) : (
-                <>
-                  <button
-                    type="button"
-                    onClick={handleResendVerification}
-                    disabled={resendStatus === 'sending'}
-                    className="mt-1 text-sm font-semibold text-earth-800 underline underline-offset-2 hover:text-earth-900 disabled:opacity-60"
-                  >
-                    {resendStatus === 'sending'
-                      ? t('profile.resendVerificationSending')
-                      : t('profile.resendVerificationButton')}
-                  </button>
-                  {resendError && <p className="mt-1 text-sm text-earth-700">{resendError}</p>}
-                </>
-              )}
-            </div>
-          </div>
-        )}
-
         <div className="rounded-3xl border border-leaf-100 bg-white/90 p-8 shadow-xl shadow-leaf-950/10 backdrop-blur">
           <div className="flex items-center gap-3">
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-leaf-100 text-leaf-700">

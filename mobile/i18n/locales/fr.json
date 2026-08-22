@@ -87,6 +87,8 @@
     "selectRegionError": "Sélectionnez votre province.",
     "contactRequiredError": "Indiquez votre téléphone et votre email.",
     "error": "Impossible de créer le compte.",
+    "verifyEmailTitle": "Confirme ton email",
+    "verifyEmailMessage": "Nous avons envoyé un lien de confirmation à ton email. Vérifie ta boîte de réception.",
     "roleTransporter": "Transporteur",
     "country": "Pays"
   },

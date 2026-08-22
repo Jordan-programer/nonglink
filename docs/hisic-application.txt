@@ -17,10 +17,15 @@ directly to Angola's agricultural sector.
 
 AgriLink is built as a production-grade platform, not a prototype: a
 MySQL-backed relational data model spanning countries, regions, crops,
-farms, products, orders, and IoT sensor data, architected from day one
-for multi-market expansion. Current focus is Angola, where the
-marketplace and IoT monitoring modules are being validated with early
-farmer users before regional scale-up.
+farms, products, orders, deliveries, IoT sensor data, and satellite
+soil observations, architected from day one for multi-market
+expansion. The platform already ships production-grade account
+infrastructure (email verification, Google/Facebook sign-in) and
+country-specific payment rails for all four target markets — including
+Alipay, WeChat Pay, and UnionPay for China. Current focus is Angola,
+where the marketplace, IoT monitoring, and satellite soil-diagnostics
+modules are being validated with early farmer users before regional
+scale-up.
 
 The team's mission is to close the information and market-access gap
 that keeps small farmers earning far below the real value of their
@@ -45,22 +50,40 @@ included, since this information wasn't available when drafting.]
 ------------------------------------------------------------------------
 核心技术及产品简介 / Core technology and product
 ------------------------------------------------------------------------
-AgriLink's product is a marketplace + IoT monitoring + data-forecasting
-platform delivered as a web app (React/Vite/TypeScript), a mobile app
-(React Native/Expo), and a FastAPI (Python) backend on MySQL.
+AgriLink's product is a marketplace + logistics + IoT + satellite +
+data-forecasting platform delivered as a web app (React/Vite/TypeScript),
+a mobile app (React Native/Expo), and a FastAPI (Python) backend on
+MySQL.
 
-Three integrated layers:
+Four integrated layers:
 
-1. Marketplace — farmers list products directly; buyers (consumers,
-   distributors, food businesses) purchase without intermediaries, with
-   full order lifecycle and role-based access for farmers, buyers, and
-   admins.
+1. Marketplace and logistics — farmers list products directly; buyers
+   (consumers, distributors, food businesses) purchase without
+   intermediaries; a dedicated transporter role handles last-mile
+   delivery; buyers, farmers, and transporters message each other
+   in-app. Checkout supports the payment methods people actually use
+   in each market — Multicaixa Express and Unitel Money (Angola),
+   Alipay, WeChat Pay, and UnionPay (China), Airtel Money and MTN
+   Mobile Money (Republic of Congo), M-Pesa and Airtel Money (DRC),
+   plus PayPal and Orange Money across markets — with a transparent
+   10% platform commission on both farmer sales and transporter
+   deliveries, and live earnings/withdrawal-balance dashboards for
+   both roles.
 
-2. IoT monitoring — low-cost sensors (soil moisture, temperature, water
-   level, humidity) report per-farm readings, giving farmers real-time
-   field visibility without manual inspection.
+2. IoT monitoring — low-cost sensors (soil moisture, temperature,
+   water level, humidity) report per-farm readings, giving farmers
+   real-time field visibility without manual inspection.
 
-3. Real data-driven forecasting — price forecasting uses an XGBoost
+3. Satellite soil diagnostics — farmers draw their farm boundary on an
+   interactive map (auto-centered on their current location); the
+   backend runs that polygon through Google Earth Engine against
+   Landsat satellite imagery to compute real soil indices (moisture,
+   vegetation health, salinity) and turns them into plain-language
+   recommendations — irrigate or not, plant now or wait, treat the
+   soil — so farmers get actionable guidance even before installing
+   any physical sensor.
+
+4. Real data-driven forecasting — price forecasting uses an XGBoost
    model trained on real historical price data, real weather (via the
    Open-Meteo API: historical, live forecast, and climatological
    averages), and logged harvest timing, with recursive day-ahead
@@ -77,8 +100,8 @@ Three integrated layers:
   directly addresses ease of entry into the Chinese market.
 
 The data model already supports multi-country/multi-region operation,
-so forecasting and marketplace logic generalize beyond Angola without
-rearchitecture.
+so forecasting, marketplace, and payment logic generalize beyond
+Angola without rearchitecture.
 
 
 ------------------------------------------------------------------------
@@ -92,27 +115,40 @@ waste, and no affordable technology. Farmers sell below fair value and
 lose income and production they can't afford to lose.
 
 Solution: AgriLink combines (1) a digital marketplace connecting
-farmers directly to buyers, distributors, and food businesses; (2)
-low-cost IoT sensors monitoring soil moisture, temperature, water
-level, and humidity; and (3) a data-driven decision layer turning
-sensor, weather, price-history, and order data into price/demand
-forecasts — designed to work across all three farming markets from a
-shared platform.
+farmers directly to buyers, distributors, and food businesses, with a
+dedicated transporter role for last-mile delivery; (2) low-cost IoT
+sensors monitoring soil moisture, temperature, water level, and
+humidity, plus satellite-based soil diagnostics via Google Earth
+Engine for farmers without sensors installed yet; (3) a data-driven
+decision layer turning sensor, satellite, weather, price-history, and
+order data into price/demand forecasts and plain-language farming
+recommendations; and (4) local payment rails with a transparent
+commission model so farmers and transporters actually get paid —
+designed to work across all three farming markets from a shared
+platform.
 
-How it works: sensors on the farm stream readings to the platform; the
-backend combines this with real weather data and transaction history to
-generate forecasts; farmers act on the recommendations and sell directly
-through the marketplace — one connected loop from field to sale,
-replicable farm-by-farm and country-by-country.
+How it works: sensors and satellite imagery stream field data to the
+platform; the backend combines this with real weather data and
+transaction history to generate forecasts and recommendations; farmers
+act on them and sell directly through the marketplace; transporters
+handle delivery and earn their own share; everyone gets paid through
+the payment method already common in their market — one connected
+loop from field to sale to payment, replicable farm-by-farm and
+country-by-country.
 
 Technology: Python/FastAPI backend, MySQL database, React/TypeScript
 web app, React Native/Expo mobile app, XGBoost and Ridge regression
-forecasting models, Open-Meteo weather API. Full interface localization
-in Portuguese, English, French, and Chinese.
+forecasting models, Open-Meteo weather API, Google Earth Engine
+satellite analysis, and PayPal plus regional mobile-money
+integrations. Full interface localization in Portuguese, English,
+French, and Chinese.
 
-Business model: commission on marketplace sales, premium subscriptions
-for advanced analytics, sale of low-cost sensor kits, and agricultural
-data services for cooperatives, distributors, and food businesses.
+Business model: a transparent 10% commission on both farmer sales and
+transporter deliveries — live in the product today, with earnings and
+withdrawal-balance dashboards for both roles — plus premium
+subscriptions for advanced analytics, sale of low-cost sensor kits,
+and agricultural data services for cooperatives, distributors, and
+food businesses.
 
 Market: initial rollout across four markets — Angola (home base and
 current pilot), the Republic of the Congo and the Democratic Republic
@@ -134,14 +170,28 @@ improved food security across all three farming markets.
 ------------------------------------------------------------------------
 - Working product, not a concept deck — a running backend, web app, and
   native mobile app with real APIs for auth, farms, products, orders,
-  sensors, and market forecasting.
+  deliveries, payments, sensors, satellite analysis, and market
+  forecasting.
 
 - Verifiable AI, not AI-washing — forecasting models train only on real
   price, weather, and order data, and honestly return "insufficient
   data" instead of inventing a number when history is thin.
 
-- Three-in-one integration — marketplace + IoT + analytics in a single
-  farm-to-sale loop, where most competitors offer only one.
+- Recommendations without waiting for hardware — satellite soil
+  diagnostics (Google Earth Engine) give farmers real irrigation and
+  planting guidance from day one, before a single IoT sensor is
+  installed on their farm.
+
+- Real multi-country payments, not a slide — checkout already supports
+  Alipay, WeChat Pay, and UnionPay for China alongside Multicaixa
+  Express, Unitel Money, Airtel Money, MTN Mobile Money, M-Pesa,
+  Orange Money, and PayPal — a concrete, working demonstration of
+  cross-border readiness, not a roadmap promise.
+
+- Four-in-one integration — marketplace + logistics, IoT + satellite
+  field data, analytics, and localized payments in a single
+  farm-to-sale-to-payment loop, where most competitors offer only one
+  piece.
 
 - Built for four-market operation in four languages from day one —
   Angola, Republic of the Congo, DRC, and China as a full user market
@@ -163,10 +213,10 @@ improved food security across all three farming markets.
 创赛辅导 / Innovation Competition Coaching
 ------------------------------------------------------------------------
 Requesting mentorship on competition positioning and pitch refinement —
-specifically how to present a technical AgriTech product (marketplace +
-IoT + ML forecasting) to non-technical judges, and how to adapt our
-story to the Chinese innovation-competition format, which our team is
-new to.
+specifically how to present a technical AgriTech product (marketplace,
+logistics, IoT, satellite analysis, ML forecasting, and local payments)
+to non-technical judges, and how to adapt our story to the Chinese
+innovation-competition format, which our team is new to.
 
 
 ------------------------------------------------------------------------
@@ -221,20 +271,24 @@ Suggested 12-slide outline:
  3. Solution — one diagram: sensor data -> forecasting engine -> farmer
     decision -> marketplace sale.
  4. Product walkthrough — screenshots: marketplace/order flow, farmer
-    sensor dashboard, price/demand forecast chart with confidence bands.
+    sensor dashboard, satellite soil-diagnostics map with
+    recommendations, price/demand forecast chart with confidence
+    bands, and the country-specific payment screen.
  5. What makes the AI real — training on real price history + real
     Open-Meteo weather + real harvest data; show the "insufficient
     data" honesty behavior as a trust signal.
  6. Tech architecture — FastAPI/MySQL backend, React web, React
-    Native/Expo mobile, XGBoost + Ridge models, Open-Meteo integration,
-    4-language localization.
+    Native/Expo mobile, XGBoost + Ridge models, Open-Meteo and Google
+    Earth Engine integration, local payment gateways, 4-language
+    localization.
  7. Traction — current build status, any pilot farmers/users, data
     collected so far.
  8. Business model — commission, subscriptions, sensor-kit sales, data
     services (4 revenue lines).
  9. Market & expansion — Angola first, Republic of the Congo, DRC,
     China (dual role: hardware partner + user market).
-10. Competitive edge — the three-in-one integration vs. single-purpose
+10. Competitive edge — the four-in-one integration (marketplace +
+    logistics, IoT + satellite, analytics, payments) vs. single-purpose
     competitors.
 11. Roadmap — next 6-12 months: pilot scale-up, sensor manufacturing,
     first paid subscriptions.

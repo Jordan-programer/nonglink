@@ -87,6 +87,8 @@
     "selectRegionError": "Select your province.",
     "contactRequiredError": "Enter your phone number and your email.",
     "error": "Could not create the account.",
+    "verifyEmailTitle": "Confirm your email",
+    "verifyEmailMessage": "We sent a confirmation link to your email. Check your inbox.",
     "roleTransporter": "Transporter",
     "country": "Country"
   },

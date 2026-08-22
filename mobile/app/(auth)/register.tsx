@@ -1,6 +1,7 @@
 import { Link } from 'expo-router'
 import { useEffect, useState } from 'react'
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -77,6 +78,9 @@ export default function Register() {
         email,
         phone,
       })
+      if (email.trim()) {
+        Alert.alert(t('register.verifyEmailTitle'), t('register.verifyEmailMessage'))
+      }
     } catch (err) {
       setError(err instanceof ApiError ? err.message : t('register.error'))
     } finally {

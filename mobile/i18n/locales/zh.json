@@ -87,6 +87,8 @@
     "selectRegionError": "请选择您的省份。",
     "contactRequiredError": "请输入您的电话和电子邮箱。",
     "error": "无法创建账户。",
+    "verifyEmailTitle": "确认你的邮箱",
+    "verifyEmailMessage": "我们已向你的邮箱发送了确认链接，请查收。",
     "roleTransporter": "运输商",
     "country": "国家"
   },

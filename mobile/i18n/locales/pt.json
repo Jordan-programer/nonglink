@@ -87,6 +87,8 @@
     "selectRegionError": "Seleciona a tua província.",
     "contactRequiredError": "Indica o teu telefone e o teu email.",
     "error": "Não foi possível criar a conta.",
+    "verifyEmailTitle": "Confirma o teu email",
+    "verifyEmailMessage": "Enviámos um link de confirmação para o teu email. Verifica a tua caixa de entrada.",
     "roleTransporter": "Transportador",
     "country": "País"
   },
