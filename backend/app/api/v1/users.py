@@ -71,6 +71,12 @@ def update_me(
 ):
     updates = payload.model_dump(exclude_unset=True)
 
+    if "role" in updates and updates["role"] in ADMIN_TIER:
+        raise HTTPException(
+            status_code=403,
+            detail="Não podes atribuir-te um papel de admin",
+        )
+
     if "email" in updates and updates["email"] != current_user.email:
         if db.query(User).filter(User.email == updates["email"]).first():
             raise HTTPException(status_code=400, detail="Email already registered")

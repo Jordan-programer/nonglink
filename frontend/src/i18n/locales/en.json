@@ -252,6 +252,15 @@
     "summaryCommission": "Platform commission (10%)",
     "summaryBalance": "Available balance for withdrawal"
   },
+  "completeProfile": {
+    "title": "Complete your profile",
+    "subtitle": "Just tell us who you are to start using AgriLink.",
+    "roleLabel": "I am a",
+    "phoneOptional": "Phone (optional)",
+    "submitting": "Saving...",
+    "submit": "Finish",
+    "error": "Couldn't save your profile. Please try again."
+  },
   "profile": {
     "title": "My profile",
     "fullName": "Full name",

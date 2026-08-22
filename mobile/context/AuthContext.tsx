@@ -31,6 +31,7 @@ type AuthContextValue = {
   }) => Promise<void>
   logout: () => void
   resendVerification: () => Promise<void>
+  updateUser: (user: User) => void
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
@@ -116,6 +117,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         register,
         logout,
         resendVerification,
+        updateUser: setUser,
       }}
     >
       {children}

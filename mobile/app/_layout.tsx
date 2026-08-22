@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from '../context/AuthContext'
 import { CartProvider } from '../context/CartContext'
 import { OnboardingProvider, useOnboarding } from '../context/OnboardingContext'
 import { colors } from '../theme/colors'
+import { needsProfileCompletion } from '../utils/onboarding'
 import '../i18n'
 
 function RootNavigator() {
@@ -20,12 +21,17 @@ function RootNavigator() {
     )
   }
 
+  const profileIncomplete = onboarded && !!user && needsProfileCompletion(user)
+
   return (
     <Stack screenOptions={{ headerShown: false }}>
       <Stack.Protected guard={!onboarded}>
         <Stack.Screen name="onboarding" />
       </Stack.Protected>
-      <Stack.Protected guard={onboarded && !!user}>
+      <Stack.Protected guard={profileIncomplete}>
+        <Stack.Screen name="completar-perfil" />
+      </Stack.Protected>
+      <Stack.Protected guard={onboarded && !!user && !profileIncomplete}>
         <Stack.Screen name="(tabs)" />
       </Stack.Protected>
       <Stack.Protected guard={onboarded && !user}>

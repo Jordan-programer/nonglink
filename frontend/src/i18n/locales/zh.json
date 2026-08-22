@@ -252,6 +252,15 @@
     "summaryCommission": "平台佣金（10%）",
     "summaryBalance": "可提现余额"
   },
+  "completeProfile": {
+    "title": "完善你的资料",
+    "subtitle": "只需告诉我们你的身份，即可开始使用AgriLink。",
+    "roleLabel": "我是",
+    "phoneOptional": "电话（选填）",
+    "submitting": "正在保存...",
+    "submit": "完成",
+    "error": "无法保存你的资料，请重试。"
+  },
   "profile": {
     "title": "我的资料",
     "fullName": "全名",

@@ -90,6 +90,15 @@
     "roleTransporter": "Transporteur",
     "country": "Pays"
   },
+  "completeProfile": {
+    "title": "Complète ton profil",
+    "subtitle": "Il ne reste plus qu'à nous dire qui tu es pour commencer à utiliser AgriLink.",
+    "roleLabel": "Je suis",
+    "phoneOptional": "Téléphone (facultatif)",
+    "submitting": "Enregistrement...",
+    "submit": "Terminer",
+    "error": "Impossible d'enregistrer ton profil. Réessaie."
+  },
   "marketplace": {
     "title": "Marché agricole",
     "subtitle": "Produits frais vendus directement par des agriculteurs en Angola, sans intermédiaires.",

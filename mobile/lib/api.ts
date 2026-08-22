@@ -386,6 +386,17 @@ export function resendVerificationEmail(token: string): Promise<void> {
   })
 }
 
+export function updateProfile(
+  payload: Partial<{ name: string; email: string; phone: string; region_id: number; role: UserRole }>,
+  token: string,
+): Promise<User> {
+  return request<User>('/users/me', {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify(payload),
+  })
+}
+
 export function fetchMyFarms(token: string): Promise<Farm[]> {
   return request<Farm[]>('/farms/mine', { token })
 }

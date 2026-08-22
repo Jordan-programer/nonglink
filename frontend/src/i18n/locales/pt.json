@@ -252,6 +252,15 @@
     "summaryCommission": "Comissão da plataforma (10%)",
     "summaryBalance": "Saldo disponível para saque"
   },
+  "completeProfile": {
+    "title": "Completa o teu perfil",
+    "subtitle": "Só falta dizeres-nos quem és para começares a usar a AgriLink.",
+    "roleLabel": "Sou",
+    "phoneOptional": "Telefone (opcional)",
+    "submitting": "A guardar...",
+    "submit": "Concluir",
+    "error": "Não foi possível guardar o teu perfil. Tenta novamente."
+  },
   "profile": {
     "title": "O meu perfil",
     "fullName": "Nome completo",

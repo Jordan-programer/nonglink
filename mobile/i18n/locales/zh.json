@@ -90,6 +90,15 @@
     "roleTransporter": "运输商",
     "country": "国家"
   },
+  "completeProfile": {
+    "title": "完善你的资料",
+    "subtitle": "只需告诉我们你的身份，即可开始使用AgriLink。",
+    "roleLabel": "我是",
+    "phoneOptional": "电话（选填）",
+    "submitting": "正在保存...",
+    "submit": "完成",
+    "error": "无法保存你的资料，请重试。"
+  },
   "marketplace": {
     "title": "农业市场",
     "subtitle": "安哥拉农户直接销售的新鲜产品，无需中间商。",

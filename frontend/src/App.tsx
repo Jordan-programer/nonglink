@@ -1,8 +1,10 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import RequireAuth from './components/RequireAuth'
 import RequireAdmin from './components/RequireAdmin'
+import { useAuth } from './context/AuthContext'
+import { needsProfileCompletion } from './utils/onboarding'
 import Home from './pages/Home'
 import Marketplace from './pages/Marketplace'
 import ProductDetail from './pages/ProductDetail'
@@ -11,6 +13,7 @@ import Payment from './pages/Payment'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import Profile from './pages/Profile'
+import CompleteProfile from './pages/CompleteProfile'
 import Orders from './pages/Orders'
 import Messages from './pages/Messages'
 import PrivacyPolicy from './pages/PrivacyPolicy'
@@ -32,11 +35,22 @@ import AdminUsers from './pages/admin/Users'
 import AdminOrders from './pages/admin/Orders'
 import AdminFarms from './pages/admin/Farms'
 
+function OnboardingRedirect() {
+  const { user } = useAuth()
+  const location = useLocation()
+
+  if (needsProfileCompletion(user) && location.pathname !== '/completar-perfil') {
+    return <Navigate to="/completar-perfil" replace />
+  }
+  return null
+}
+
 function App() {
   return (
     <>
       <Navbar />
       <main className="flex-1">
+        <OnboardingRedirect />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/mercado" element={<Marketplace />} />
@@ -59,6 +73,14 @@ function App() {
             element={
               <RequireAuth>
                 <Profile />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/completar-perfil"
+            element={
+              <RequireAuth>
+                <CompleteProfile />
               </RequireAuth>
             }
           />

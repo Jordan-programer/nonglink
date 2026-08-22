@@ -27,6 +27,7 @@ class UserUpdate(BaseModel):
     email: EmailStr | None = None
     phone: str | None = None
     region_id: int | None = None
+    role: UserRole | None = None
 
 
 class PasswordUpdate(BaseModel):

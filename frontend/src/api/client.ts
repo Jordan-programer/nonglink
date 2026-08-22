@@ -402,7 +402,7 @@ export function resendVerificationEmail(token: string): Promise<void> {
 }
 
 export function updateProfile(
-  payload: Partial<{ name: string; email: string; phone: string }>,
+  payload: Partial<{ name: string; email: string; phone: string; region_id: number; role: UserRole }>,
   token: string,
 ): Promise<User> {
   return request<User>('/users/me', {
