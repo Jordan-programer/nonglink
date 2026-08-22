@@ -18,7 +18,7 @@ type AuthContextValue = {
   user: User | null
   token: string | null
   loading: boolean
-  login: (email: string, password: string) => Promise<void>
+  login: (email: string, password: string) => Promise<User>
   loginWithGoogle: (idToken: string) => Promise<void>
   loginWithFacebook: (accessToken: string) => Promise<void>
   register: (data: {
@@ -65,6 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(TOKEN_KEY, res.access_token)
     setToken(res.access_token)
     setUser(res.user)
+    return res.user
   }
 
   async function loginWithGoogle(idToken: string) {

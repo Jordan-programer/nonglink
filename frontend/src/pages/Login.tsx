@@ -7,6 +7,12 @@ import { useAuth } from '../context/AuthContext'
 import { ApiError } from '../api/client'
 import SocialLoginButtons from '../components/SocialLoginButtons'
 
+// Admins have their own app at admin.<this domain> — falls back to deriving
+// it from the current hostname so this doesn't need a rebuild per domain.
+const ADMIN_URL =
+  import.meta.env.VITE_ADMIN_URL ||
+  `https://admin.${window.location.hostname.replace(/^www\./, '')}`
+
 export default function Login() {
   const { t } = useTranslation()
   const { login } = useAuth()
@@ -25,7 +31,11 @@ export default function Login() {
     setError(null)
     setSubmitting(true)
     try {
-      await login(email, password)
+      const user = await login(email, password)
+      if (user.role === 'admin' || user.role === 'superadmin') {
+        window.location.href = ADMIN_URL
+        return
+      }
       navigate(from, { replace: true })
     } catch (err) {
       setError(err instanceof ApiError ? err.message : t('login.error'))
