@@ -19,6 +19,10 @@ const CALLING_CODES: Record<string, string> = {
   CN: '+86',
   CG: '+242',
   CD: '+243',
+  MZ: '+258',
+  CV: '+238',
+  GW: '+245',
+  ST: '+239',
 }
 
 export default function Register() {
