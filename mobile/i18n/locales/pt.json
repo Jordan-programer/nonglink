@@ -101,6 +101,21 @@
     "submit": "Concluir",
     "error": "Não foi possível guardar o teu perfil. Tenta novamente."
   },
+  "export": {
+    "subtitle": "Junta os teus produtos a lotes de exportação para compradores internacionais.",
+    "joinTitle": "Juntar produto a um lote de exportação",
+    "product": "Produto",
+    "quantity": "Quantidade",
+    "joining": "A juntar...",
+    "joinButton": "Juntar ao lote",
+    "joinError": "Não foi possível juntar o produto ao lote.",
+    "myBatches": "Os meus lotes",
+    "noBatches": "Ainda não juntaste nenhum produto a um lote de exportação.",
+    "volumeProgress": "{{current}} / {{target}} kg reunidos",
+    "statusCollecting": "A reunir volume",
+    "statusCertified": "Certificado",
+    "statusClaimed": "Reclamado por comprador"
+  },
   "marketplace": {
     "title": "Mercado agrícola",
     "subtitle": "Produtos frescos vendidos diretamente por agricultores, sem intermediários.",
@@ -154,6 +169,7 @@
     "ordersTitle": "Encomendas",
     "monitoringTitle": "Monitorização",
     "soilTitle": "Solo (Satélite)",
+    "exportTitle": "Exportação",
     "welcomeBack": "Bem-vindo de volta, ",
     "statFarms": "Lavras",
     "statActiveProducts": "Produtos ativos",
@@ -164,6 +180,7 @@
     "shortcutFarm": "A minha lavra",
     "shortcutMonitoring": "Monitorização",
     "shortcutSoil": "Solo",
+    "shortcutExport": "Exportação",
     "createFarmCta": "Cria a tua lavra para começares a vender.",
     "createFarmButton": "Criar lavra",
     "recentOrders": "Encomendas recentes",

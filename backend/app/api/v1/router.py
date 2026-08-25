@@ -6,6 +6,7 @@ from app.api.v1 import (
     conversations,
     countries,
     crops,
+    export,
     farms,
     harvests,
     market,
@@ -38,3 +39,4 @@ api_router.include_router(conversations.router)
 api_router.include_router(transport.router)
 api_router.include_router(payment_methods.router)
 api_router.include_router(paypal.router)
+api_router.include_router(export.router)

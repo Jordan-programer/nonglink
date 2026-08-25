@@ -20,6 +20,7 @@ export default function PainelLayout() {
       <Stack.Screen name="encomendas" options={{ title: t('painel.ordersTitle') }} />
       <Stack.Screen name="monitorizacao" options={{ title: t('painel.monitoringTitle') }} />
       <Stack.Screen name="solo" options={{ title: t('painel.soilTitle') }} />
+      <Stack.Screen name="exportacao" options={{ title: t('painel.exportTitle') }} />
     </Stack>
   )
 }

@@ -27,8 +27,10 @@ import Monitoring from './pages/farmer/Monitoring'
 import Harvests from './pages/farmer/Harvests'
 import Insights from './pages/farmer/Insights'
 import Soil from './pages/farmer/Soil'
+import Export from './pages/farmer/Export'
 import BuyerDashboard from './pages/buyer/Dashboard'
 import TransporterDashboard from './pages/transporter/Dashboard'
+import ImporterDashboard from './pages/importer/Dashboard'
 
 function OnboardingRedirect() {
   const { user } = useAuth()
@@ -121,7 +123,17 @@ function App() {
             <Route path="colheitas" element={<Harvests />} />
             <Route path="recomendacoes" element={<Insights />} />
             <Route path="solo" element={<Soil />} />
+            <Route path="exportacao" element={<Export />} />
           </Route>
+
+          <Route
+            path="/exportador"
+            element={
+              <RequireAuth>
+                <ImporterDashboard />
+              </RequireAuth>
+            }
+          />
 
           <Route
             path="/comprador"

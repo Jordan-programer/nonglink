@@ -11,6 +11,7 @@ class UserRole(str, enum.Enum):
     BUYER = "buyer"
     DISTRIBUTOR = "distributor"
     TRANSPORTER = "transporter"
+    IMPORTER = "importer"
     ADMIN = "admin"
     SUPERADMIN = "superadmin"
 
@@ -44,6 +45,7 @@ class User(Base):
     farms = relationship("Farm", back_populates="owner")
     orders = relationship("Order", back_populates="buyer", foreign_keys="Order.buyer_id")
     deliveries = relationship("Order", back_populates="transporter", foreign_keys="Order.transporter_id")
+    importer_profile = relationship("ImporterProfile", back_populates="user", uselist=False)
 
     @property
     def country_name(self) -> str | None:

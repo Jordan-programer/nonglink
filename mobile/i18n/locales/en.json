@@ -101,6 +101,21 @@
     "submit": "Finish",
     "error": "Couldn't save your profile. Please try again."
   },
+  "export": {
+    "subtitle": "Add your products to export batches for international buyers.",
+    "joinTitle": "Add product to an export batch",
+    "product": "Product",
+    "quantity": "Quantity",
+    "joining": "Joining...",
+    "joinButton": "Join batch",
+    "joinError": "Couldn't join this product to a batch.",
+    "myBatches": "My batches",
+    "noBatches": "You haven't joined any export batch yet.",
+    "volumeProgress": "{{current}} / {{target}} kg gathered",
+    "statusCollecting": "Gathering volume",
+    "statusCertified": "Certified",
+    "statusClaimed": "Claimed by buyer"
+  },
   "marketplace": {
     "title": "Agricultural market",
     "subtitle": "Fresh products sold directly by farmers, with no middlemen.",
@@ -154,6 +169,7 @@
     "ordersTitle": "Orders",
     "monitoringTitle": "Monitoring",
     "soilTitle": "Soil (Satellite)",
+    "exportTitle": "Export",
     "welcomeBack": "Welcome back, ",
     "statFarms": "Farms",
     "statActiveProducts": "Active products",
@@ -164,6 +180,7 @@
     "shortcutFarm": "My farm",
     "shortcutMonitoring": "Monitoring",
     "shortcutSoil": "Soil",
+    "shortcutExport": "Export",
     "createFarmCta": "Create your farm to start selling.",
     "createFarmButton": "Create farm",
     "recentOrders": "Recent orders",

@@ -18,7 +18,11 @@
       "Bash(node \"C:\\\\Users\\\\pc-hp\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\c--xampp-htdocs-agrilink\\\\c0f1ae35-aec2-4142-99e4-aaaefa534176\\\\scratchpad\\\\apply_i18n_mobile_oauth.js\")",
       "WebSearch",
       "WebFetch(domain:developers.google.com)",
-      "Bash(npx expo-doctor *)"
+      "Bash(npx expo-doctor *)",
+      "Bash(.venv/Scripts/python -c \"from app.services.document_generation import generate_pdf, sha256_hex; pdf = generate_pdf\\('Teste', {'a':'1'}\\); print\\(len\\(pdf\\), sha256_hex\\(pdf\\)[:16]\\)\")",
+      "Bash(.venv/Scripts/python -c \"from app.main import app; print\\('IMPORT OK'\\)\")",
+      "Bash(curl -s http://127.0.0.1:8000/api/v1/products/)",
+      "Bash(python -c ' *)"
     ]
   }
 }

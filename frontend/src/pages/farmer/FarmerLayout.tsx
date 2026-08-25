@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   Package,
   Satellite,
+  Ship,
   ShoppingBag,
   Sparkles,
   Sprout,
@@ -23,6 +24,7 @@ export default function FarmerLayout() {
     { to: '/painel/colheitas', label: 'Colheitas', icon: Wheat },
     { to: '/painel/recomendacoes', label: 'Recomendações', icon: Sparkles },
     { to: '/painel/solo', label: t('farmerLayout.navSoil'), icon: Satellite },
+    { to: '/painel/exportacao', label: t('farmerLayout.navExport'), icon: Ship },
   ]
 
   return (

@@ -160,7 +160,8 @@
     "navProducts": "Products",
     "navOrders": "Orders",
     "navFarm": "My farm",
-    "navSoil": "Soil (Satellite)"
+    "navSoil": "Soil (Satellite)",
+    "navExport": "Export"
   },
   "farmerDashboard": {
     "welcomeBack": "Welcome back, ",
@@ -260,6 +261,39 @@
     "submitting": "Saving...",
     "submit": "Finish",
     "error": "Couldn't save your profile. Please try again."
+  },
+  "export": {
+    "title": "Export",
+    "subtitle": "Add your products to export batches for international buyers.",
+    "joinTitle": "Add product to an export batch",
+    "product": "Product",
+    "selectProduct": "Select a product",
+    "quantity": "Quantity",
+    "joining": "Joining...",
+    "joinButton": "Join batch",
+    "joinError": "Couldn't join this product to a batch.",
+    "myBatches": "My batches",
+    "noBatches": "You haven't joined any export batch yet.",
+    "volumeProgress": "{{current}} / {{target}} kg gathered",
+    "statusCollecting": "Gathering volume",
+    "statusCertified": "Certified",
+    "statusClaimed": "Claimed by buyer"
+  },
+  "importerDashboard": {
+    "title": "Importer Dashboard",
+    "subtitle": "Certified export batches, available for purchase.",
+    "unverifiedTitle": "Account under review",
+    "unverifiedSubtitle": "Your importer account is still being verified by our team. Contact us if you need help.",
+    "availableTitle": "Available batches",
+    "noneAvailable": "No batches available right now.",
+    "volume": "{{volume}} kg",
+    "viewCertificate": "View certificate",
+    "claiming": "Claiming...",
+    "claimButton": "Claim batch",
+    "claimError": "Couldn't claim this batch.",
+    "claimedTitle": "My claimed batches",
+    "noneClaimed": "You haven't claimed any batch yet.",
+    "viewContract": "View contract"
   },
   "profile": {
     "title": "My profile",

@@ -287,6 +287,39 @@ export type ConversationDetail = Conversation & {
   messages: Message[]
 }
 
+export type ExportBatchStatus = 'collecting' | 'certified' | 'claimed'
+
+export type ExportBatch = {
+  id: number
+  crop_id: number
+  crop_name: string
+  origin_country_id: number
+  origin_country_name: string
+  destination_country_id: number
+  destination_country_name: string
+  min_volume_target: number
+  total_volume: number
+  status: ExportBatchStatus
+  certification_document_url: string | null
+  certification_hash: string | null
+  contract_document_url: string | null
+  contract_hash: string | null
+  claimed_by_id: number | null
+  claimed_at: string | null
+  created_at: string
+}
+
+export type ImporterVerificationStatus = 'pending' | 'verified' | 'rejected'
+
+export type ImporterProfile = {
+  id: number
+  user_id: number
+  company_name: string
+  verification_status: ImporterVerificationStatus
+  macau_registered: boolean
+  created_at: string
+}
+
 export class ApiError extends Error {
   status: number
 
@@ -587,6 +620,43 @@ export function fetchSoilHistory(farmId: number, token: string): Promise<SoilObs
 
 export function fetchMyProducts(token: string): Promise<Product[]> {
   return request<Product[]>('/products/mine', { token })
+}
+
+export function joinExportBatch(
+  payload: { product_id: number; quantity: number },
+  token: string,
+): Promise<ExportBatch> {
+  return request<ExportBatch>('/export/batches/join', {
+    method: 'POST',
+    token,
+    body: JSON.stringify(payload),
+  })
+}
+
+export function fetchMyExportBatches(token: string): Promise<ExportBatch[]> {
+  return request<ExportBatch[]>('/export/batches/mine', { token })
+}
+
+export function fetchAvailableExportBatches(token: string): Promise<ExportBatch[]> {
+  return request<ExportBatch[]>('/export/batches/available', { token })
+}
+
+export function claimExportBatch(batchId: number, token: string): Promise<ExportBatch> {
+  return request<ExportBatch>(`/export/batches/${batchId}/claim`, {
+    method: 'POST',
+    token,
+  })
+}
+
+export function fetchMyClaimedExportBatches(token: string): Promise<ExportBatch[]> {
+  return request<ExportBatch[]>('/export/batches/mine/claimed', { token })
+}
+
+export function certifyExportBatch(batchId: number, token: string): Promise<ExportBatch> {
+  return request<ExportBatch>(`/export/batches/${batchId}/certify`, {
+    method: 'POST',
+    token,
+  })
 }
 
 export function createProduct(

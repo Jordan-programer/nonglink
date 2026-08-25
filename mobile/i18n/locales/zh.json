@@ -101,6 +101,21 @@
     "submit": "完成",
     "error": "无法保存你的资料，请重试。"
   },
+  "export": {
+    "subtitle": "将你的产品加入出口批次，面向国际买家。",
+    "joinTitle": "将产品加入出口批次",
+    "product": "产品",
+    "quantity": "数量",
+    "joining": "正在加入...",
+    "joinButton": "加入批次",
+    "joinError": "无法将该产品加入批次。",
+    "myBatches": "我的批次",
+    "noBatches": "你还没有将任何产品加入出口批次。",
+    "volumeProgress": "已汇集 {{current}} / {{target}} 公斤",
+    "statusCollecting": "正在汇集数量",
+    "statusCertified": "已认证",
+    "statusClaimed": "已被买家认领"
+  },
   "marketplace": {
     "title": "农业市场",
     "subtitle": "农民直接出售新鲜农产品，无需中间商。",
@@ -154,6 +169,7 @@
     "ordersTitle": "订单",
     "monitoringTitle": "监测",
     "soilTitle": "土壤（卫星）",
+    "exportTitle": "出口",
     "welcomeBack": "欢迎回来，",
     "statFarms": "农场数",
     "statActiveProducts": "在售产品",
@@ -164,6 +180,7 @@
     "shortcutFarm": "我的农场",
     "shortcutMonitoring": "监测",
     "shortcutSoil": "土壤",
+    "shortcutExport": "出口",
     "createFarmCta": "创建您的农场以开始销售。",
     "createFarmButton": "创建农场",
     "recentOrders": "最近订单",

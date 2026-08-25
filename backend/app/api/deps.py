@@ -65,3 +65,12 @@ def require_transporter(current_user: User = Depends(get_current_user)) -> User:
             detail="Transporter access required",
         )
     return current_user
+
+
+def require_importer(current_user: User = Depends(get_current_user)) -> User:
+    if current_user.role != UserRole.IMPORTER:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Importer access required",
+        )
+    return current_user

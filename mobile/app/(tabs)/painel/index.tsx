@@ -39,6 +39,7 @@ export default function Dashboard() {
     { href: '/painel/monitorizacao' as const, icon: 'water-percent', label: t('painel.shortcutMonitoring') },
     { href: '/painel/lavra' as const, icon: 'sprout', label: t('painel.shortcutFarm') },
     { href: '/painel/solo' as const, icon: 'satellite-variant', label: t('painel.shortcutSoil') },
+    { href: '/painel/exportacao' as const, icon: 'ferry', label: t('painel.shortcutExport') },
   ] as const
 
   useFocusEffect(

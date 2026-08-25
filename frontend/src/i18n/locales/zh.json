@@ -160,7 +160,8 @@
     "navProducts": "产品",
     "navOrders": "订单",
     "navFarm": "我的农场",
-    "navSoil": "土壤（卫星）"
+    "navSoil": "土壤（卫星）",
+    "navExport": "出口"
   },
   "farmerDashboard": {
     "welcomeBack": "欢迎回来，",
@@ -260,6 +261,39 @@
     "submitting": "正在保存...",
     "submit": "完成",
     "error": "无法保存你的资料，请重试。"
+  },
+  "export": {
+    "title": "出口",
+    "subtitle": "将你的产品加入出口批次，面向国际买家。",
+    "joinTitle": "将产品加入出口批次",
+    "product": "产品",
+    "selectProduct": "选择一个产品",
+    "quantity": "数量",
+    "joining": "正在加入...",
+    "joinButton": "加入批次",
+    "joinError": "无法将该产品加入批次。",
+    "myBatches": "我的批次",
+    "noBatches": "你还没有将任何产品加入出口批次。",
+    "volumeProgress": "已汇集 {{current}} / {{target}} 公斤",
+    "statusCollecting": "正在汇集数量",
+    "statusCertified": "已认证",
+    "statusClaimed": "已被买家认领"
+  },
+  "importerDashboard": {
+    "title": "进口商面板",
+    "subtitle": "已认证、可供购买的出口批次。",
+    "unverifiedTitle": "账户审核中",
+    "unverifiedSubtitle": "你的进口商账户仍在由我们的团队审核。如需帮助请联系我们。",
+    "availableTitle": "可用批次",
+    "noneAvailable": "目前没有可用的批次。",
+    "volume": "{{volume}} 公斤",
+    "viewCertificate": "查看证书",
+    "claiming": "正在认领...",
+    "claimButton": "认领批次",
+    "claimError": "无法认领该批次。",
+    "claimedTitle": "我认领的批次",
+    "noneClaimed": "你还没有认领任何批次。",
+    "viewContract": "查看合同"
   },
   "profile": {
     "title": "我的资料",

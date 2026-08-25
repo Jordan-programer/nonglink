@@ -201,6 +201,28 @@ export type SensorAlert = {
   created_at: string
 }
 
+export type ExportBatchStatus = 'collecting' | 'certified' | 'claimed'
+
+export type ExportBatch = {
+  id: number
+  crop_id: number
+  crop_name: string
+  origin_country_id: number
+  origin_country_name: string
+  destination_country_id: number
+  destination_country_name: string
+  min_volume_target: number
+  total_volume: number
+  status: ExportBatchStatus
+  certification_document_url: string | null
+  certification_hash: string | null
+  contract_document_url: string | null
+  contract_hash: string | null
+  claimed_by_id: number | null
+  claimed_at: string | null
+  created_at: string
+}
+
 export type OrderItem = {
   id: number
   product_id: number
@@ -518,6 +540,21 @@ export function fetchSoilHistory(farmId: number, token: string): Promise<SoilObs
 
 export function fetchMyProducts(token: string): Promise<Product[]> {
   return request<Product[]>('/products/mine', { token })
+}
+
+export function joinExportBatch(
+  payload: { product_id: number; quantity: number },
+  token: string,
+): Promise<ExportBatch> {
+  return request<ExportBatch>('/export/batches/join', {
+    method: 'POST',
+    token,
+    body: JSON.stringify(payload),
+  })
+}
+
+export function fetchMyExportBatches(token: string): Promise<ExportBatch[]> {
+  return request<ExportBatch[]>('/export/batches/mine', { token })
 }
 
 export function createProduct(

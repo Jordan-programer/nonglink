@@ -101,6 +101,21 @@
     "submit": "Terminer",
     "error": "Impossible d'enregistrer ton profil. Réessaie."
   },
+  "export": {
+    "subtitle": "Ajoute tes produits à des lots d'exportation pour des acheteurs internationaux.",
+    "joinTitle": "Ajouter un produit à un lot d'exportation",
+    "product": "Produit",
+    "quantity": "Quantité",
+    "joining": "Ajout en cours...",
+    "joinButton": "Ajouter au lot",
+    "joinError": "Impossible d'ajouter ce produit au lot.",
+    "myBatches": "Mes lots",
+    "noBatches": "Tu n'as encore ajouté aucun produit à un lot d'exportation.",
+    "volumeProgress": "{{current}} / {{target}} kg réunis",
+    "statusCollecting": "Volume en cours de réunion",
+    "statusCertified": "Certifié",
+    "statusClaimed": "Réclamé par l'acheteur"
+  },
   "marketplace": {
     "title": "Marché agricole",
     "subtitle": "Produits frais vendus directement par des agriculteurs, sans intermédiaires.",
@@ -154,6 +169,7 @@
     "ordersTitle": "Commandes",
     "monitoringTitle": "Surveillance",
     "soilTitle": "Sol (Satellite)",
+    "exportTitle": "Exportation",
     "welcomeBack": "Content de vous revoir, ",
     "statFarms": "Exploitations",
     "statActiveProducts": "Produits actifs",
@@ -164,6 +180,7 @@
     "shortcutFarm": "Mon exploitation",
     "shortcutMonitoring": "Surveillance",
     "shortcutSoil": "Sol",
+    "shortcutExport": "Exportation",
     "createFarmCta": "Créez votre exploitation pour commencer à vendre.",
     "createFarmButton": "Créer une exploitation",
     "recentOrders": "Commandes récentes",

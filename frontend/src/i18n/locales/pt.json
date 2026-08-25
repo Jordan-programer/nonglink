@@ -160,7 +160,8 @@
     "navProducts": "Produtos",
     "navOrders": "Encomendas",
     "navFarm": "A minha lavra",
-    "navSoil": "Solo (Satélite)"
+    "navSoil": "Solo (Satélite)",
+    "navExport": "Exportação"
   },
   "farmerDashboard": {
     "welcomeBack": "Bem-vindo de volta, ",
@@ -260,6 +261,39 @@
     "submitting": "A guardar...",
     "submit": "Concluir",
     "error": "Não foi possível guardar o teu perfil. Tenta novamente."
+  },
+  "export": {
+    "title": "Exportação",
+    "subtitle": "Junta os teus produtos a lotes de exportação para compradores internacionais.",
+    "joinTitle": "Juntar produto a um lote de exportação",
+    "product": "Produto",
+    "selectProduct": "Seleciona um produto",
+    "quantity": "Quantidade",
+    "joining": "A juntar...",
+    "joinButton": "Juntar ao lote",
+    "joinError": "Não foi possível juntar o produto ao lote.",
+    "myBatches": "Os meus lotes",
+    "noBatches": "Ainda não juntaste nenhum produto a um lote de exportação.",
+    "volumeProgress": "{{current}} / {{target}} kg reunidos",
+    "statusCollecting": "A reunir volume",
+    "statusCertified": "Certificado",
+    "statusClaimed": "Reclamado por comprador"
+  },
+  "importerDashboard": {
+    "title": "Painel do Importador",
+    "subtitle": "Lotes de exportação certificados, disponíveis para compra.",
+    "unverifiedTitle": "Conta em verificação",
+    "unverifiedSubtitle": "A tua conta de importador ainda está a ser verificada pela nossa equipa. Contacta-nos se precisares de ajuda.",
+    "availableTitle": "Lotes disponíveis",
+    "noneAvailable": "Não há lotes disponíveis de momento.",
+    "volume": "{{volume}} kg",
+    "viewCertificate": "Ver certificado",
+    "claiming": "A reclamar...",
+    "claimButton": "Reclamar lote",
+    "claimError": "Não foi possível reclamar este lote.",
+    "claimedTitle": "Os meus lotes reclamados",
+    "noneClaimed": "Ainda não reclamaste nenhum lote.",
+    "viewContract": "Ver contrato"
   },
   "profile": {
     "title": "O meu perfil",
