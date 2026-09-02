@@ -17,15 +17,17 @@ directly to Angola's agricultural sector.
 
 AgriLink is built as a production-grade platform, not a prototype: a
 MySQL-backed relational data model spanning countries, regions, crops,
-farms, products, orders, deliveries, IoT sensor data, and satellite
-soil observations, architected from day one for multi-market
-expansion. The platform already ships production-grade account
+farms, products, orders, deliveries, IoT sensor data, satellite soil
+observations, and — since this application targets Macau specifically
+— a B2B export module ("AgriLink Macau Bridge") that aggregates
+multiple farmers' stock into certifiable export batches for verified
+Chinese buyers. The platform already ships production-grade account
 infrastructure (email verification, Google/Facebook sign-in) and
 country-specific payment rails for all four target markets — including
 Alipay, WeChat Pay, and UnionPay for China. Current focus is Angola,
-where the marketplace, IoT monitoring, and satellite soil-diagnostics
-modules are being validated with early farmer users before regional
-scale-up.
+where the marketplace, IoT monitoring, satellite soil-diagnostics, and
+export-bridge modules are being validated with early farmer users
+before regional scale-up.
 
 The team's mission is to close the information and market-access gap
 that keeps small farmers earning far below the real value of their
@@ -51,11 +53,11 @@ included, since this information wasn't available when drafting.]
 核心技术及产品简介 / Core technology and product
 ------------------------------------------------------------------------
 AgriLink's product is a marketplace + logistics + IoT + satellite +
-data-forecasting platform delivered as a web app (React/Vite/TypeScript),
-a mobile app (React Native/Expo), and a FastAPI (Python) backend on
-MySQL.
+data-forecasting + B2B export-bridge platform delivered as a web app
+(React/Vite/TypeScript), a mobile app (React Native/Expo), and a
+FastAPI (Python) backend on MySQL.
 
-Four integrated layers:
+Five integrated layers:
 
 1. Marketplace and logistics — farmers list products directly; buyers
    (consumers, distributors, food businesses) purchase without
@@ -93,6 +95,22 @@ Four integrated layers:
    fabricating a forecast when real history is too thin — every number
    stays backend-verifiable rather than AI-washed.
 
+5. B2B export bridge ("AgriLink Macau Bridge") — the module this
+   application is built around. Farmers commit part of their listed
+   stock to an export batch for a given crop; the platform aggregates
+   contributions from multiple farmers/cooperatives until a minimum
+   exportable volume is reached. Once verified, staff certify the
+   batch, which generates a digital certificate of origin (PDF) with a
+   SHA-256 integrity hash recorded against it — a tamper-evident record
+   without needing a blockchain for a pilot's transaction volume.
+   Verified Chinese importers (a distinct, vetted account type — not
+   public self-registration) browse certified batches and claim one,
+   which generates a matching sale-contract document, also hashed. This
+   is the concrete first version of "Macau as the trust and
+   settlement layer between African producers and Chinese buyers", not
+   a diagram — real-money settlement and blockchain-backed contracts
+   are the planned next phase, once transaction volume justifies them.
+
 - Native multi-language interface — the web app and mobile app both
   ship with a language switcher (Português, English, Français, 中文)
   covering the full user journey: navigation, marketplace browsing,
@@ -100,8 +118,8 @@ Four integrated layers:
   directly addresses ease of entry into the Chinese market.
 
 The data model already supports multi-country/multi-region operation,
-so forecasting, marketplace, and payment logic generalize beyond
-Angola without rearchitecture.
+so forecasting, marketplace, payment, and export-bridge logic
+generalize beyond Angola without rearchitecture.
 
 
 ------------------------------------------------------------------------
@@ -122,33 +140,42 @@ humidity, plus satellite-based soil diagnostics via Google Earth
 Engine for farmers without sensors installed yet; (3) a data-driven
 decision layer turning sensor, satellite, weather, price-history, and
 order data into price/demand forecasts and plain-language farming
-recommendations; and (4) local payment rails with a transparent
-commission model so farmers and transporters actually get paid —
-designed to work across all three farming markets from a shared
-platform.
+recommendations; (4) local payment rails with a transparent commission
+model so farmers and transporters actually get paid; and (5) a B2B
+export bridge that aggregates farmer stock into certified,
+cryptographically-hashed export batches for verified Chinese
+importers — designed to work across all three farming markets from a
+shared platform, anchored by the export bridge's Macau-facing role.
 
 How it works: sensors and satellite imagery stream field data to the
 platform; the backend combines this with real weather data and
 transaction history to generate forecasts and recommendations; farmers
-act on them and sell directly through the marketplace; transporters
-handle delivery and earn their own share; everyone gets paid through
-the payment method already common in their market — one connected
-loop from field to sale to payment, replicable farm-by-farm and
-country-by-country.
+act on them and sell directly through the marketplace, or commit stock
+to an export batch once enough volume is aggregated across
+cooperatives; transporters handle domestic delivery and earn their own
+share; a certified batch is claimed by a verified Chinese importer,
+generating a hashed digital contract; everyone gets paid through the
+payment method already common in their market — one connected loop
+from field to sale (domestic or export) to payment, replicable
+farm-by-farm and country-by-country.
 
 Technology: Python/FastAPI backend, MySQL database, React/TypeScript
 web app, React Native/Expo mobile app, XGBoost and Ridge regression
 forecasting models, Open-Meteo weather API, Google Earth Engine
-satellite analysis, and PayPal plus regional mobile-money
-integrations. Full interface localization in Portuguese, English,
-French, and Chinese.
+satellite analysis, PayPal plus regional mobile-money integrations,
+and a document-generation/SHA-256 hashing layer for export
+certificates and contracts. Full interface localization in
+Portuguese, English, French, and Chinese.
 
 Business model: a transparent 10% commission on both farmer sales and
 transporter deliveries — live in the product today, with earnings and
 withdrawal-balance dashboards for both roles — plus premium
 subscriptions for advanced analytics, sale of low-cost sensor kits,
-and agricultural data services for cooperatives, distributors, and
-food businesses.
+agricultural data services for cooperatives, distributors, and food
+businesses, and a per-batch digital-certification/notarization fee on
+the export bridge once transaction volume justifies charging for it
+(the certification and contract-hashing capability is built; the fee
+itself is not switched on yet).
 
 Market: initial rollout across four markets — Angola (home base and
 current pilot), the Republic of the Congo and the Democratic Republic
@@ -170,8 +197,18 @@ improved food security across all three farming markets.
 ------------------------------------------------------------------------
 - Working product, not a concept deck — a running backend, web app, and
   native mobile app with real APIs for auth, farms, products, orders,
-  deliveries, payments, sensors, satellite analysis, and market
-  forecasting.
+  deliveries, payments, sensors, satellite analysis, market
+  forecasting, and B2B export batches.
+
+- The Macau Bridge thesis, already running — this isn't a slide
+  proposing Macau as a trust layer between African producers and
+  Chinese buyers, it's a working batch-aggregation, certification, and
+  hashed-contract flow a judge can watch end-to-end in a demo: a
+  farmer commits stock, a batch reaches volume, staff certify it, a
+  verified Chinese importer claims it. What's still ahead is exactly
+  what Macau's real institutions (Fórum Macau, IPIM, a settlement
+  bank) turn into: legal registration, e-CNY/Pataca settlement, and
+  blockchain-backed contracts once volume justifies them.
 
 - Verifiable AI, not AI-washing — forecasting models train only on real
   price, weather, and order data, and honestly return "insufficient
@@ -188,10 +225,10 @@ improved food security across all three farming markets.
   Orange Money, and PayPal — a concrete, working demonstration of
   cross-border readiness, not a roadmap promise.
 
-- Four-in-one integration — marketplace + logistics, IoT + satellite
-  field data, analytics, and localized payments in a single
-  farm-to-sale-to-payment loop, where most competitors offer only one
-  piece.
+- Five-in-one integration — marketplace + logistics, IoT + satellite
+  field data, analytics, localized payments, and the B2B export bridge
+  in a single farm-to-sale-to-export loop, where most competitors
+  offer only one piece.
 
 - Built for four-market operation in four languages from day one —
   Angola, Republic of the Congo, DRC, and China as a full user market
@@ -206,7 +243,8 @@ improved food security across all three farming markets.
   enterprise precision-agriculture systems.
 
 - Diversified monetization — transaction commissions, subscriptions,
-  hardware sales, and data services, not a single revenue line.
+  hardware sales, data services, and a planned export-certification
+  fee, not a single revenue line.
 
 
 ------------------------------------------------------------------------
@@ -214,9 +252,10 @@ improved food security across all three farming markets.
 ------------------------------------------------------------------------
 Requesting mentorship on competition positioning and pitch refinement —
 specifically how to present a technical AgriTech product (marketplace,
-logistics, IoT, satellite analysis, ML forecasting, and local payments)
-to non-technical judges, and how to adapt our story to the Chinese
-innovation-competition format, which our team is new to.
+logistics, IoT, satellite analysis, ML forecasting, local payments,
+and the B2B export bridge) to non-technical judges, and how to adapt
+our story to the Chinese innovation-competition format, which our
+team is new to.
 
 
 ------------------------------------------------------------------------
@@ -235,9 +274,11 @@ foreign-investment channels.
 Introductions to: (1) agricultural cooperatives/distributors in Angola,
 Republic of the Congo, and DRC as pilot marketplace partners, (2)
 Chinese IoT/sensor-hardware manufacturers for low-cost sensor-kit
-sourcing and production, and (3) Chinese AgriTech or food-industry
+sourcing and production, (3) Chinese AgriTech or food-industry
 partners interested in Central/Southern African market entry alongside
-us.
+us, and (4) a verified Chinese importer (Guangdong/Hengqin-based
+ideally) willing to be the first live counterparty on the export
+bridge — claiming our pilot's first certified batch.
 
 
 ------------------------------------------------------------------------
@@ -273,23 +314,27 @@ Suggested 12-slide outline:
  4. Product walkthrough — screenshots: marketplace/order flow, farmer
     sensor dashboard, satellite soil-diagnostics map with
     recommendations, price/demand forecast chart with confidence
-    bands, and the country-specific payment screen.
+    bands, the country-specific payment screen, and the export-bridge
+    flow (farmer batch screen, certified-batch listing, importer claim,
+    the generated certificate/contract).
  5. What makes the AI real — training on real price history + real
     Open-Meteo weather + real harvest data; show the "insufficient
     data" honesty behavior as a trust signal.
  6. Tech architecture — FastAPI/MySQL backend, React web, React
     Native/Expo mobile, XGBoost + Ridge models, Open-Meteo and Google
-    Earth Engine integration, local payment gateways, 4-language
+    Earth Engine integration, local payment gateways, the export-batch
+    aggregation + PDF certification/hashing layer, 4-language
     localization.
  7. Traction — current build status, any pilot farmers/users, data
     collected so far.
  8. Business model — commission, subscriptions, sensor-kit sales, data
-    services (4 revenue lines).
+    services, export-certification fee (5 revenue lines).
  9. Market & expansion — Angola first, Republic of the Congo, DRC,
     China (dual role: hardware partner + user market).
-10. Competitive edge — the four-in-one integration (marketplace +
-    logistics, IoT + satellite, analytics, payments) vs. single-purpose
-    competitors.
+10. Competitive edge — the five-in-one integration (marketplace +
+    logistics, IoT + satellite, analytics, payments, B2B export
+    bridge) vs. single-purpose competitors, plus a working prototype
+    of the exact Macau-as-bridge thesis this competition is about.
 11. Roadmap — next 6-12 months: pilot scale-up, sensor manufacturing,
     first paid subscriptions.
 12. The ask — which of the 5 support services above, plus any funding
