@@ -8,6 +8,7 @@ from app.models.order import Order, OrderStatus, PaymentStatus
 from app.models.user import User
 from app.schemas.paypal import BrowserSafeClientId, CreatePayPalOrderRequest, PayPalOrderResponse
 from app.services import paypal as paypal_service
+from app.services.delivery_planning import plan_order_delivery
 
 router = APIRouter(prefix="/paypal", tags=["paypal"])
 
@@ -76,10 +77,16 @@ def capture_paypal_order(
             )
         except (KeyError, IndexError):
             pass
-        if order.status == OrderStatus.PENDING:
+        newly_confirmed = order.status == OrderStatus.PENDING
+        if newly_confirmed:
             order.status = OrderStatus.CONFIRMED
     else:
         order.payment_status = PaymentStatus.FAILED
+        newly_confirmed = False
 
     db.commit()
+
+    if newly_confirmed:
+        plan_order_delivery(db, order)
+
     return PayPalOrderResponse(id=paypal_order_id, status=capture_status)

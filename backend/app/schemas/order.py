@@ -39,6 +39,8 @@ class OrderRead(BaseModel):
     status: OrderStatus
     payment_status: PaymentStatus
     total_amount: float
+    delivery_fee: float | None = None
+    delivery_distance_km: float | None = None
     created_at: datetime
     items: list[OrderItemRead] = []
 

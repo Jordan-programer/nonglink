@@ -7,6 +7,7 @@ import { useAuth } from '../../context/AuthContext'
 import { fetchMyOrders, type Order } from '../../lib/api'
 import { STATUS_COLORS, useOrderStatusLabels } from '../../lib/orderStatus'
 import { colors } from '../../theme/colors'
+import DeliveryTrackingMap from '../../components/DeliveryTrackingMap'
 
 export default function Encomendas() {
   const { t } = useTranslation()
@@ -88,6 +89,13 @@ export default function Encomendas() {
               <Text style={styles.paymentMethod}>
                 {t('orders.paymentMethod')}: {item.payment_method.name}
               </Text>
+            )}
+
+            {(item.status === 'collected' || item.status === 'shipped') && token && (
+              <View style={styles.trackingBox}>
+                <Text style={styles.trackingTitle}>{t('orders.trackingTitle')}</Text>
+                <DeliveryTrackingMap orderId={item.id} token={token} />
+              </View>
             )}
           </View>
         )
@@ -186,5 +194,14 @@ const styles = StyleSheet.create({
     marginTop: 4,
     fontSize: 11,
     color: 'rgba(15,36,17,0.5)',
+  },
+  trackingBox: {
+    marginTop: 12,
+  },
+  trackingTitle: {
+    marginBottom: 6,
+    fontSize: 11,
+    fontWeight: '700',
+    color: 'rgba(15,36,17,0.7)',
   },
 })

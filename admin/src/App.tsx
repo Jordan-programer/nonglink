@@ -6,6 +6,7 @@ import AdminDashboard from './pages/admin/Dashboard'
 import AdminUsers from './pages/admin/Users'
 import AdminOrders from './pages/admin/Orders'
 import AdminFarms from './pages/admin/Farms'
+import AdminTransporters from './pages/admin/Transporters'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="utilizadores" element={<AdminUsers />} />
           <Route path="encomendas" element={<AdminOrders />} />
           <Route path="lavras" element={<AdminFarms />} />
+          <Route path="transportadores" element={<AdminTransporters />} />
         </Route>
       </Routes>
     </main>

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useAuth } from '../context/AuthContext'
 import { fetchMyOrders, type Order } from '../api/client'
 import { useOrderStatusLabels, STATUS_STYLES } from '../utils/orderStatus'
+import DeliveryTrackingMap from '../components/DeliveryTrackingMap'
 
 export default function Orders() {
   const { t } = useTranslation()
@@ -104,6 +105,15 @@ export default function Orders() {
                   <p className="mt-1 text-xs text-leaf-950/50">
                     {t('myOrders.paymentMethod')}: {order.payment_method.name}
                   </p>
+                )}
+
+                {(order.status === 'collected' || order.status === 'shipped') && token && (
+                  <div className="mt-4">
+                    <p className="mb-2 text-xs font-semibold text-leaf-950/70">
+                      {t('myOrders.trackingTitle')}
+                    </p>
+                    <DeliveryTrackingMap orderId={order.id} token={token} />
+                  </div>
                 )}
               </div>
             ))}

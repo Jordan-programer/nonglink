@@ -559,7 +559,8 @@
     "navDashboard": "Painel",
     "navUsers": "Utilizadores",
     "navOrders": "Encomendas",
-    "navFarms": "Lavras"
+    "navFarms": "Lavras",
+    "navTransporters": "Transportadores"
   },
   "adminDashboard": {
     "users": "Utilizadores",
@@ -632,6 +633,21 @@
     "colOwner": "Dono",
     "colLocation": "Localização",
     "colArea": "Área"
+  },
+  "adminTransporters": {
+    "title": "Transportadores",
+    "subtitle": "Aprova ou rejeita registos de transportadores pendentes de verificação.",
+    "noPending": "Não há transportadores à espera de aprovação.",
+    "vehicleSummary": "{{type}} · matrícula {{plate}} · {{capacity}} kg",
+    "noVehicle": "Ainda não submeteu os dados do veículo.",
+    "approve": "Aprovar",
+    "reject": "Rejeitar",
+    "decisionError": "Não foi possível atualizar o estado do transportador.",
+    "missing": "Em falta",
+    "docDriverLicense": "Carta de condução",
+    "docVehicleRegistration": "Registo do veículo",
+    "docInsurance": "Seguro",
+    "docInspection": "Inspeção"
   },
   "privacyPolicy": {
     "title": "Política de Privacidade",

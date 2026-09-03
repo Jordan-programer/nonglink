@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   ArrowRight,
   Banknote,
+  FileText,
   MapPin,
   Package,
   Percent,
@@ -13,10 +14,12 @@ import {
   Wallet,
 } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import {
   ApiError,
   claimDelivery,
+  completeDeliveryStop,
   createRoute,
   deleteRoute,
   fetchAvailableDeliveries,
@@ -24,14 +27,20 @@ import {
   fetchDeliveriesTrends,
   fetchMyDeliveries,
   fetchMyRoutes,
+  fetchMyTransporterProfile,
+  fetchOrderTracking,
   fetchPopularRoutes,
   fetchRegions,
   fetchTransportEarnings,
+  setAvailability,
   updateDeliveryStatus,
+  updateTransporterLocation,
   type Country,
   type EarningsSummary,
+  type OrderTracking,
   type PopularRoute,
   type Region,
+  type TransporterProfile,
   type TransportOrder,
   type TransportRoute,
   type TrendPoint,
@@ -63,6 +72,16 @@ export default function TransporterDashboard() {
   const [routeError, setRouteError] = useState<string | null>(null)
   const [savingRoute, setSavingRoute] = useState(false)
 
+  const [transporterProfile, setTransporterProfile] = useState<TransporterProfile | null>(null)
+  const [savingAvailability, setSavingAvailability] = useState(false)
+  const [availabilityError, setAvailabilityError] = useState<string | null>(null)
+  const watchIdRef = useRef<number | null>(null)
+
+  const [expandedOrderId, setExpandedOrderId] = useState<number | null>(null)
+  const [orderTracking, setOrderTracking] = useState<OrderTracking | null>(null)
+  const [completingStopId, setCompletingStopId] = useState<number | null>(null)
+  const [stopError, setStopError] = useState<string | null>(null)
+
   function load() {
     if (!token) return
     return Promise.all([
@@ -89,9 +108,15 @@ export default function TransporterDashboard() {
     )
   }
 
+  function loadTransporterProfile() {
+    if (!token) return
+    return fetchMyTransporterProfile(token).then(setTransporterProfile)
+  }
+
   useEffect(() => {
     load()
     loadRoutes()
+    loadTransporterProfile()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token])
 
@@ -101,6 +126,59 @@ export default function TransporterDashboard() {
       setRegions(regionsRes)
     })
   }, [])
+
+  async function handleToggleAvailability() {
+    if (!token || !transporterProfile) return
+    setAvailabilityError(null)
+    setSavingAvailability(true)
+    try {
+      const updated = await setAvailability(!transporterProfile.is_available, token)
+      setTransporterProfile(updated)
+    } catch (err) {
+      setAvailabilityError(
+        err instanceof ApiError ? err.message : t('transporterDashboard.availabilityError'),
+      )
+    } finally {
+      setSavingAvailability(false)
+    }
+  }
+
+  useEffect(() => {
+    const hasActiveDelivery = mine.some(
+      (o) => o.status === 'confirmed' || o.status === 'collected' || o.status === 'shipped',
+    )
+
+    if (!token || !transporterProfile?.is_available || !hasActiveDelivery || !navigator.geolocation) {
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current)
+        watchIdRef.current = null
+      }
+      return
+    }
+
+    if (watchIdRef.current !== null) return
+
+    watchIdRef.current = navigator.geolocation.watchPosition(
+      (position) => {
+        updateTransporterLocation(position.coords.latitude, position.coords.longitude, token).catch(
+          () => {
+            // transient location update failures are fine, next tick retries
+          },
+        )
+      },
+      () => {
+        // ignore geolocation errors (permission denied, unavailable, etc.)
+      },
+      { enableHighAccuracy: true, maximumAge: 10000, timeout: 15000 },
+    )
+
+    return () => {
+      if (watchIdRef.current !== null) {
+        navigator.geolocation.clearWatch(watchIdRef.current)
+        watchIdRef.current = null
+      }
+    }
+  }, [token, transporterProfile?.is_available, mine])
 
   async function handleAddRoute(originRegionId: number, destinationRegionId: number) {
     if (!token) return
@@ -157,7 +235,42 @@ export default function TransporterDashboard() {
     }
   }
 
-  const activeDeliveries = mine.filter((o) => o.status === 'confirmed' || o.status === 'shipped')
+  async function handleToggleStops(orderId: number) {
+    if (!token) return
+    if (expandedOrderId === orderId) {
+      setExpandedOrderId(null)
+      setOrderTracking(null)
+      return
+    }
+    setStopError(null)
+    setExpandedOrderId(orderId)
+    try {
+      const tracking = await fetchOrderTracking(orderId, token)
+      setOrderTracking(tracking)
+    } catch (err) {
+      setStopError(err instanceof ApiError ? err.message : t('transporterDashboard.stopError'))
+    }
+  }
+
+  async function handleCompleteStop(orderId: number, stopId: number) {
+    if (!token) return
+    setStopError(null)
+    setCompletingStopId(stopId)
+    try {
+      await completeDeliveryStop(orderId, stopId, token)
+      const tracking = await fetchOrderTracking(orderId, token)
+      setOrderTracking(tracking)
+      await load()
+    } catch (err) {
+      setStopError(err instanceof ApiError ? err.message : t('transporterDashboard.stopError'))
+    } finally {
+      setCompletingStopId(null)
+    }
+  }
+
+  const activeDeliveries = mine.filter(
+    (o) => o.status === 'confirmed' || o.status === 'collected' || o.status === 'shipped',
+  )
   const pastDeliveries = mine.filter((o) => o.status === 'delivered')
 
   if (status === 'loading') {
@@ -181,6 +294,56 @@ export default function TransporterDashboard() {
 
       {error && (
         <p className="mt-4 rounded-lg bg-earth-50 px-3 py-2 text-sm text-earth-800">{error}</p>
+      )}
+
+      {transporterProfile && (
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-leaf-100 bg-white p-4">
+          {transporterProfile.verification_status === 'approved' ? (
+            <>
+              <div>
+                <p className="text-sm font-semibold text-leaf-950">
+                  {t('transporterDashboard.availabilityTitle')}
+                </p>
+                <p className="text-xs text-leaf-950/60">
+                  {transporterProfile.is_available
+                    ? t('transporterDashboard.availabilityOn')
+                    : t('transporterDashboard.availabilityOff')}
+                </p>
+                {availabilityError && (
+                  <p className="mt-1 text-xs text-earth-800">{availabilityError}</p>
+                )}
+              </div>
+              <button
+                onClick={handleToggleAvailability}
+                disabled={savingAvailability}
+                className={`rounded-full px-4 py-2 text-xs font-semibold disabled:opacity-60 ${
+                  transporterProfile.is_available
+                    ? 'bg-leaf-700 text-white hover:bg-leaf-800'
+                    : 'border border-leaf-300 text-leaf-700 hover:bg-leaf-50'
+                }`}
+              >
+                {transporterProfile.is_available
+                  ? t('transporterDashboard.goOffline')
+                  : t('transporterDashboard.goOnline')}
+              </button>
+            </>
+          ) : (
+            <>
+              <div>
+                <p className="text-sm font-semibold text-leaf-950">
+                  {t(`transporterDashboard.verification.${transporterProfile.verification_status}`)}
+                </p>
+                <p className="text-xs text-leaf-950/60">{t('transporterDashboard.verificationHint')}</p>
+              </div>
+              <Link
+                to="/transportador/documentos"
+                className="flex items-center gap-1.5 rounded-full bg-leaf-700 px-4 py-2 text-xs font-semibold text-white hover:bg-leaf-800"
+              >
+                <FileText size={14} /> {t('transporterDashboard.manageDocuments')}
+              </Link>
+            </>
+          )}
+        </div>
       )}
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
@@ -286,47 +449,112 @@ export default function TransporterDashboard() {
           </div>
         ) : (
           <div className="mt-4 space-y-3">
-            {mine.map((order) => (
-              <div
-                key={order.id}
-                className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-leaf-100 bg-white p-4"
-              >
-                <div>
-                  <div className="flex items-center gap-2">
-                    <p className="text-sm font-semibold text-leaf-950">
-                      {t('transporterDashboard.orderNumber', { id: order.id })}
-                    </p>
-                    <span
-                      className={`rounded-full px-2.5 py-1 text-xs font-medium ${STATUS_STYLES[order.status]}`}
-                    >
-                      {statusLabels[order.status]}
-                    </span>
+            {mine.map((order) => {
+              const isActive =
+                order.status === 'confirmed' || order.status === 'collected' || order.status === 'shipped'
+              return (
+                <div key={order.id} className="rounded-2xl border border-leaf-100 bg-white p-4">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-semibold text-leaf-950">
+                          {t('transporterDashboard.orderNumber', { id: order.id })}
+                        </p>
+                        <span
+                          className={`rounded-full px-2.5 py-1 text-xs font-medium ${STATUS_STYLES[order.status]}`}
+                        >
+                          {statusLabels[order.status]}
+                        </span>
+                      </div>
+                      <p className="text-xs text-leaf-950/60">
+                        {order.items.map((i) => `${i.product_name} (${i.quantity})`).join(', ')}
+                      </p>
+                      <p className="mt-1 flex items-center gap-1.5 text-xs text-leaf-950/60">
+                        {t('transporterDashboard.forBuyer', { name: order.buyer_name })}
+                        {order.buyer_phone && (
+                          <span className="flex items-center gap-1">
+                            <Phone size={12} /> {order.buyer_phone}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {isActive && (
+                        <button
+                          onClick={() => handleToggleStops(order.id)}
+                          className="rounded-full border border-leaf-300 px-4 py-2 text-xs font-semibold text-leaf-700 hover:bg-leaf-50"
+                        >
+                          {expandedOrderId === order.id
+                            ? t('transporterDashboard.hideStops')
+                            : t('transporterDashboard.viewStops')}
+                        </button>
+                      )}
+                      {(order.status === 'confirmed' || order.status === 'shipped') && (
+                        <button
+                          onClick={() => handleAdvance(order)}
+                          disabled={savingId === order.id}
+                          className="rounded-full bg-leaf-700 px-4 py-2 text-xs font-semibold text-white hover:bg-leaf-800 disabled:opacity-60"
+                        >
+                          {order.status === 'confirmed'
+                            ? t('transporterDashboard.markShipped')
+                            : t('transporterDashboard.markDelivered')}
+                        </button>
+                      )}
+                    </div>
                   </div>
-                  <p className="text-xs text-leaf-950/60">
-                    {order.items.map((i) => `${i.product_name} (${i.quantity})`).join(', ')}
-                  </p>
-                  <p className="mt-1 flex items-center gap-1.5 text-xs text-leaf-950/60">
-                    {t('transporterDashboard.forBuyer', { name: order.buyer_name })}
-                    {order.buyer_phone && (
-                      <span className="flex items-center gap-1">
-                        <Phone size={12} /> {order.buyer_phone}
-                      </span>
-                    )}
-                  </p>
+
+                  {expandedOrderId === order.id && (
+                    <div className="mt-4 border-t border-leaf-100 pt-4">
+                      {stopError && (
+                        <p className="mb-3 rounded-lg bg-earth-50 px-3 py-2 text-sm text-earth-800">
+                          {stopError}
+                        </p>
+                      )}
+                      {!orderTracking ? (
+                        <p className="text-xs text-leaf-950/60">{t('transporterDashboard.loadingStops')}</p>
+                      ) : (
+                        <div className="space-y-2">
+                          {orderTracking.stops.map((stop, index) => (
+                            <div
+                              key={stop.id}
+                              className="flex items-center justify-between gap-3 rounded-xl bg-leaf-50/60 px-3 py-2"
+                            >
+                              <div className="flex items-center gap-2 text-sm text-leaf-950">
+                                <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-leaf-700 text-xs font-semibold text-white">
+                                  {index + 1}
+                                </span>
+                                <span>
+                                  {stop.stop_type === 'pickup'
+                                    ? t('transporterDashboard.pickupAt', {
+                                        name: stop.farm_name ?? t('transporterDashboard.farm'),
+                                      })
+                                    : t('transporterDashboard.dropoffAtBuyer')}
+                                </span>
+                              </div>
+                              {stop.status === 'completed' ? (
+                                <span className="text-xs font-medium text-leaf-700">
+                                  {t('transporterDashboard.stopCompleted')}
+                                </span>
+                              ) : (
+                                <button
+                                  onClick={() => handleCompleteStop(order.id, stop.id)}
+                                  disabled={completingStopId === stop.id}
+                                  className="rounded-full bg-leaf-700 px-3 py-1.5 text-xs font-semibold text-white hover:bg-leaf-800 disabled:opacity-60"
+                                >
+                                  {completingStopId === stop.id
+                                    ? t('transporterDashboard.saving')
+                                    : t('transporterDashboard.markStopComplete')}
+                                </button>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
-                {(order.status === 'confirmed' || order.status === 'shipped') && (
-                  <button
-                    onClick={() => handleAdvance(order)}
-                    disabled={savingId === order.id}
-                    className="rounded-full bg-leaf-700 px-4 py-2 text-xs font-semibold text-white hover:bg-leaf-800 disabled:opacity-60"
-                  >
-                    {order.status === 'confirmed'
-                      ? t('transporterDashboard.markShipped')
-                      : t('transporterDashboard.markDelivered')}
-                  </button>
-                )}
-              </div>
-            ))}
+              )
+            })}
           </div>
         )}
       </div>

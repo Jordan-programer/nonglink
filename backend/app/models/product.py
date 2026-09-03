@@ -30,6 +30,7 @@ class Product(Base):
     unit = Column(String(30), default="kg", nullable=False)
     price_per_unit = Column(Float, nullable=False)
     quantity_available = Column(Float, default=0, nullable=False)
+    weight_per_unit_kg = Column(Float, nullable=True)
     quality = Column(db_enum(ProductQuality), nullable=True)
     certification = Column(
         db_enum(ProductCertification), default=ProductCertification.NONE, nullable=False

@@ -234,6 +234,7 @@
   "orderStatus": {
     "pending": "Pending",
     "confirmed": "Confirmed",
+    "collected": "Collected",
     "shipped": "Shipped",
     "delivered": "Delivered",
     "cancelled": "Cancelled"
@@ -288,7 +289,8 @@
     "subtitle": "History of purchases made on the marketplace.",
     "orderNumber": "Order #{{id}}",
     "noOrdersYet": "You haven't placed any orders yet.",
-    "paymentMethod": "Payment method"
+    "paymentMethod": "Payment method",
+    "trackingTitle": "Delivery tracking"
   },
   "admin": {
     "title": "Admin",
@@ -322,7 +324,59 @@
     "actionError": "Could not complete the action.",
     "statTotalSales": "Total sales",
     "statCommission": "Platform commission (10%)",
-    "statAvailableBalance": "Available balance for withdrawal"
+    "statAvailableBalance": "Available balance for withdrawal",
+    "availabilityTitle": "Availability",
+    "availabilityOn": "You're available for new deliveries.",
+    "availabilityOff": "You're unavailable — you won't receive new assignments.",
+    "availabilityError": "Could not update availability.",
+    "goOnline": "Go available",
+    "goOffline": "Go unavailable",
+    "verification": {
+      "pending": "Verification pending",
+      "approved": "Verified",
+      "rejected": "Verification rejected"
+    },
+    "verificationHint": "Submit your vehicle and documents to become available for deliveries.",
+    "manageDocuments": "Manage vehicle & documents",
+    "viewStops": "View stops",
+    "hideStops": "Hide stops",
+    "loadingStops": "Loading stops...",
+    "pickupAt": "Pickup at {{name}}",
+    "dropoffAtBuyer": "Dropoff at buyer",
+    "farm": "farm",
+    "stopCompleted": "Completed",
+    "markStopComplete": "Mark complete"
+  },
+  "veiculoDocumentos": {
+    "title": "Vehicle & documents",
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "pendingNotice": "Your registration is awaiting admin approval.",
+    "rejectedNotice": "Your registration was rejected. Check your documents and submit again.",
+    "vehicleTitle": "Vehicle",
+    "plate": "License plate",
+    "vehicleType": "Vehicle type",
+    "vehicleTypePlaceholder": "e.g. van, truck, motorcycle",
+    "capacity": "Capacity (kg)",
+    "saving": "Saving...",
+    "saveVehicle": "Save vehicle",
+    "vehicleError": "Could not save the vehicle.",
+    "documentsTitle": "Documents",
+    "documentsSubtitle": "Submit a clear photo of each document.",
+    "uploaded": "Uploaded",
+    "notUploaded": "Not uploaded yet",
+    "uploading": "Uploading...",
+    "replace": "Replace",
+    "upload": "Upload",
+    "docError": "Could not upload the document.",
+    "permissionError": "Photo library access is required.",
+    "docDriverLicense": "Driver's license",
+    "docVehicleRegistration": "Vehicle registration",
+    "docInsurance": "Insurance",
+    "docInspection": "Inspection"
   },
   "productDetail": {
     "notFound": "Could not find this product.",

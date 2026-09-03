@@ -11,9 +11,11 @@ from app.models.importer_profile import ImporterProfile
 from app.models.order import Order, OrderStatus
 from app.models.product import Product
 from app.models.transport_route import TransportRoute
+from app.models.transporter_profile import TransporterProfile, TransporterVerificationStatus
 from app.models.user import User, UserRole
 from app.schemas.admin import AdminStats, UsersByRole
 from app.schemas.export import ImporterCreate, ImporterProfileRead, ImporterVerifyRequest
+from app.schemas.transport import TransporterProfileRead, TransporterVerifyRequest
 from app.schemas.trends import AdminTrends
 from app.schemas.user import AdminCreate, UserRead
 from app.services.trends import daily_series
@@ -89,6 +91,35 @@ def verify_importer(
     profile = db.query(ImporterProfile).filter(ImporterProfile.user_id == user_id).first()
     if not profile:
         raise HTTPException(status_code=404, detail="Importador não encontrado")
+
+    profile.verification_status = payload.verification_status
+    db.commit()
+    db.refresh(profile)
+    return profile
+
+
+@router.get("/transporters/pending", response_model=list[TransporterProfileRead])
+def list_pending_transporters(
+    db: Session = Depends(get_db),
+    admin: User = Depends(require_admin),
+):
+    return (
+        db.query(TransporterProfile)
+        .filter(TransporterProfile.verification_status == TransporterVerificationStatus.PENDING)
+        .all()
+    )
+
+
+@router.patch("/transporters/{user_id}/verify", response_model=TransporterProfileRead)
+def verify_transporter(
+    user_id: int,
+    payload: TransporterVerifyRequest,
+    db: Session = Depends(get_db),
+    admin: User = Depends(require_admin),
+):
+    profile = db.query(TransporterProfile).filter(TransporterProfile.user_id == user_id).first()
+    if not profile:
+        raise HTTPException(status_code=404, detail="Transportador não encontrado")
 
     profile.verification_status = payload.verification_status
     db.commit()

@@ -30,6 +30,7 @@ import Soil from './pages/farmer/Soil'
 import Export from './pages/farmer/Export'
 import BuyerDashboard from './pages/buyer/Dashboard'
 import TransporterDashboard from './pages/transporter/Dashboard'
+import TransporterDocuments from './pages/transporter/Documents'
 import ImporterDashboard from './pages/importer/Dashboard'
 
 function OnboardingRedirect() {
@@ -149,6 +150,15 @@ function App() {
             element={
               <RequireAuth>
                 <TransporterDashboard />
+              </RequireAuth>
+            }
+          />
+
+          <Route
+            path="/transportador/documentos"
+            element={
+              <RequireAuth>
+                <TransporterDocuments />
               </RequireAuth>
             }
           />

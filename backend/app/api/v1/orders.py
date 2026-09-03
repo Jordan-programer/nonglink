@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_current_user, require_admin
 from app.core.database import get_db
 from app.models.farm import Farm
-from app.models.order import Order, OrderItem
+from app.models.order import Order, OrderItem, OrderStatus
 from app.models.payment_method import PaymentMethod
 from app.models.price_history import PriceSource
 from app.models.product import Product
@@ -20,6 +20,7 @@ from app.schemas.order import (
     StatusUpdate,
 )
 from app.schemas.trends import TrendPoint
+from app.services.delivery_planning import plan_order_delivery
 from app.services.earnings import compute_earnings
 from app.services.pricing import record_price
 from app.services.trends import daily_series
@@ -174,8 +175,15 @@ def update_order_status(
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
 
+    newly_confirmed = (
+        payload.status == OrderStatus.CONFIRMED and order.status == OrderStatus.PENDING
+    )
     order.status = payload.status
     db.commit()
+
+    if newly_confirmed:
+        plan_order_delivery(db, order)
+
     db.refresh(order)
     return order
 

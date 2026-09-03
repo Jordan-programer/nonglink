@@ -234,6 +234,7 @@
   "orderStatus": {
     "pending": "Pendente",
     "confirmed": "Confirmada",
+    "collected": "Recolhida",
     "shipped": "Enviada",
     "delivered": "Entregue",
     "cancelled": "Cancelada"
@@ -288,7 +289,8 @@
     "subtitle": "Histórico de compras feitas no mercado.",
     "orderNumber": "Encomenda #{{id}}",
     "noOrdersYet": "Ainda não fizeste nenhuma encomenda.",
-    "paymentMethod": "Método de pagamento"
+    "paymentMethod": "Método de pagamento",
+    "trackingTitle": "Rastreamento da entrega"
   },
   "admin": {
     "title": "Administração",
@@ -322,7 +324,59 @@
     "actionError": "Não foi possível concluir a ação.",
     "statTotalSales": "Total de vendas",
     "statCommission": "Comissão da plataforma (10%)",
-    "statAvailableBalance": "Saldo disponível para saque"
+    "statAvailableBalance": "Saldo disponível para saque",
+    "availabilityTitle": "Disponibilidade",
+    "availabilityOn": "Estás disponível para novas entregas.",
+    "availabilityOff": "Estás indisponível — não vais receber novas atribuições.",
+    "availabilityError": "Não foi possível atualizar a disponibilidade.",
+    "goOnline": "Ficar disponível",
+    "goOffline": "Ficar indisponível",
+    "verification": {
+      "pending": "Verificação pendente",
+      "approved": "Verificado",
+      "rejected": "Verificação rejeitada"
+    },
+    "verificationHint": "Submete o teu veículo e documentos para poderes ficar disponível para entregas.",
+    "manageDocuments": "Gerir veículo e documentos",
+    "viewStops": "Ver paragens",
+    "hideStops": "Ocultar paragens",
+    "loadingStops": "A carregar paragens...",
+    "pickupAt": "Recolha em {{name}}",
+    "dropoffAtBuyer": "Entrega ao comprador",
+    "farm": "lavra",
+    "stopCompleted": "Concluída",
+    "markStopComplete": "Marcar concluída"
+  },
+  "veiculoDocumentos": {
+    "title": "Veículo e documentos",
+    "status": {
+      "pending": "Pendente",
+      "approved": "Aprovado",
+      "rejected": "Rejeitado"
+    },
+    "pendingNotice": "O teu registo está a aguardar aprovação do administrador.",
+    "rejectedNotice": "O teu registo foi rejeitado. Verifica os teus documentos e submete novamente.",
+    "vehicleTitle": "Veículo",
+    "plate": "Matrícula",
+    "vehicleType": "Tipo de veículo",
+    "vehicleTypePlaceholder": "ex: carrinha, camião, moto",
+    "capacity": "Capacidade (kg)",
+    "saving": "A guardar...",
+    "saveVehicle": "Guardar veículo",
+    "vehicleError": "Não foi possível guardar o veículo.",
+    "documentsTitle": "Documentos",
+    "documentsSubtitle": "Submete uma foto legível de cada documento.",
+    "uploaded": "Enviado",
+    "notUploaded": "Ainda não enviado",
+    "uploading": "A enviar...",
+    "replace": "Substituir",
+    "upload": "Enviar",
+    "docError": "Não foi possível enviar o documento.",
+    "permissionError": "É necessário autorizar o acesso às fotos.",
+    "docDriverLicense": "Carta de condução",
+    "docVehicleRegistration": "Registo do veículo",
+    "docInsurance": "Seguro",
+    "docInspection": "Inspeção"
   },
   "productDetail": {
     "notFound": "Não foi possível encontrar este produto.",

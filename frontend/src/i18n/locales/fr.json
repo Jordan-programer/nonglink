@@ -347,7 +347,8 @@
     "exploreMarket": "Explorer le marché",
     "orderNumber": "Commande n° {{id}}",
     "total": "Total",
-    "paymentMethod": "Méthode de paiement"
+    "paymentMethod": "Méthode de paiement",
+    "trackingTitle": "Suivi de la livraison"
   },
   "transporterDashboard": {
     "greeting": "Bonjour,",
@@ -389,7 +390,62 @@
     "earningsTitle": "Gains",
     "statTotalSales": "Total des ventes",
     "statCommission": "Commission de la plateforme (10%)",
-    "statAvailableBalance": "Solde disponible pour retrait"
+    "statAvailableBalance": "Solde disponible pour retrait",
+    "availabilityTitle": "Disponibilité",
+    "availabilityOn": "Tu es disponible pour de nouvelles livraisons.",
+    "availabilityOff": "Tu es indisponible — tu ne recevras pas de nouvelles attributions.",
+    "availabilityError": "Impossible de mettre à jour la disponibilité.",
+    "goOnline": "Devenir disponible",
+    "goOffline": "Devenir indisponible",
+    "verification": {
+      "pending": "Vérification en attente",
+      "approved": "Vérifié",
+      "rejected": "Vérification rejetée"
+    },
+    "verificationHint": "Soumets ton véhicule et tes documents pour pouvoir être disponible pour des livraisons.",
+    "manageDocuments": "Gérer véhicule et documents",
+    "viewStops": "Voir les arrêts",
+    "hideStops": "Masquer les arrêts",
+    "loadingStops": "Chargement des arrêts...",
+    "stopError": "Impossible de mettre à jour l'arrêt.",
+    "pickupAt": "Collecte à {{name}}",
+    "dropoffAtBuyer": "Livraison à l'acheteur",
+    "farm": "exploitation",
+    "stopCompleted": "Terminé",
+    "markStopComplete": "Marquer comme terminé"
+  },
+  "transporterDocuments": {
+    "title": "Véhicule et documents",
+    "subtitle": "Soumets les informations de ton véhicule et les documents nécessaires pour être approuvé comme transporteur.",
+    "status": {
+      "pending": "En attente",
+      "approved": "Approuvé",
+      "rejected": "Rejeté"
+    },
+    "pendingNotice": "Ton inscription est en attente d'approbation par l'administrateur.",
+    "rejectedNotice": "Ton inscription a été rejetée. Vérifie tes documents et soumets à nouveau.",
+    "vehicleTitle": "Véhicule",
+    "plate": "Plaque d'immatriculation",
+    "vehicleType": "Type de véhicule",
+    "vehicleTypePlaceholder": "ex: camionnette, camion, moto",
+    "capacity": "Capacité (kg)",
+    "saving": "Enregistrement...",
+    "saveVehicle": "Enregistrer le véhicule",
+    "vehicleError": "Impossible d'enregistrer le véhicule.",
+    "documentsTitle": "Documents",
+    "documentsSubtitle": "Soumets une photo lisible de chaque document.",
+    "uploaded": "Envoyé",
+    "notUploaded": "Pas encore envoyé",
+    "uploading": "Envoi en cours...",
+    "replace": "Remplacer",
+    "upload": "Envoyer",
+    "docError": "Impossible d'envoyer le document.",
+    "types": {
+      "driver_license": "Permis de conduire",
+      "vehicle_registration": "Carte grise",
+      "insurance": "Assurance",
+      "inspection": "Contrôle technique"
+    }
   },
   "buyerDashboard": {
     "greeting": "Bonjour,",
@@ -587,6 +643,7 @@
   "orderStatus": {
     "pending": "En attente",
     "confirmed": "Confirmée",
+    "collected": "Collectée",
     "shipped": "Expédiée",
     "delivered": "Livrée",
     "cancelled": "Annulée"

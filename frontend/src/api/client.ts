@@ -99,7 +99,13 @@ export type Farm = {
   boundary_geojson: string | null
 }
 
-export type OrderStatus = 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled'
+export type OrderStatus =
+  | 'pending'
+  | 'confirmed'
+  | 'collected'
+  | 'shipped'
+  | 'delivered'
+  | 'cancelled'
 
 export type OrderItem = {
   id: number
@@ -149,6 +155,64 @@ export type AdminOrder = Order & {
 export type TransportOrder = Order & {
   buyer_name: string
   buyer_phone: string | null
+}
+
+export type TransporterVerificationStatus = 'pending' | 'approved' | 'rejected'
+
+export type Vehicle = {
+  id: number
+  plate: string
+  vehicle_type: string
+  capacity_kg: number
+}
+
+export type TransporterDocumentType =
+  | 'driver_license'
+  | 'vehicle_registration'
+  | 'insurance'
+  | 'inspection'
+
+export type TransporterDocument = {
+  id: number
+  document_type: TransporterDocumentType
+  file_url: string
+  created_at: string
+}
+
+export type TransporterProfile = {
+  id: number
+  user_id: number
+  user_name: string
+  user_email: string
+  verification_status: TransporterVerificationStatus
+  is_available: boolean
+  current_latitude: number | null
+  current_longitude: number | null
+  location_updated_at: string | null
+  vehicle: Vehicle | null
+  documents: TransporterDocument[]
+}
+
+export type DeliveryStopType = 'pickup' | 'dropoff'
+export type DeliveryStopStatus = 'pending' | 'completed'
+
+export type DeliveryStop = {
+  id: number
+  stop_type: DeliveryStopType
+  farm_id: number | null
+  farm_name: string | null
+  sequence_order: number
+  latitude: number
+  longitude: number
+  status: DeliveryStopStatus
+  completed_at: string | null
+}
+
+export type OrderTracking = {
+  order_id: number
+  status: OrderStatus
+  transporter_location: { latitude: number; longitude: number; updated_at: string | null } | null
+  stops: DeliveryStop[]
 }
 
 export type TransportRoute = {
@@ -1011,4 +1075,98 @@ export function createRoute(
 
 export function deleteRoute(routeId: number, token: string): Promise<void> {
   return request<void>(`/transport/routes/${routeId}`, { method: 'DELETE', token })
+}
+
+export function fetchMyTransporterProfile(token: string): Promise<TransporterProfile> {
+  return request<TransporterProfile>('/transport/profile', { token })
+}
+
+export function submitVehicle(
+  payload: { plate: string; vehicle_type: string; capacity_kg: number },
+  token: string,
+): Promise<TransporterProfile> {
+  return request<TransporterProfile>('/transport/vehicle', {
+    method: 'POST',
+    token,
+    body: JSON.stringify(payload),
+  })
+}
+
+export async function uploadTransporterDocument(
+  documentType: TransporterDocumentType,
+  file: File,
+  token: string,
+): Promise<TransporterProfile> {
+  const formData = new FormData()
+  formData.append('file', file)
+
+  const res = await fetch(`${API_BASE}/transport/documents?document_type=${documentType}`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  })
+
+  if (!res.ok) {
+    let message = `Erro ${res.status}`
+    try {
+      const body = await res.json()
+      if (typeof body.detail === 'string') message = body.detail
+    } catch {
+      // response wasn't JSON, keep the default message
+    }
+    throw new ApiError(message, res.status)
+  }
+
+  return res.json()
+}
+
+export function setAvailability(isAvailable: boolean, token: string): Promise<TransporterProfile> {
+  return request<TransporterProfile>('/transport/availability', {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify({ is_available: isAvailable }),
+  })
+}
+
+export function updateTransporterLocation(
+  latitude: number,
+  longitude: number,
+  token: string,
+): Promise<TransporterProfile> {
+  return request<TransporterProfile>('/transport/location', {
+    method: 'POST',
+    token,
+    body: JSON.stringify({ latitude, longitude }),
+  })
+}
+
+export function fetchOrderTracking(orderId: number, token: string): Promise<OrderTracking> {
+  return request<OrderTracking>(`/transport/${orderId}/tracking`, { token })
+}
+
+export function completeDeliveryStop(
+  orderId: number,
+  stopId: number,
+  token: string,
+): Promise<TransportOrder> {
+  return request<TransportOrder>(`/transport/${orderId}/stops/${stopId}/complete`, {
+    method: 'PATCH',
+    token,
+  })
+}
+
+export function fetchPendingTransporters(token: string): Promise<TransporterProfile[]> {
+  return request<TransporterProfile[]>('/admin/transporters/pending', { token })
+}
+
+export function verifyTransporter(
+  userId: number,
+  status: TransporterVerificationStatus,
+  token: string,
+): Promise<TransporterProfile> {
+  return request<TransporterProfile>(`/admin/transporters/${userId}/verify`, {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify({ verification_status: status }),
+  })
 }

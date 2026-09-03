@@ -347,7 +347,8 @@
     "exploreMarket": "浏览市场",
     "orderNumber": "订单 #{{id}}",
     "total": "总计",
-    "paymentMethod": "支付方式"
+    "paymentMethod": "支付方式",
+    "trackingTitle": "配送跟踪"
   },
   "transporterDashboard": {
     "greeting": "你好，",
@@ -388,7 +389,62 @@
     "earningsTitle": "收入",
     "statTotalSales": "总销售额",
     "statCommission": "平台佣金（10%）",
-    "statAvailableBalance": "可提现余额"
+    "statAvailableBalance": "可提现余额",
+    "availabilityTitle": "可用状态",
+    "availabilityOn": "你目前可以接收新的配送任务。",
+    "availabilityOff": "你目前不可用 — 不会收到新的配送任务。",
+    "availabilityError": "无法更新可用状态。",
+    "goOnline": "设为可用",
+    "goOffline": "设为不可用",
+    "verification": {
+      "pending": "验证待审核",
+      "approved": "已通过验证",
+      "rejected": "验证被拒绝"
+    },
+    "verificationHint": "提交你的车辆信息和证件后即可开始接收配送任务。",
+    "manageDocuments": "管理车辆与证件",
+    "viewStops": "查看站点",
+    "hideStops": "隐藏站点",
+    "loadingStops": "正在加载站点...",
+    "stopError": "无法更新该站点。",
+    "pickupAt": "在{{name}}取货",
+    "dropoffAtBuyer": "送至买家",
+    "farm": "农场",
+    "stopCompleted": "已完成",
+    "markStopComplete": "标记为完成"
+  },
+  "transporterDocuments": {
+    "title": "车辆与证件",
+    "subtitle": "提交你的车辆信息和所需证件，以获得运输者资格审批。",
+    "status": {
+      "pending": "待审核",
+      "approved": "已批准",
+      "rejected": "已拒绝"
+    },
+    "pendingNotice": "你的申请正在等待管理员审批。",
+    "rejectedNotice": "你的申请被拒绝，请检查证件后重新提交。",
+    "vehicleTitle": "车辆",
+    "plate": "车牌号",
+    "vehicleType": "车辆类型",
+    "vehicleTypePlaceholder": "例如：厢式货车、卡车、摩托车",
+    "capacity": "载重量（公斤）",
+    "saving": "保存中...",
+    "saveVehicle": "保存车辆信息",
+    "vehicleError": "无法保存车辆信息。",
+    "documentsTitle": "证件",
+    "documentsSubtitle": "请提交每份证件的清晰照片。",
+    "uploaded": "已上传",
+    "notUploaded": "尚未上传",
+    "uploading": "正在上传...",
+    "replace": "替换",
+    "upload": "上传",
+    "docError": "无法上传证件。",
+    "types": {
+      "driver_license": "驾驶执照",
+      "vehicle_registration": "车辆登记证",
+      "insurance": "保险单",
+      "inspection": "年检证明"
+    }
   },
   "buyerDashboard": {
     "greeting": "你好，",
@@ -582,6 +638,7 @@
   "orderStatus": {
     "pending": "待处理",
     "confirmed": "已确认",
+    "collected": "已取货",
     "shipped": "已发货",
     "delivered": "已送达",
     "cancelled": "已取消"

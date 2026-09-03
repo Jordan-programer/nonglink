@@ -559,7 +559,8 @@
     "navDashboard": "Dashboard",
     "navUsers": "Users",
     "navOrders": "Orders",
-    "navFarms": "Farms"
+    "navFarms": "Farms",
+    "navTransporters": "Transporters"
   },
   "adminDashboard": {
     "users": "Users",
@@ -632,6 +633,21 @@
     "colOwner": "Owner",
     "colLocation": "Location",
     "colArea": "Area"
+  },
+  "adminTransporters": {
+    "title": "Transporters",
+    "subtitle": "Approve or reject transporter registrations awaiting verification.",
+    "noPending": "No transporters awaiting approval right now.",
+    "vehicleSummary": "{{type}} · plate {{plate}} · {{capacity}} kg",
+    "noVehicle": "Hasn't submitted vehicle details yet.",
+    "approve": "Approve",
+    "reject": "Reject",
+    "decisionError": "Could not update the transporter's status.",
+    "missing": "Missing",
+    "docDriverLicense": "Driver's license",
+    "docVehicleRegistration": "Vehicle registration",
+    "docInsurance": "Insurance",
+    "docInspection": "Inspection"
   },
   "privacyPolicy": {
     "title": "Privacy Policy",

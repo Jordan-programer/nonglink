@@ -149,6 +149,42 @@ export type TransportOrder = Order & {
   buyer_phone: string | null
 }
 
+export type TransporterVerificationStatus = 'pending' | 'approved' | 'rejected'
+
+export type Vehicle = {
+  id: number
+  plate: string
+  vehicle_type: string
+  capacity_kg: number
+}
+
+export type TransporterDocumentType =
+  | 'driver_license'
+  | 'vehicle_registration'
+  | 'insurance'
+  | 'inspection'
+
+export type TransporterDocument = {
+  id: number
+  document_type: TransporterDocumentType
+  file_url: string
+  created_at: string
+}
+
+export type TransporterProfile = {
+  id: number
+  user_id: number
+  user_name: string
+  user_email: string
+  verification_status: TransporterVerificationStatus
+  is_available: boolean
+  current_latitude: number | null
+  current_longitude: number | null
+  location_updated_at: string | null
+  vehicle: Vehicle | null
+  documents: TransporterDocument[]
+}
+
 export type TransportRoute = {
   id: number
   origin_region_id: number
@@ -903,6 +939,22 @@ export function createRoute(
     method: 'POST',
     token,
     body: JSON.stringify(payload),
+  })
+}
+
+export function fetchPendingTransporters(token: string): Promise<TransporterProfile[]> {
+  return request<TransporterProfile[]>('/admin/transporters/pending', { token })
+}
+
+export function verifyTransporter(
+  userId: number,
+  status: TransporterVerificationStatus,
+  token: string,
+): Promise<TransporterProfile> {
+  return request<TransporterProfile>(`/admin/transporters/${userId}/verify`, {
+    method: 'PATCH',
+    token,
+    body: JSON.stringify({ verification_status: status }),
   })
 }
 

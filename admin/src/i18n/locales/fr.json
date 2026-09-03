@@ -559,7 +559,8 @@
     "navDashboard": "Tableau de bord",
     "navUsers": "Utilisateurs",
     "navOrders": "Commandes",
-    "navFarms": "Exploitations"
+    "navFarms": "Exploitations",
+    "navTransporters": "Transporteurs"
   },
   "adminDashboard": {
     "users": "Utilisateurs",
@@ -632,6 +633,21 @@
     "colOwner": "Propriétaire",
     "colLocation": "Emplacement",
     "colArea": "Superficie"
+  },
+  "adminTransporters": {
+    "title": "Transporteurs",
+    "subtitle": "Approuve ou rejette les inscriptions de transporteurs en attente de vérification.",
+    "noPending": "Aucun transporteur en attente d'approbation pour le moment.",
+    "vehicleSummary": "{{type}} · plaque {{plate}} · {{capacity}} kg",
+    "noVehicle": "N'a pas encore soumis les informations du véhicule.",
+    "approve": "Approuver",
+    "reject": "Rejeter",
+    "decisionError": "Impossible de mettre à jour le statut du transporteur.",
+    "missing": "Manquant",
+    "docDriverLicense": "Permis de conduire",
+    "docVehicleRegistration": "Carte grise",
+    "docInsurance": "Assurance",
+    "docInspection": "Contrôle technique"
   },
   "privacyPolicy": {
     "title": "Politique de confidentialité",

@@ -554,7 +554,8 @@
     "navDashboard": "控制面板",
     "navUsers": "用户",
     "navOrders": "订单",
-    "navFarms": "农场"
+    "navFarms": "农场",
+    "navTransporters": "运输者"
   },
   "adminDashboard": {
     "users": "用户",
@@ -627,6 +628,21 @@
     "colOwner": "所有者",
     "colLocation": "位置",
     "colArea": "面积"
+  },
+  "adminTransporters": {
+    "title": "运输者",
+    "subtitle": "审批或拒绝待验证的运输者注册申请。",
+    "noPending": "目前没有待审批的运输者。",
+    "vehicleSummary": "{{type}} · 车牌 {{plate}} · {{capacity}} 公斤",
+    "noVehicle": "尚未提交车辆信息。",
+    "approve": "批准",
+    "reject": "拒绝",
+    "decisionError": "无法更新运输者的状态。",
+    "missing": "缺失",
+    "docDriverLicense": "驾驶执照",
+    "docVehicleRegistration": "车辆登记证",
+    "docInsurance": "保险单",
+    "docInspection": "年检证明"
   },
   "privacyPolicy": {
     "title": "隐私政策",

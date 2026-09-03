@@ -9,6 +9,7 @@ from app.core.database import Base, db_enum
 class OrderStatus(str, enum.Enum):
     PENDING = "pending"
     CONFIRMED = "confirmed"
+    COLLECTED = "collected"
     SHIPPED = "shipped"
     DELIVERED = "delivered"
     CANCELLED = "cancelled"
@@ -32,12 +33,17 @@ class Order(Base):
     paypal_order_id = Column(String(64), nullable=True)
     paypal_capture_id = Column(String(64), nullable=True)
     total_amount = Column(Float, default=0, nullable=False)
+    delivery_fee = Column(Float, nullable=True)
+    delivery_distance_km = Column(Float, nullable=True)
     created_at = Column(DateTime, server_default=func.now())
 
     buyer = relationship("User", back_populates="orders", foreign_keys=[buyer_id])
     transporter = relationship("User", back_populates="deliveries", foreign_keys=[transporter_id])
     payment_method = relationship("PaymentMethod")
     items = relationship("OrderItem", back_populates="order")
+    delivery_stops = relationship(
+        "DeliveryStop", back_populates="order", order_by="DeliveryStop.sequence_order"
+    )
 
     @property
     def buyer_name(self) -> str:

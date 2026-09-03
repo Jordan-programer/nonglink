@@ -1,5 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom'
-import { LayoutDashboard, Sprout, ShoppingBag, Users } from 'lucide-react'
+import { LayoutDashboard, Sprout, ShoppingBag, Truck, Users } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import LanguageSwitcher from '../../components/LanguageSwitcher'
 
@@ -11,6 +11,7 @@ export default function AdminLayout() {
     { to: '/utilizadores', label: t('adminLayout.navUsers'), icon: Users },
     { to: '/encomendas', label: t('adminLayout.navOrders'), icon: ShoppingBag },
     { to: '/lavras', label: t('adminLayout.navFarms'), icon: Sprout },
+    { to: '/transportadores', label: t('adminLayout.navTransporters'), icon: Truck },
   ]
 
   return (

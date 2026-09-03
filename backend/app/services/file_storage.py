@@ -10,6 +10,8 @@ PROFILES_DIR = UPLOAD_ROOT / "profiles"
 PROFILES_DIR.mkdir(parents=True, exist_ok=True)
 EXPORTS_DIR = UPLOAD_ROOT / "exports"
 EXPORTS_DIR.mkdir(parents=True, exist_ok=True)
+TRANSPORTER_DOCS_DIR = UPLOAD_ROOT / "transporter-documents"
+TRANSPORTER_DOCS_DIR.mkdir(parents=True, exist_ok=True)
 
 ALLOWED_CONTENT_TYPES = {
     "image/jpeg": "jpg",
@@ -43,6 +45,10 @@ async def save_product_image(file: UploadFile) -> str:
 
 async def save_profile_photo(file: UploadFile) -> str:
     return await _save_image(file, PROFILES_DIR, "/uploads/profiles")
+
+
+async def save_transporter_document(file: UploadFile) -> str:
+    return await _save_image(file, TRANSPORTER_DOCS_DIR, "/uploads/transporter-documents")
 
 
 def save_export_document(data: bytes, filename_prefix: str) -> str:

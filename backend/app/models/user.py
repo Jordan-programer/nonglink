@@ -46,6 +46,7 @@ class User(Base):
     orders = relationship("Order", back_populates="buyer", foreign_keys="Order.buyer_id")
     deliveries = relationship("Order", back_populates="transporter", foreign_keys="Order.transporter_id")
     importer_profile = relationship("ImporterProfile", back_populates="user", uselist=False)
+    transporter_profile = relationship("TransporterProfile", back_populates="user", uselist=False)
 
     @property
     def country_name(self) -> str | None:
