@@ -376,7 +376,10 @@
     "docDriverLicense": "Permis de conduire",
     "docVehicleRegistration": "Carte grise",
     "docInsurance": "Assurance",
-    "docInspection": "Contrôle technique"
+    "docInspection": "Contrôle technique",
+    "vehiclePhotosTitle": "Photos du véhicule",
+    "vehiclePhotosSubtitle": "Soumets des photos du véhicule sous plusieurs angles (avant, arrière, côtés, intérieur).",
+    "addPhoto": "Ajouter une photo"
   },
   "productDetail": {
     "notFound": "Impossible de trouver ce produit.",

@@ -445,7 +445,10 @@
       "vehicle_registration": "Carte grise",
       "insurance": "Assurance",
       "inspection": "Contrôle technique"
-    }
+    },
+    "vehiclePhotosTitle": "Photos du véhicule",
+    "vehiclePhotosSubtitle": "Soumets des photos du véhicule sous plusieurs angles (avant, arrière, côtés, intérieur).",
+    "addPhoto": "Ajouter une photo"
   },
   "buyerDashboard": {
     "greeting": "Bonjour,",

@@ -642,7 +642,9 @@
     "docDriverLicense": "驾驶执照",
     "docVehicleRegistration": "车辆登记证",
     "docInsurance": "保险单",
-    "docInspection": "年检证明"
+    "docInspection": "年检证明",
+    "vehiclePhotosTitle": "车辆照片",
+    "noVehiclePhotos": "尚未提交车辆照片。"
   },
   "privacyPolicy": {
     "title": "隐私政策",

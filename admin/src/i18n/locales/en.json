@@ -647,7 +647,9 @@
     "docDriverLicense": "Driver's license",
     "docVehicleRegistration": "Vehicle registration",
     "docInsurance": "Insurance",
-    "docInspection": "Inspection"
+    "docInspection": "Inspection",
+    "vehiclePhotosTitle": "Vehicle photos",
+    "noVehiclePhotos": "Hasn't submitted vehicle photos yet."
   },
   "privacyPolicy": {
     "title": "Privacy Policy",

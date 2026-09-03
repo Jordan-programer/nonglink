@@ -444,7 +444,10 @@
       "vehicle_registration": "车辆登记证",
       "insurance": "保险单",
       "inspection": "年检证明"
-    }
+    },
+    "vehiclePhotosTitle": "车辆照片",
+    "vehiclePhotosSubtitle": "请提交车辆多个角度的照片（前方、后方、侧面、内部）。",
+    "addPhoto": "添加照片"
   },
   "buyerDashboard": {
     "greeting": "你好，",

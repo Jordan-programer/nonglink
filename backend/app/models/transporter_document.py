@@ -11,6 +11,7 @@ class TransporterDocumentType(str, enum.Enum):
     VEHICLE_REGISTRATION = "vehicle_registration"
     INSURANCE = "insurance"
     INSPECTION = "inspection"
+    VEHICLE_PHOTO = "vehicle_photo"
 
 
 class TransporterDocument(Base):

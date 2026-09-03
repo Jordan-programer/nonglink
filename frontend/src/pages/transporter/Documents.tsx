@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { ChangeEvent, FormEvent } from 'react'
-import { CheckCircle2, Clock3, FileText, Truck, Upload, XCircle } from 'lucide-react'
+import { Camera, CheckCircle2, Clock3, FileText, Plus, Truck, Upload, XCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import {
@@ -34,6 +34,7 @@ export default function TransporterDocuments() {
 
   const [uploadingType, setUploadingType] = useState<TransporterDocumentType | null>(null)
   const [docError, setDocError] = useState<string | null>(null)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
 
   function load() {
     if (!token) return
@@ -82,6 +83,23 @@ export default function TransporterDocuments() {
       setDocError(err instanceof ApiError ? err.message : t('transporterDocuments.docError'))
     } finally {
       setUploadingType(null)
+    }
+  }
+
+  async function handleVehiclePhotoChange(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file || !token) return
+
+    setDocError(null)
+    setUploadingPhoto(true)
+    try {
+      const updated = await uploadTransporterDocument('vehicle_photo', file, token)
+      setProfile(updated)
+    } catch (err) {
+      setDocError(err instanceof ApiError ? err.message : t('transporterDocuments.docError'))
+    } finally {
+      setUploadingPhoto(false)
     }
   }
 
@@ -223,11 +241,13 @@ export default function TransporterDocuments() {
               >
                 <div className="flex items-center gap-3">
                   {existing ? (
-                    <img
-                      src={existing.file_url}
-                      alt={t(`transporterDocuments.types.${type}`)}
-                      className="h-14 w-14 rounded-lg object-cover"
-                    />
+                    <a href={existing.file_url} target="_blank" rel="noreferrer">
+                      <img
+                        src={existing.file_url}
+                        alt={t(`transporterDocuments.types.${type}`)}
+                        className="h-14 w-14 rounded-lg object-cover"
+                      />
+                    </a>
                   ) : (
                     <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-leaf-50 text-leaf-700/50">
                       <FileText size={20} />
@@ -261,6 +281,46 @@ export default function TransporterDocuments() {
               </div>
             )
           })}
+        </div>
+      </div>
+
+      {/* Vehicle photos */}
+      <div className="mt-10">
+        <h2 className="flex items-center gap-2 text-lg font-semibold text-leaf-950">
+          <Camera size={18} className="text-leaf-700" /> {t('transporterDocuments.vehiclePhotosTitle')}
+        </h2>
+        <p className="mt-1 text-sm text-leaf-950/60">{t('transporterDocuments.vehiclePhotosSubtitle')}</p>
+
+        <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4">
+          {profile.documents
+            .filter((d) => d.document_type === 'vehicle_photo')
+            .map((doc) => (
+              <a key={doc.id} href={doc.file_url} target="_blank" rel="noreferrer">
+                <img
+                  src={doc.file_url}
+                  alt={t('transporterDocuments.vehiclePhotosTitle')}
+                  className="aspect-square w-full rounded-lg border border-leaf-100 object-cover"
+                />
+              </a>
+            ))}
+
+          <label className="flex aspect-square w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-leaf-300 bg-leaf-50 text-leaf-700 hover:bg-leaf-100">
+            {uploadingPhoto ? (
+              <span className="text-xs font-medium">{t('transporterDocuments.uploading')}</span>
+            ) : (
+              <>
+                <Plus size={18} />
+                <span className="text-xs font-medium">{t('transporterDocuments.addPhoto')}</span>
+              </>
+            )}
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={handleVehiclePhotoChange}
+              disabled={uploadingPhoto}
+              className="hidden"
+            />
+          </label>
         </div>
       </div>
     </section>

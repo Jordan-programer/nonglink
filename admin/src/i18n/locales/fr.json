@@ -647,7 +647,9 @@
     "docDriverLicense": "Permis de conduire",
     "docVehicleRegistration": "Carte grise",
     "docInsurance": "Assurance",
-    "docInspection": "Contrôle technique"
+    "docInspection": "Contrôle technique",
+    "vehiclePhotosTitle": "Photos du véhicule",
+    "noVehiclePhotos": "N'a pas encore soumis de photos du véhicule."
   },
   "privacyPolicy": {
     "title": "Politique de confidentialité",

@@ -647,7 +647,9 @@
     "docDriverLicense": "Carta de condução",
     "docVehicleRegistration": "Registo do veículo",
     "docInsurance": "Seguro",
-    "docInspection": "Inspeção"
+    "docInspection": "Inspeção",
+    "vehiclePhotosTitle": "Fotos do veículo",
+    "noVehiclePhotos": "Ainda não submeteu fotos do veículo."
   },
   "privacyPolicy": {
     "title": "Política de Privacidade",

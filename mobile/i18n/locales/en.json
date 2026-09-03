@@ -376,7 +376,10 @@
     "docDriverLicense": "Driver's license",
     "docVehicleRegistration": "Vehicle registration",
     "docInsurance": "Insurance",
-    "docInspection": "Inspection"
+    "docInspection": "Inspection",
+    "vehiclePhotosTitle": "Vehicle photos",
+    "vehiclePhotosSubtitle": "Submit photos of the vehicle from several angles (front, back, sides, interior).",
+    "addPhoto": "Add photo"
   },
   "productDetail": {
     "notFound": "Could not find this product.",

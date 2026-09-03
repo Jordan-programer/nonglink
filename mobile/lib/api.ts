@@ -270,6 +270,7 @@ export type TransporterDocumentType =
   | 'vehicle_registration'
   | 'insurance'
   | 'inspection'
+  | 'vehicle_photo'
 
 export type TransporterDocument = {
   id: number

@@ -51,6 +51,7 @@ export default function VeiculoDocumentos() {
 
   const [uploadingType, setUploadingType] = useState<TransporterDocumentType | null>(null)
   const [docError, setDocError] = useState<string | null>(null)
+  const [uploadingPhoto, setUploadingPhoto] = useState(false)
 
   useEffect(() => {
     if (!token) return
@@ -107,11 +108,37 @@ export default function VeiculoDocumentos() {
     }
   }
 
+  async function handlePickVehiclePhoto() {
+    const permission = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (!permission.granted) {
+      setDocError(t('veiculoDocumentos.permissionError'))
+      return
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      quality: 0.7,
+    })
+    if (result.canceled || !token) return
+
+    setDocError(null)
+    setUploadingPhoto(true)
+    try {
+      const updated = await uploadTransporterDocument('vehicle_photo', result.assets[0].uri, token)
+      setProfile(updated)
+    } catch (err) {
+      setDocError(err instanceof ApiError ? err.message : t('veiculoDocumentos.docError'))
+    } finally {
+      setUploadingPhoto(false)
+    }
+  }
+
   const documentLabels: Record<TransporterDocumentType, string> = {
     driver_license: t('veiculoDocumentos.docDriverLicense'),
     vehicle_registration: t('veiculoDocumentos.docVehicleRegistration'),
     insurance: t('veiculoDocumentos.docInsurance'),
     inspection: t('veiculoDocumentos.docInspection'),
+    vehicle_photo: t('veiculoDocumentos.vehiclePhotosTitle'),
   }
 
   if (status === 'loading' || !profile) {
@@ -234,6 +261,32 @@ export default function VeiculoDocumentos() {
             </View>
           )
         })}
+      </View>
+
+      <Text style={styles.sectionTitle}>{t('veiculoDocumentos.vehiclePhotosTitle')}</Text>
+      <Text style={styles.sectionSubtitle}>{t('veiculoDocumentos.vehiclePhotosSubtitle')}</Text>
+
+      <View style={styles.photoGrid}>
+        {profile.documents
+          .filter((d) => d.document_type === 'vehicle_photo')
+          .map((doc) => (
+            <Image key={doc.id} source={{ uri: doc.file_url }} style={styles.photoThumb} />
+          ))}
+
+        <Pressable
+          style={[styles.photoThumb, styles.addPhotoTile]}
+          disabled={uploadingPhoto}
+          onPress={handlePickVehiclePhoto}
+        >
+          {uploadingPhoto ? (
+            <ActivityIndicator color={colors.leaf700} size="small" />
+          ) : (
+            <>
+              <MaterialCommunityIcons name="camera-plus-outline" size={20} color={colors.leaf700} />
+              <Text style={styles.addPhotoText}>{t('veiculoDocumentos.addPhoto')}</Text>
+            </>
+          )}
+        </Pressable>
       </View>
     </ScrollView>
   )
@@ -372,5 +425,31 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '600',
     color: '#fff',
+  },
+  photoGrid: {
+    marginTop: 12,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+  },
+  photoThumb: {
+    width: '31%',
+    aspectRatio: 1,
+    borderRadius: 10,
+  },
+  addPhotoTile: {
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: colors.leaf300,
+    backgroundColor: colors.leaf50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  addPhotoText: {
+    fontSize: 10,
+    fontWeight: '600',
+    color: colors.leaf700,
+    textAlign: 'center',
   },
 })

@@ -445,7 +445,10 @@
       "vehicle_registration": "Vehicle registration",
       "insurance": "Insurance",
       "inspection": "Inspection"
-    }
+    },
+    "vehiclePhotosTitle": "Vehicle photos",
+    "vehiclePhotosSubtitle": "Submit photos of the vehicle from several angles (front, back, sides, interior).",
+    "addPhoto": "Add photo"
   },
   "buyerDashboard": {
     "greeting": "Hi,",

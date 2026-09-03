@@ -376,7 +376,10 @@
     "docDriverLicense": "Carta de condução",
     "docVehicleRegistration": "Registo do veículo",
     "docInsurance": "Seguro",
-    "docInspection": "Inspeção"
+    "docInspection": "Inspeção",
+    "vehiclePhotosTitle": "Fotos do veículo",
+    "vehiclePhotosSubtitle": "Submete fotos do veículo de vários ângulos (frente, trás, laterais, interior).",
+    "addPhoto": "Adicionar foto"
   },
   "productDetail": {
     "notFound": "Não foi possível encontrar este produto.",

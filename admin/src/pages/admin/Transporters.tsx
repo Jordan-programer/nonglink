@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { CheckCircle2, Truck, XCircle } from 'lucide-react'
+import { Camera, CheckCircle2, Truck, XCircle } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import { useAuth } from '../../context/AuthContext'
 import {
@@ -54,6 +54,7 @@ export default function Transporters() {
     vehicle_registration: t('adminTransporters.docVehicleRegistration'),
     insurance: t('adminTransporters.docInsurance'),
     inspection: t('adminTransporters.docInspection'),
+    vehicle_photo: t('adminTransporters.vehiclePhotosTitle'),
   }
 
   if (status === 'loading') {
@@ -126,11 +127,13 @@ export default function Transporters() {
                   return (
                     <div key={type} className="text-center">
                       {doc ? (
-                        <img
-                          src={doc.file_url}
-                          alt={documentLabels[type]}
-                          className="h-20 w-full rounded-lg border border-leaf-100 object-cover"
-                        />
+                        <a href={doc.file_url} target="_blank" rel="noreferrer">
+                          <img
+                            src={doc.file_url}
+                            alt={documentLabels[type]}
+                            className="h-20 w-full rounded-lg border border-leaf-100 object-cover transition-opacity hover:opacity-80"
+                          />
+                        </a>
                       ) : (
                         <div className="flex h-20 w-full items-center justify-center rounded-lg border border-dashed border-leaf-200 bg-leaf-50 text-xs text-leaf-950/40">
                           {t('adminTransporters.missing')}
@@ -140,6 +143,35 @@ export default function Transporters() {
                     </div>
                   )
                 })}
+              </div>
+
+              <div className="mt-4 border-t border-leaf-100 pt-4">
+                <p className="flex items-center gap-1.5 text-xs font-semibold text-leaf-950/70">
+                  <Camera size={13} /> {t('adminTransporters.vehiclePhotosTitle')}
+                </p>
+                {(() => {
+                  const photos = profile.documents.filter((d) => d.document_type === 'vehicle_photo')
+                  if (photos.length === 0) {
+                    return (
+                      <p className="mt-2 text-xs text-leaf-950/50">
+                        {t('adminTransporters.noVehiclePhotos')}
+                      </p>
+                    )
+                  }
+                  return (
+                    <div className="mt-2 grid grid-cols-3 gap-2 sm:grid-cols-6">
+                      {photos.map((photo) => (
+                        <a key={photo.id} href={photo.file_url} target="_blank" rel="noreferrer">
+                          <img
+                            src={photo.file_url}
+                            alt={t('adminTransporters.vehiclePhotosTitle')}
+                            className="aspect-square w-full rounded-lg border border-leaf-100 object-cover transition-opacity hover:opacity-80"
+                          />
+                        </a>
+                      ))}
+                    </div>
+                  )
+                })()}
               </div>
             </div>
           ))}
