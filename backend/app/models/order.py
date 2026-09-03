@@ -1,6 +1,6 @@
 import enum
 
-from sqlalchemy import Column, Integer, Float, String, ForeignKey, DateTime, func
+from sqlalchemy import Boolean, Column, Integer, Float, String, ForeignKey, DateTime, func
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base, db_enum
@@ -33,8 +33,10 @@ class Order(Base):
     paypal_order_id = Column(String(64), nullable=True)
     paypal_capture_id = Column(String(64), nullable=True)
     total_amount = Column(Float, default=0, nullable=False)
+    needs_delivery = Column(Boolean, default=True, nullable=False)
     delivery_fee = Column(Float, nullable=True)
     delivery_distance_km = Column(Float, nullable=True)
+    invoice_url = Column(String(255), nullable=True)
     created_at = Column(DateTime, server_default=func.now())
 
     buyer = relationship("User", back_populates="orders", foreign_keys=[buyer_id])

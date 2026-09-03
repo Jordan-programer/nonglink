@@ -2,13 +2,13 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_user
+from app.api.v1.orders import _confirm_payment
 from app.core.config import settings
 from app.core.database import get_db
 from app.models.order import Order, OrderStatus, PaymentStatus
 from app.models.user import User
 from app.schemas.paypal import BrowserSafeClientId, CreatePayPalOrderRequest, PayPalOrderResponse
 from app.services import paypal as paypal_service
-from app.services.delivery_planning import plan_order_delivery
 
 router = APIRouter(prefix="/paypal", tags=["paypal"])
 
@@ -70,7 +70,6 @@ def capture_paypal_order(
 
     capture_status = capture.get("status", "")
     if capture_status == "COMPLETED":
-        order.payment_status = PaymentStatus.PAID
         try:
             order.paypal_capture_id = (
                 capture["purchase_units"][0]["payments"]["captures"][0]["id"]
@@ -80,6 +79,8 @@ def capture_paypal_order(
         newly_confirmed = order.status == OrderStatus.PENDING
         if newly_confirmed:
             order.status = OrderStatus.CONFIRMED
+        else:
+            order.payment_status = PaymentStatus.PAID
     else:
         order.payment_status = PaymentStatus.FAILED
         newly_confirmed = False
@@ -87,6 +88,6 @@ def capture_paypal_order(
     db.commit()
 
     if newly_confirmed:
-        plan_order_delivery(db, order)
+        _confirm_payment(db, order)
 
     return PayPalOrderResponse(id=paypal_order_id, status=capture_status)

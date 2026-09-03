@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from app.api.deps import get_current_user, require_admin
 from app.core.database import get_db
 from app.models.farm import Farm
-from app.models.order import Order, OrderItem, OrderStatus
+from app.models.order import Order, OrderItem, OrderStatus, PaymentStatus
 from app.models.payment_method import PaymentMethod
 from app.models.price_history import PriceSource
 from app.models.product import Product
@@ -20,12 +20,33 @@ from app.schemas.order import (
     StatusUpdate,
 )
 from app.schemas.trends import TrendPoint
-from app.services.delivery_planning import plan_order_delivery
+from app.services import email as email_service
+from app.services.delivery_planning import finalize_delivery, preview_delivery_fee
 from app.services.earnings import compute_earnings
+from app.services.file_storage import save_invoice_document
+from app.services.invoice import generate_invoice_pdf
 from app.services.pricing import record_price
 from app.services.trends import daily_series
 
 router = APIRouter(prefix="/orders", tags=["orders"])
+
+
+def _confirm_payment(db: Session, order: Order) -> None:
+    """Shared by both the manual admin-confirm path and the PayPal-capture
+    path: marks the order paid, finalizes delivery (creates stops + assigns
+    a transporter) when the buyer opted into delivery, and generates the
+    downloadable/emailable invoice. Both paths already know payment is
+    verified before calling this — PayPal via its capture API response,
+    the manual path via an admin confirming the order."""
+    order.payment_status = PaymentStatus.PAID
+
+    if order.needs_delivery:
+        finalize_delivery(db, order)
+
+    pdf_bytes = generate_invoice_pdf(order)
+    order.invoice_url = save_invoice_document(pdf_bytes, f"fatura-encomenda-{order.id}")
+    db.commit()
+    db.refresh(order)
 
 
 @router.post("/", response_model=OrderRead)
@@ -37,6 +58,7 @@ def create_order(
     order = Order(
         buyer_id=current_user.id,
         payment_method_id=payload.payment_method_id,
+        needs_delivery=payload.needs_delivery,
         total_amount=0,
     )
     db.add(order)
@@ -76,6 +98,13 @@ def create_order(
     order.total_amount = total
     db.commit()
     db.refresh(order)
+
+    if order.needs_delivery:
+        preview_delivery_fee(db, order)
+        order.total_amount = total + (order.delivery_fee or 0.0)
+        db.commit()
+        db.refresh(order)
+
     return order
 
 
@@ -182,7 +211,7 @@ def update_order_status(
     db.commit()
 
     if newly_confirmed:
-        plan_order_delivery(db, order)
+        _confirm_payment(db, order)
 
     db.refresh(order)
     return order
@@ -219,3 +248,28 @@ def get_order(
     if not order or order.buyer_id != current_user.id:
         raise HTTPException(status_code=404, detail="Order not found")
     return order
+
+
+@router.post("/{order_id}/invoice/email")
+def email_invoice(
+    order_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    order = db.query(Order).get(order_id)
+    if not order or order.buyer_id != current_user.id:
+        raise HTTPException(status_code=404, detail="Order not found")
+    if order.payment_status != PaymentStatus.PAID:
+        raise HTTPException(
+            status_code=400, detail="A fatura só está disponível depois de o pagamento ser confirmado"
+        )
+    if not order.buyer_email:
+        raise HTTPException(status_code=400, detail="Este utilizador não tem um email registado")
+
+    pdf_bytes = generate_invoice_pdf(order)
+    try:
+        email_service.send_invoice_email(order.buyer_email, order.buyer_name, order.id, pdf_bytes)
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail="Não foi possível enviar o email") from exc
+
+    return {"status": "sent"}

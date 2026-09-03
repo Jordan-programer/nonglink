@@ -12,7 +12,12 @@ from app.models.user import User
 logger = logging.getLogger(__name__)
 
 
-def _send(to_email: str, subject: str, body: str) -> None:
+def _send(
+    to_email: str,
+    subject: str,
+    body: str,
+    attachment: tuple[bytes, str] | None = None,
+) -> None:
     if not settings.SMTP_HOST:
         logger.warning(
             "SMTP não configurado — email não enviado.\nPara: %s\nAssunto: %s\n%s",
@@ -27,6 +32,10 @@ def _send(to_email: str, subject: str, body: str) -> None:
     message["To"] = to_email
     message["Subject"] = subject
     message.set_content(body)
+
+    if attachment:
+        data, filename = attachment
+        message.add_attachment(data, maintype="application", subtype="pdf", filename=filename)
 
     # Port 465 is implicit TLS from the first byte (needs SMTP_SSL); port 587
     # (and most others) start plaintext and upgrade via STARTTLS instead.
@@ -63,3 +72,17 @@ def send_verification_email(to_email: str, name: str, token: str) -> None:
         "Se não criaste esta conta, ignora este email."
     )
     _send(to_email, "Confirma o teu email — AgriLink", body)
+
+
+def send_invoice_email(to_email: str, name: str, order_id: int, pdf_bytes: bytes) -> None:
+    body = (
+        f"Olá {name},\n\n"
+        f"Segue em anexo a fatura da tua encomenda #{order_id} na AgriLink.\n\n"
+        "Obrigado por comprares na AgriLink."
+    )
+    _send(
+        to_email,
+        f"Fatura da encomenda #{order_id} — AgriLink",
+        body,
+        attachment=(pdf_bytes, f"fatura-encomenda-{order_id}.pdf"),
+    )

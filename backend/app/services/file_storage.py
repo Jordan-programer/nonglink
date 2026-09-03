@@ -12,6 +12,8 @@ EXPORTS_DIR = UPLOAD_ROOT / "exports"
 EXPORTS_DIR.mkdir(parents=True, exist_ok=True)
 TRANSPORTER_DOCS_DIR = UPLOAD_ROOT / "transporter-documents"
 TRANSPORTER_DOCS_DIR.mkdir(parents=True, exist_ok=True)
+INVOICES_DIR = UPLOAD_ROOT / "invoices"
+INVOICES_DIR.mkdir(parents=True, exist_ok=True)
 
 ALLOWED_CONTENT_TYPES = {
     "image/jpeg": "jpg",
@@ -59,3 +61,9 @@ def save_export_document(data: bytes, filename_prefix: str) -> str:
     filename = f"{filename_prefix}-{uuid.uuid4().hex}.pdf"
     (EXPORTS_DIR / filename).write_bytes(data)
     return f"/uploads/exports/{filename}"
+
+
+def save_invoice_document(data: bytes, filename_prefix: str) -> str:
+    filename = f"{filename_prefix}-{uuid.uuid4().hex}.pdf"
+    (INVOICES_DIR / filename).write_bytes(data)
+    return f"/uploads/invoices/{filename}"

@@ -13,6 +13,7 @@ class OrderItemCreate(BaseModel):
 
 class OrderCreate(BaseModel):
     items: list[OrderItemCreate]
+    needs_delivery: bool
     payment_method_id: int | None = None
 
 
@@ -39,8 +40,10 @@ class OrderRead(BaseModel):
     status: OrderStatus
     payment_status: PaymentStatus
     total_amount: float
+    needs_delivery: bool
     delivery_fee: float | None = None
     delivery_distance_km: float | None = None
+    invoice_url: str | None = None
     created_at: datetime
     items: list[OrderItemRead] = []
 
