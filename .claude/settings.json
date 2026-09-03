@@ -22,7 +22,22 @@
       "Bash(.venv/Scripts/python -c \"from app.services.document_generation import generate_pdf, sha256_hex; pdf = generate_pdf\\('Teste', {'a':'1'}\\); print\\(len\\(pdf\\), sha256_hex\\(pdf\\)[:16]\\)\")",
       "Bash(.venv/Scripts/python -c \"from app.main import app; print\\('IMPORT OK'\\)\")",
       "Bash(curl -s http://127.0.0.1:8000/api/v1/products/)",
-      "Bash(python -c ' *)"
+      "Bash(python -c ' *)",
+      "Read(//c/xampp/**)",
+      "Read(//c/xampp/mysql/bin/**)",
+      "PowerShell(Start-Process -FilePath \"C:\\\\xampp\\\\mysql_start.bat\" -WindowStyle Hidden)",
+      "PowerShell(Get-Process mysqld -ErrorAction SilentlyContinue)",
+      "Bash(PYTHONUNBUFFERED=1 nohup .venv/Scripts/python -u -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000)",
+      "Bash(disown)",
+      "Read(//tmp/**)",
+      "Bash(curl -s -o /dev/null -w \"health:%{http_code}\\\\n\" --max-time 5 http://127.0.0.1:8000/health)",
+      "Bash(curl -s http://127.0.0.1:8000/openapi.json -o \"/c/Users/pc-hp/AppData/Local/Temp/claude/c--xampp-htdocs-agrilink/4e65bad0-0e4a-42da-aa04-52d8fd1039e5/scratchpad/openapi_logistics.json\")",
+      "Bash(curl -s http://127.0.0.1:8000/api/v1/transport/22/tracking -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyMiIsImV4cCI6MTc4ODQ0OTU2OX0.pUuejKeyiBfHmHCtH5lIxPfIq0a2Axm_h8uxvvVWueg')",
+      "Bash(python -m json.tool)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5183/transportador/documentos)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5183/transportador)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5183/minhas-encomendas)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:5183/)"
     ]
   }
 }
