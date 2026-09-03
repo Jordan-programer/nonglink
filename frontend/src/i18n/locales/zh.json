@@ -250,7 +250,7 @@
     "status": "状态",
     "date": "日期",
     "summaryTotal": "总销售额",
-    "summaryCommission": "平台佣金（10%）",
+    "summaryCommission": "平台佣金（5%）",
     "summaryBalance": "可提现余额"
   },
   "completeProfile": {
@@ -388,7 +388,7 @@
     "advanceError": "无法更新状态。",
     "earningsTitle": "收入",
     "statTotalSales": "总销售额",
-    "statCommission": "平台佣金（10%）",
+    "statCommission": "平台佣金（5%）",
     "statAvailableBalance": "可提现余额",
     "availabilityTitle": "可用状态",
     "availabilityOn": "你目前可以接收新的配送任务。",
@@ -746,7 +746,7 @@
         "body": [
           "用于创建和管理您的账户，并支持在平台上买卖农产品。",
           "根据您在地图上绘制的农场坐标，利用谷歌地球引擎处理的卫星影像，生成灌溉、土壤处理、最佳种植和收获时机等农业建议。",
-          "用于通过PayPal处理付款，并计算平台从农民销售额和运输商配送费中收取的10%佣金，以及可提现的余额。",
+          "用于通过PayPal处理付款，并计算平台从农民销售额和运输商配送费中收取的5%佣金，以及可提现的余额。",
           "用于支持买家、农民和运输商在平台内的沟通。",
           "用于发送有关订单、配送和传感器警报的相关通知。",
           "用于改进平台、预防欺诈及遵守法律义务。"

@@ -228,7 +228,7 @@
   "sales": {
     "noOrdersYet": "Vous n'avez pas encore reçu de commandes.",
     "summaryTotal": "Total des ventes",
-    "summaryCommission": "Commission de la plateforme (10%)",
+    "summaryCommission": "Commission de la plateforme (5%)",
     "summaryBalance": "Solde disponible pour retrait"
   },
   "orderStatus": {
@@ -323,7 +323,7 @@
     "noMine": "Vous n'avez encore accepté aucune livraison.",
     "actionError": "Impossible de terminer l'action.",
     "statTotalSales": "Total des ventes",
-    "statCommission": "Commission de la plateforme (10%)",
+    "statCommission": "Commission de la plateforme (5%)",
     "statAvailableBalance": "Solde disponible pour retrait",
     "availabilityTitle": "Disponibilité",
     "availabilityOn": "Tu es disponible pour de nouvelles livraisons.",
@@ -509,7 +509,7 @@
         "body": [
           "Pour créer et gérer votre compte et permettre l'achat et la vente de produits agricoles sur la plateforme.",
           "Pour générer des recommandations agricoles (irrigation, traitement du sol, moment idéal de plantation et de récolte) à partir d'images satellite traitées par Google Earth Engine, sur la base des coordonnées de l'exploitation que vous avez tracées sur la carte.",
-          "Pour traiter les paiements via PayPal et calculer la commission de 10 % que la plateforme retient sur les ventes des agriculteurs et les livraisons des transporteurs, ainsi que le solde disponible pour retrait.",
+          "Pour traiter les paiements via PayPal et calculer la commission de 5 % que la plateforme retient sur les ventes des agriculteurs et les livraisons des transporteurs, ainsi que le solde disponible pour retrait.",
           "Pour permettre la communication entre acheteurs, agriculteurs et transporteurs au sein de la plateforme.",
           "Pour envoyer des notifications pertinentes concernant les commandes, les livraisons et les alertes de vos capteurs.",
           "Pour améliorer la plateforme, prévenir la fraude et respecter les obligations légales."

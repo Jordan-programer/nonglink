@@ -5,7 +5,7 @@ integration in this app yet, so "available balance" is informational
 (gross sales minus the platform's cut), not tied to an actual ledger.
 """
 
-PLATFORM_COMMISSION_RATE = 0.10
+PLATFORM_COMMISSION_RATE = 0.05
 
 
 def compute_earnings(gross_sales: float) -> dict:

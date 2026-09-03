@@ -61,16 +61,31 @@ Five integrated layers:
 
 1. Marketplace and logistics — farmers list products directly; buyers
    (consumers, distributors, food businesses) purchase without
-   intermediaries; a dedicated transporter role handles last-mile
-   delivery; buyers, farmers, and transporters message each other
-   in-app. Checkout supports the payment methods people actually use
-   in each market — Multicaixa Express and Unitel Money (Angola),
+   intermediaries; buyers, farmers, and transporters message each
+   other in-app. Checkout supports the payment methods people actually
+   use in each market — Multicaixa Express and Unitel Money (Angola),
    Alipay, WeChat Pay, and UnionPay (China), Airtel Money and MTN
    Mobile Money (Republic of Congo), M-Pesa and Airtel Money (DRC),
    plus PayPal and Orange Money across markets — with a transparent
-   10% platform commission on both farmer sales and transporter
+   5% platform commission on both farmer sales and transporter
    deliveries, and live earnings/withdrawal-balance dashboards for
    both roles.
+
+   Last-mile delivery runs on a real logistics engine, not just a
+   "transporter" role label: when payment is confirmed, the platform
+   automatically assigns the nearest verified, available transporter
+   using live geospatial distance; for orders spanning multiple
+   farms, a route-optimization service sequences the pickups (a
+   nearest-neighbor plus 2-opt heuristic) before the drop-off at the
+   buyer; the delivery fee is computed dynamically from distance and
+   cargo weight (base fare + per-km rate + per-kg rate), not a flat
+   charge; and both the buyer and the transporter track the delivery
+   live on an in-app map as GPS position and pickup/drop-off status
+   update in real time. Transporters are verified before they can go
+   live — they submit their vehicle details, license, registration,
+   insurance, and inspection documents, plus photos of the vehicle
+   from multiple angles, and an admin reviews every submitted document
+   full-size before approving or rejecting the account.
 
 2. IoT monitoring — low-cost sensors (soil moisture, temperature,
    water level, humidity) report per-farm readings, giving farmers
@@ -162,12 +177,13 @@ farm-by-farm and country-by-country.
 Technology: Python/FastAPI backend, MySQL database, React/TypeScript
 web app, React Native/Expo mobile app, XGBoost and Ridge regression
 forecasting models, Open-Meteo weather API, Google Earth Engine
-satellite analysis, PayPal plus regional mobile-money integrations,
-and a document-generation/SHA-256 hashing layer for export
-certificates and contracts. Full interface localization in
-Portuguese, English, French, and Chinese.
+satellite analysis, PayPal plus regional mobile-money integrations, a
+geospatial route-optimization and automatic driver-assignment service
+for last-mile delivery, and a document-generation/SHA-256 hashing
+layer for export certificates and contracts. Full interface
+localization in Portuguese, English, French, and Chinese.
 
-Business model: a transparent 10% commission on both farmer sales and
+Business model: a transparent 5% commission on both farmer sales and
 transporter deliveries — live in the product today, with earnings and
 withdrawal-balance dashboards for both roles — plus premium
 subscriptions for advanced analytics, sale of low-cost sensor kits,
@@ -224,6 +240,13 @@ improved food security across all three farming markets.
   Express, Unitel Money, Airtel Money, MTN Mobile Money, M-Pesa,
   Orange Money, and PayPal — a concrete, working demonstration of
   cross-border readiness, not a roadmap promise.
+
+- A real logistics engine, not a role label — automatic nearest-
+  transporter assignment on payment confirmation, multi-farm pickup
+  route optimization, distance+weight-based dynamic delivery pricing,
+  live GPS tracking for buyers and transporters, and a document-backed
+  transporter/vehicle verification workflow the admin team reviews
+  before anyone goes live.
 
 - Five-in-one integration — marketplace + logistics, IoT + satellite
   field data, analytics, localized payments, and the B2B export bridge

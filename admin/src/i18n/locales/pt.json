@@ -249,7 +249,7 @@
     "status": "Estado",
     "date": "Data",
     "summaryTotal": "Total de vendas",
-    "summaryCommission": "Comissão da plataforma (10%)",
+    "summaryCommission": "Comissão da plataforma (5%)",
     "summaryBalance": "Saldo disponível para saque"
   },
   "completeProfile": {
@@ -350,7 +350,7 @@
     "advanceError": "Não foi possível atualizar o estado.",
     "earningsTitle": "Ganhos",
     "statTotalSales": "Total de vendas",
-    "statCommission": "Comissão da plataforma (10%)",
+    "statCommission": "Comissão da plataforma (5%)",
     "statAvailableBalance": "Saldo disponível para saque"
   },
   "buyerDashboard": {
@@ -671,7 +671,7 @@
         "body": [
           "Para criar e gerir a tua conta e permitir a compra e venda de produtos agrícolas na plataforma.",
           "Para gerar recomendações agrícolas (rega, tratamento do solo, altura ideal de plantio e colheita) a partir de imagens de satélite processadas pelo Google Earth Engine, com base nas coordenadas da lavra que desenhaste no mapa.",
-          "Para processar pagamentos através do PayPal e calcular a comissão de 10% que a plataforma retém sobre as vendas de agricultores e as entregas de transportadores, bem como o saldo disponível para levantamento.",
+          "Para processar pagamentos através do PayPal e calcular a comissão de 5% que a plataforma retém sobre as vendas de agricultores e as entregas de transportadores, bem como o saldo disponível para levantamento.",
           "Para permitir a comunicação entre compradores, agricultores e transportadores dentro da plataforma.",
           "Para enviar notificações relevantes sobre encomendas, entregas e alertas dos teus sensores.",
           "Para melhorar a plataforma, prevenir fraude e cumprir obrigações legais."

@@ -228,7 +228,7 @@
   "sales": {
     "noOrdersYet": "You haven't received any orders yet.",
     "summaryTotal": "Total sales",
-    "summaryCommission": "Platform commission (10%)",
+    "summaryCommission": "Platform commission (5%)",
     "summaryBalance": "Available balance for withdrawal"
   },
   "orderStatus": {
@@ -323,7 +323,7 @@
     "noMine": "You haven't accepted any deliveries yet.",
     "actionError": "Could not complete the action.",
     "statTotalSales": "Total sales",
-    "statCommission": "Platform commission (10%)",
+    "statCommission": "Platform commission (5%)",
     "statAvailableBalance": "Available balance for withdrawal",
     "availabilityTitle": "Availability",
     "availabilityOn": "You're available for new deliveries.",
@@ -509,7 +509,7 @@
         "body": [
           "To create and manage your account and enable buying and selling agricultural products on the platform.",
           "To generate farming recommendations (irrigation, soil treatment, ideal planting and harvest timing) from satellite imagery processed by Google Earth Engine, based on the farm coordinates you drew on the map.",
-          "To process payments through PayPal and calculate the 10% commission the platform retains on farmers' sales and transporters' deliveries, as well as the balance available for withdrawal.",
+          "To process payments through PayPal and calculate the 5% commission the platform retains on farmers' sales and transporters' deliveries, as well as the balance available for withdrawal.",
           "To enable communication between buyers, farmers and transporters within the platform.",
           "To send relevant notifications about orders, deliveries and sensor alerts.",
           "To improve the platform, prevent fraud and comply with legal obligations."
