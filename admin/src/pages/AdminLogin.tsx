@@ -48,7 +48,7 @@ export default function AdminLogin() {
 
         <div className="rounded-3xl border border-leaf-100 bg-white/90 p-8 shadow-xl shadow-leaf-950/10 backdrop-blur">
           <h1 className="text-2xl font-semibold tracking-tight text-leaf-950">
-            AgriLink Admin
+            NongLink Admin
           </h1>
           <p className="mt-1.5 text-sm text-leaf-950/60">{t('login.subtitle')}</p>
 
@@ -65,7 +65,7 @@ export default function AdminLogin() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder="admin@agrilink.store"
+                  placeholder="admin@NongLink.store"
                   autoCapitalize="none"
                   className="w-full rounded-xl border border-leaf-200 bg-white py-2.5 pl-9 pr-4 text-sm text-leaf-950 placeholder:text-leaf-950/40 focus:border-leaf-400 focus:outline-none"
                 />

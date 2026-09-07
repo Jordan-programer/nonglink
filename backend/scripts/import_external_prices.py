@@ -25,7 +25,7 @@ from app.models.region import Region
 CSV_PATH = Path(__file__).resolve().parent.parent.parent / "database" / "external" / "wfp_food_prices_ago.csv"
 SOURCE_NAME = "wfp_hdx"
 
-# WFP commodity -> our crop taxonomy. Commodities with no AgriLink crop
+# WFP commodity -> our crop taxonomy. Commodities with no NongLink crop
 # equivalent (bread, milk, oil, salt, sugar, fish) are intentionally skipped.
 COMMODITY_TO_CROP = {
     "Maize flour": "Milho",

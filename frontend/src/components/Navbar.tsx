@@ -69,7 +69,7 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
         <Link to="/" className="flex items-center gap-2 font-semibold text-leaf-900">
           <Logo className="h-9 w-9 rounded-lg" />
-          <span className="text-lg tracking-tight">AgriLink</span>
+          <span className="text-lg tracking-tight">NongLink</span>
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">

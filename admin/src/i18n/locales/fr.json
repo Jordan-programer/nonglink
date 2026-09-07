@@ -28,14 +28,14 @@
     "cooperatives": "Coopératives",
     "contact": "Contact",
     "location": "Luanda, Angola",
-    "rights": "© {{year}} AgriLink. Tous droits réservés.",
+    "rights": "© {{year}} NongLink. Tous droits réservés.",
     "privacyPolicy": "Politique de confidentialité"
   },
   "hero": {
     "badge": "L'AgriTech pensée pour l'Angola",
     "titleLine1": "Du champ au marché,",
     "titleHighlight": "sans intermédiaires.",
-    "description": "AgriLink connecte les agriculteurs directement aux acheteurs, surveille leurs exploitations avec des capteurs IoT et utilise les données pour recommander le meilleur moment pour irriguer, récolter et vendre.",
+    "description": "NongLink connecte les agriculteurs directement aux acheteurs, surveille leurs exploitations avec des capteurs IoT et utilise les données pour recommander le meilleur moment pour irriguer, récolter et vendre.",
     "exploreMarket": "Explorer le marché",
     "howItWorks": "Comment ça marche",
     "statIncome": "hausse de revenu estimée",
@@ -52,7 +52,7 @@
   },
   "features": {
     "title": "Un écosystème complet, pas seulement un outil",
-    "subtitle": "Contrairement aux solutions qui ne résolvent qu'une partie du problème, AgriLink intègre vente, surveillance et intelligence des données dans une seule plateforme accessible.",
+    "subtitle": "Contrairement aux solutions qui ne résolvent qu'une partie du problème, NongLink intègre vente, surveillance et intelligence des données dans une seule plateforme accessible.",
     "marketplaceTitle": "Marché agricole",
     "marketplaceDescription": "Vendez directement aux acheteurs, distributeurs et consommateurs, sans intermédiaires.",
     "iotTitle": "Surveillance IoT",
@@ -84,11 +84,11 @@
   },
   "cta": {
     "title": "Prêt à vendre directement et cultiver avec des données ?",
-    "subtitle": "Rejoignez les agriculteurs qui utilisent déjà AgriLink pour atteindre plus d'acheteurs et mieux prendre soin de leurs exploitations.",
+    "subtitle": "Rejoignez les agriculteurs qui utilisent déjà NongLink pour atteindre plus d'acheteurs et mieux prendre soin de leurs exploitations.",
     "button": "Commencer maintenant"
   },
   "login": {
-    "title": "Se connecter à AgriLink",
+    "title": "Se connecter à NongLink",
     "subtitle": "Accédez à votre marché, vos commandes et vos exploitations.",
     "email": "Email",
     "password": "Mot de passe",
@@ -106,7 +106,7 @@
     "facebookError": "Impossible de se connecter avec Facebook."
   },
   "register": {
-    "title": "Créer un compte AgriLink",
+    "title": "Créer un compte NongLink",
     "subtitle": "Rejoignez la plateforme en tant qu'agriculteur, acheteur ou distributeur.",
     "roleFarmer": "Agriculteur",
     "roleBuyer": "Acheteur",
@@ -254,7 +254,7 @@
   },
   "completeProfile": {
     "title": "Complète ton profil",
-    "subtitle": "Il ne reste plus qu'à nous dire qui tu es pour commencer à utiliser AgriLink.",
+    "subtitle": "Il ne reste plus qu'à nous dire qui tu es pour commencer à utiliser NongLink.",
     "roleLabel": "Je suis",
     "phoneOptional": "Téléphone (facultatif)",
     "submitting": "Enregistrement...",
@@ -295,7 +295,7 @@
   "verifyEmail": {
     "verifying": "Vérification de ton email...",
     "successTitle": "Email vérifié !",
-    "successSubtitle": "Ton compte AgriLink est maintenant entièrement confirmé.",
+    "successSubtitle": "Ton compte NongLink est maintenant entièrement confirmé.",
     "continue": "Continuer",
     "errorTitle": "Vérification impossible",
     "missingToken": "Ce lien de vérification est incomplet.",
@@ -304,7 +304,7 @@
   },
   "myOrders": {
     "title": "Mes commandes",
-    "subtitle": "Historique des achats sur le marché AgriLink.",
+    "subtitle": "Historique des achats sur le marché NongLink.",
     "noOrdersYet": "Vous n'avez pas encore passé de commande.",
     "exploreMarket": "Explorer le marché",
     "orderNumber": "Commande n° {{id}}",
@@ -355,7 +355,7 @@
   },
   "buyerDashboard": {
     "greeting": "Bonjour,",
-    "subtitle": "Voici un résumé de l'activité de votre compte AgriLink.",
+    "subtitle": "Voici un résumé de l'activité de votre compte NongLink.",
     "statOrders": "Commandes",
     "statPending": "En attente",
     "statUnreadMessages": "Messages non lus",
@@ -654,7 +654,7 @@
   "privacyPolicy": {
     "title": "Politique de confidentialité",
     "lastUpdated": "Dernière mise à jour : 21 août 2026",
-    "intro": "AgriLink (« nous », « la plateforme ») connecte agriculteurs, acheteurs, distributeurs et transporteurs en Angola, en République démocratique du Congo, en République du Congo et en Chine. Cette politique explique quelles données personnelles nous collectons, pourquoi nous les collectons, et comment nous les utilisons et les protégeons.",
+    "intro": "NongLink (« nous », « la plateforme ») connecte agriculteurs, acheteurs, distributeurs et transporteurs en Angola, en République démocratique du Congo, en République du Congo et en Chine. Cette politique explique quelles données personnelles nous collectons, pourquoi nous les collectons, et comment nous les utilisons et les protégeons.",
     "sections": [
       {
         "heading": "1. Données que nous collectons",
@@ -688,7 +688,7 @@
         "heading": "4. Partage des données avec des tiers",
         "body": [
           "Nous ne vendons jamais vos données personnelles. Nous ne partageons que le strict nécessaire avec : PayPal, pour traiter les paiements ; Google Earth Engine, pour analyser les images satellite des coordonnées de votre exploitation ; Google et Facebook, uniquement si vous choisissez de vous connecter via ces services ; et les transporteurs, pour permettre la livraison de vos commandes.",
-          "Nous pouvons également divulguer des données lorsque la loi l'exige ou pour protéger les droits et la sécurité d'AgriLink et de ses utilisateurs."
+          "Nous pouvons également divulguer des données lorsque la loi l'exige ou pour protéger les droits et la sécurité d'NongLink et de ses utilisateurs."
         ]
       },
       {
@@ -713,7 +713,7 @@
       {
         "heading": "8. Mineurs",
         "body": [
-          "AgriLink n'est pas destiné aux personnes de moins de 18 ans et ne collecte pas sciemment de données auprès de mineurs."
+          "NongLink n'est pas destiné aux personnes de moins de 18 ans et ne collecte pas sciemment de données auprès de mineurs."
         ]
       },
       {
@@ -725,7 +725,7 @@
       {
         "heading": "10. Contact",
         "body": [
-          "Pour toute question concernant cette politique ou vos données personnelles, contactez-nous à contact@agrilink.store."
+          "Pour toute question concernant cette politique ou vos données personnelles, contactez-nous à contact@NongLink.store."
         ]
       }
     ]

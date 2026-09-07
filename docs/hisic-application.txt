@@ -1,5 +1,5 @@
 ========================================================================
-AgriLink — hisic.net Competition Application
+NongLink — hisic.net Competition Application
 Draft content, ready to copy into the online form
 ========================================================================
 
@@ -7,7 +7,7 @@ Draft content, ready to copy into the online form
 ------------------------------------------------------------------------
 企业/团队简介 / Company/Team profile
 ------------------------------------------------------------------------
-AgriLink is an AgriTech startup founded to modernize the agricultural
+NongLink is an AgriTech startup founded to modernize the agricultural
 value chain in developing markets, starting with small and medium-scale
 farmers in Angola who are currently underserved by traditional
 distribution and information channels. The team combines backend
@@ -15,11 +15,11 @@ engineering (Python/FastAPI), full-stack web development
 (React/TypeScript), and mobile development (React Native/Expo), applied
 directly to Angola's agricultural sector.
 
-AgriLink is built as a production-grade platform, not a prototype: a
+NongLink is built as a production-grade platform, not a prototype: a
 MySQL-backed relational data model spanning countries, regions, crops,
 farms, products, orders, deliveries, IoT sensor data, satellite soil
 observations, and — since this application targets Macau specifically
-— a B2B export module ("AgriLink Macau Bridge") that aggregates
+— a B2B export module ("NongLink Macau Bridge") that aggregates
 multiple farmers' stock into certifiable export batches for verified
 Chinese buyers. The platform already ships production-grade account
 infrastructure (email verification, Google/Facebook sign-in) and
@@ -38,7 +38,7 @@ Republic of the Congo (adjacent African markets sharing similar
 smallholder farming structures and market-access barriers), and China
 (both a technology/hardware partner market for sensor-kit sourcing and
 manufacturing, and a direct user market — Chinese farmers, buyers, and
-distributors can register and use AgriLink themselves). The product
+distributors can register and use NongLink themselves). The product
 already ships with a working interface in four languages — Portuguese,
 English, French, and Chinese — across both the web and mobile apps.
 
@@ -52,7 +52,7 @@ included, since this information wasn't available when drafting.]
 ------------------------------------------------------------------------
 核心技术及产品简介 / Core technology and product
 ------------------------------------------------------------------------
-AgriLink's product is a marketplace + logistics + IoT + satellite +
+NongLink's product is a marketplace + logistics + IoT + satellite +
 data-forecasting + B2B export-bridge platform delivered as a web app
 (React/Vite/TypeScript), a mobile app (React Native/Expo), and a
 FastAPI (Python) backend on MySQL.
@@ -110,7 +110,7 @@ Five integrated layers:
    fabricating a forecast when real history is too thin — every number
    stays backend-verifiable rather than AI-washed.
 
-5. B2B export bridge ("AgriLink Macau Bridge") — the module this
+5. B2B export bridge ("NongLink Macau Bridge") — the module this
    application is built around. Farmers commit part of their listed
    stock to an export batch for a given crop; the platform aggregates
    contributions from multiple farmers/cooperatives until a minimum
@@ -147,7 +147,7 @@ who capture most of the margin, no real-time field data, post-harvest
 waste, and no affordable technology. Farmers sell below fair value and
 lose income and production they can't afford to lose.
 
-Solution: AgriLink combines (1) a digital marketplace connecting
+Solution: NongLink combines (1) a digital marketplace connecting
 farmers directly to buyers, distributors, and food businesses, with a
 dedicated transporter role for last-mile delivery; (2) low-cost IoT
 sensors monitoring soil moisture, temperature, water level, and
@@ -327,7 +327,7 @@ fund sensor-kit manufacturing and hardware rollout to pilot farms.
 included here. Suggested outline below to build the deck from.]
 
 Suggested 12-slide outline:
- 1. Title — AgriLink name/logo, tagline ("From field to sale, without
+ 1. Title — NongLink name/logo, tagline ("From field to sale, without
     the middleman"), team, contact.
  2. Problem — Angola/African smallholder farmers: no direct market
     access, intermediary markup, no real-time field data, post-harvest

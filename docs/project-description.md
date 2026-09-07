@@ -1,7 +1,7 @@
-# AgriLink – Full Project Description
+# NongLink – Full Project Description
 
 ## 🌱 1. Introdução
-AgriLink é uma solução inovadora de tecnologia agrícola (AgriTech) desenvolvida para transformar a cadeia de valor agrícola em países em desenvolvimento, com foco inicial em Angola.
+NongLink é uma solução inovadora de tecnologia agrícola (AgriTech) desenvolvida para transformar a cadeia de valor agrícola em países em desenvolvimento, com foco inicial em Angola.
 O projeto surge como resposta aos desafios estruturais enfrentados pelos agricultores, especialmente os de pequena e média escala, que frequentemente operam com acesso limitado a mercados, informação e tecnologia.
 
 ## 🚨 2. Problema
@@ -59,8 +59,8 @@ Tudo em um único sistema.
 Com potencial de expansão para toda África.
 
 ## 🚀 8. Inovação
-O diferencial do AgriLink está na integração de marketplace digital, monitoramento IoT e análise de dados numa única plataforma acessível.
-Diferente de soluções existentes que focam apenas em uma área, o AgriLink cria um ecossistema completo, com uso de inteligência artificial e desenvolvimento de agricultura inteligente (smart farming).
+O diferencial do NongLink está na integração de marketplace digital, monitoramento IoT e análise de dados numa única plataforma acessível.
+Diferente de soluções existentes que focam apenas em uma área, o NongLink cria um ecossistema completo, com uso de inteligência artificial e desenvolvimento de agricultura inteligente (smart farming).
 
 ## 📈 9. Impacto
 - Aumento da renda dos agricultores

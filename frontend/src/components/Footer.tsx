@@ -11,7 +11,7 @@ export default function Footer() {
         <div>
           <Link to="/" className="flex items-center gap-2 font-semibold text-white">
             <Logo className="h-8 w-8 rounded-lg" />
-            <span className="text-lg tracking-tight">AgriLink</span>
+            <span className="text-lg tracking-tight">NongLink</span>
           </Link>
           <p className="mt-3 max-w-xs text-sm text-cream-100/70">{t('footer.tagline')}</p>
         </div>

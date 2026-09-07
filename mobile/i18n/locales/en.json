@@ -6,7 +6,7 @@
     "slide2Title": "Take care of your farm with data",
     "slide2Text": "Simple sensors tell you when to water and warn you about risks on your land.",
     "slide3Title": "Sell with confidence",
-    "slide3Text": "Fair prices, more buyers, and the support of the AgriLink community.",
+    "slide3Text": "Fair prices, more buyers, and the support of the NongLink community.",
     "next": "Next",
     "start": "Get started",
     "skip": "Skip"
@@ -24,7 +24,7 @@
     "badge": "🌱 AgriTech built for Angola",
     "headingLine1": "From farm to market,",
     "headingAccent": "with no middlemen.",
-    "description": "AgriLink connects farmers directly to buyers, monitors their farms with IoT sensors, and uses data to recommend the best time to irrigate, harvest, and sell.",
+    "description": "NongLink connects farmers directly to buyers, monitors their farms with IoT sensors, and uses data to recommend the best time to irrigate, harvest, and sell.",
     "exploreMarket": "Explore the market →",
     "statIncome": "estimated income increase",
     "statWaste": "post-harvest waste",
@@ -48,7 +48,7 @@
     "aiForecastInsufficientData": "Not enough data yet to forecast this crop's price."
   },
   "login": {
-    "title": "Log in to AgriLink",
+    "title": "Log in to NongLink",
     "subtitle": "Access your market, orders, and farms.",
     "identifier": "Email or phone",
     "identifierPlaceholder": "you@example.com or 923 000 000",
@@ -66,7 +66,7 @@
     "facebookError": "Could not sign in with Facebook."
   },
   "register": {
-    "title": "Create your AgriLink account",
+    "title": "Create your NongLink account",
     "subtitle": "Join the platform as a farmer, buyer, distributor, or transporter.",
     "roleFarmer": "Farmer",
     "roleBuyer": "Buyer",
@@ -94,7 +94,7 @@
   },
   "completeProfile": {
     "title": "Complete your profile",
-    "subtitle": "Just tell us who you are to start using AgriLink.",
+    "subtitle": "Just tell us who you are to start using NongLink.",
     "roleLabel": "I am a",
     "phoneOptional": "Phone (optional)",
     "submitting": "Saving...",
@@ -492,7 +492,7 @@
   "privacyPolicy": {
     "title": "Privacy Policy",
     "lastUpdated": "Last updated: August 21, 2026",
-    "intro": "AgriLink (\"we\", \"the platform\") connects farmers, buyers, distributors and transporters in Angola, the Democratic Republic of the Congo, the Republic of the Congo and China. This policy explains what personal data we collect, why we collect it, and how we use and protect it.",
+    "intro": "NongLink (\"we\", \"the platform\") connects farmers, buyers, distributors and transporters in Angola, the Democratic Republic of the Congo, the Republic of the Congo and China. This policy explains what personal data we collect, why we collect it, and how we use and protect it.",
     "sections": [
       {
         "heading": "1. Data we collect",
@@ -526,7 +526,7 @@
         "heading": "4. Sharing data with third parties",
         "body": [
           "We never sell your personal data. We share only what is strictly necessary with: PayPal, to process payments; Google Earth Engine, to analyze satellite imagery of your farm's coordinates; Google and Facebook, only if you choose to sign in through these services; and transporters, to enable delivery of your orders.",
-          "We may also disclose data when required by law or to protect the rights and safety of AgriLink and its users."
+          "We may also disclose data when required by law or to protect the rights and safety of NongLink and its users."
         ]
       },
       {
@@ -551,7 +551,7 @@
       {
         "heading": "8. Minors",
         "body": [
-          "AgriLink is not intended for users under 18 and does not knowingly collect data from minors."
+          "NongLink is not intended for users under 18 and does not knowingly collect data from minors."
         ]
       },
       {
@@ -563,7 +563,7 @@
       {
         "heading": "10. Contact",
         "body": [
-          "For questions about this policy or your personal data, contact us at contact@agrilink.store."
+          "For questions about this policy or your personal data, contact us at contact@NongLink.store."
         ]
       }
     ]

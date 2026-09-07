@@ -1,4 +1,4 @@
-# AgriLink
+# NongLink
 
 Plataforma AgriTech que integra marketplace agrícola, monitoramento IoT e análise de dados para agricultores em Angola (e, no futuro, em toda África).
 
@@ -7,7 +7,7 @@ Ver descrição completa do projeto em [`docs/project-description.md`](docs/proj
 ## Estrutura do projeto
 
 ```
-agrilink/
+NongLink/
 ├── backend/    # API em Python (FastAPI) + SQLAlchemy
 ├── frontend/   # Aplicação web em React (Vite + TypeScript)
 ├── mobile/     # Aplicação mobile em React Native (Expo + TypeScript)

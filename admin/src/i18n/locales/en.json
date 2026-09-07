@@ -28,14 +28,14 @@
     "cooperatives": "Cooperatives",
     "contact": "Contact",
     "location": "Luanda, Angola",
-    "rights": "© {{year}} AgriLink. All rights reserved.",
+    "rights": "© {{year}} NongLink. All rights reserved.",
     "privacyPolicy": "Privacy Policy"
   },
   "hero": {
     "badge": "AgriTech built for Angola",
     "titleLine1": "From farm to market,",
     "titleHighlight": "with no middlemen.",
-    "description": "AgriLink connects farmers directly to buyers, monitors their farms with IoT sensors, and uses data to recommend the best time to irrigate, harvest, and sell.",
+    "description": "NongLink connects farmers directly to buyers, monitors their farms with IoT sensors, and uses data to recommend the best time to irrigate, harvest, and sell.",
     "exploreMarket": "Explore the market",
     "howItWorks": "How it works",
     "statIncome": "estimated income increase",
@@ -52,7 +52,7 @@
   },
   "features": {
     "title": "A complete ecosystem, not just a tool",
-    "subtitle": "Unlike solutions that solve only one part of the problem, AgriLink integrates sales, monitoring, and data intelligence into a single accessible platform.",
+    "subtitle": "Unlike solutions that solve only one part of the problem, NongLink integrates sales, monitoring, and data intelligence into a single accessible platform.",
     "marketplaceTitle": "Agricultural marketplace",
     "marketplaceDescription": "Sell directly to buyers, distributors, and consumers, with no middlemen.",
     "iotTitle": "IoT monitoring",
@@ -84,11 +84,11 @@
   },
   "cta": {
     "title": "Ready to sell direct and farm with data?",
-    "subtitle": "Join the farmers already using AgriLink to reach more buyers and take better care of their farms.",
+    "subtitle": "Join the farmers already using NongLink to reach more buyers and take better care of their farms.",
     "button": "Get started"
   },
   "login": {
-    "title": "Log in to AgriLink",
+    "title": "Log in to NongLink",
     "subtitle": "Access your market, orders, and farms.",
     "email": "Email",
     "password": "Password",
@@ -106,7 +106,7 @@
     "facebookError": "Could not sign in with Facebook."
   },
   "register": {
-    "title": "Create your AgriLink account",
+    "title": "Create your NongLink account",
     "subtitle": "Join the platform as a farmer, buyer, or distributor.",
     "roleFarmer": "Farmer",
     "roleBuyer": "Buyer",
@@ -254,7 +254,7 @@
   },
   "completeProfile": {
     "title": "Complete your profile",
-    "subtitle": "Just tell us who you are to start using AgriLink.",
+    "subtitle": "Just tell us who you are to start using NongLink.",
     "roleLabel": "I am a",
     "phoneOptional": "Phone (optional)",
     "submitting": "Saving...",
@@ -295,7 +295,7 @@
   "verifyEmail": {
     "verifying": "Verifying your email...",
     "successTitle": "Email verified!",
-    "successSubtitle": "Your AgriLink account is now fully confirmed.",
+    "successSubtitle": "Your NongLink account is now fully confirmed.",
     "continue": "Continue",
     "errorTitle": "Couldn't verify",
     "missingToken": "This verification link is incomplete.",
@@ -304,7 +304,7 @@
   },
   "myOrders": {
     "title": "My orders",
-    "subtitle": "Purchase history on the AgriLink market.",
+    "subtitle": "Purchase history on the NongLink market.",
     "noOrdersYet": "You haven't placed any orders yet.",
     "exploreMarket": "Explore the market",
     "orderNumber": "Order #{{id}}",
@@ -355,7 +355,7 @@
   },
   "buyerDashboard": {
     "greeting": "Hi,",
-    "subtitle": "Here's a summary of what's happening on your AgriLink account.",
+    "subtitle": "Here's a summary of what's happening on your NongLink account.",
     "statOrders": "Orders",
     "statPending": "Pending",
     "statUnreadMessages": "Unread messages",
@@ -654,7 +654,7 @@
   "privacyPolicy": {
     "title": "Privacy Policy",
     "lastUpdated": "Last updated: August 21, 2026",
-    "intro": "AgriLink (\"we\", \"the platform\") connects farmers, buyers, distributors and transporters in Angola, the Democratic Republic of the Congo, the Republic of the Congo and China. This policy explains what personal data we collect, why we collect it, and how we use and protect it.",
+    "intro": "NongLink (\"we\", \"the platform\") connects farmers, buyers, distributors and transporters in Angola, the Democratic Republic of the Congo, the Republic of the Congo and China. This policy explains what personal data we collect, why we collect it, and how we use and protect it.",
     "sections": [
       {
         "heading": "1. Data we collect",
@@ -688,7 +688,7 @@
         "heading": "4. Sharing data with third parties",
         "body": [
           "We never sell your personal data. We share only what is strictly necessary with: PayPal, to process payments; Google Earth Engine, to analyze satellite imagery of your farm's coordinates; Google and Facebook, only if you choose to sign in through these services; and transporters, to enable delivery of your orders.",
-          "We may also disclose data when required by law or to protect the rights and safety of AgriLink and its users."
+          "We may also disclose data when required by law or to protect the rights and safety of NongLink and its users."
         ]
       },
       {
@@ -713,7 +713,7 @@
       {
         "heading": "8. Minors",
         "body": [
-          "AgriLink is not intended for users under 18 and does not knowingly collect data from minors."
+          "NongLink is not intended for users under 18 and does not knowingly collect data from minors."
         ]
       },
       {
@@ -725,7 +725,7 @@
       {
         "heading": "10. Contact",
         "body": [
-          "For questions about this policy or your personal data, contact us at contact@agrilink.store."
+          "For questions about this policy or your personal data, contact us at contact@NongLink.store."
         ]
       }
     ]

@@ -6,7 +6,7 @@
     "slide2Title": "Cuida da tua lavra com dados",
     "slide2Text": "Sensores simples avisam-te quando regar e alertam sobre riscos na tua terra.",
     "slide3Title": "Vende com confiança",
-    "slide3Text": "Preços justos, mais compradores, e o apoio da comunidade AgriLink.",
+    "slide3Text": "Preços justos, mais compradores, e o apoio da comunidade NongLink.",
     "next": "Seguinte",
     "start": "Começar",
     "skip": "Saltar"
@@ -24,7 +24,7 @@
     "badge": "🌱 AgriTech feita para Angola",
     "headingLine1": "Da lavra ao mercado,",
     "headingAccent": "sem intermediários.",
-    "description": "AgriLink liga agricultores diretamente a compradores, monitoriza as suas lavras com sensores IoT e usa dados para recomendar a melhor altura de irrigar, colher e vender.",
+    "description": "NongLink liga agricultores diretamente a compradores, monitoriza as suas lavras com sensores IoT e usa dados para recomendar a melhor altura de irrigar, colher e vender.",
     "exploreMarket": "Explorar o mercado →",
     "statIncome": "rendimento estimado",
     "statWaste": "desperdício pós-colheita",
@@ -48,7 +48,7 @@
     "aiForecastInsufficientData": "Ainda não há dados suficientes para prever o preço desta cultura."
   },
   "login": {
-    "title": "Entrar no AgriLink",
+    "title": "Entrar no NongLink",
     "subtitle": "Acede ao teu mercado, encomendas e lavras.",
     "identifier": "Email ou telefone",
     "identifierPlaceholder": "tu@exemplo.com ou 923 000 000",
@@ -66,7 +66,7 @@
     "facebookError": "Não foi possível entrar com o Facebook."
   },
   "register": {
-    "title": "Criar conta no AgriLink",
+    "title": "Criar conta no NongLink",
     "subtitle": "Junta-te à plataforma como agricultor, comprador, distribuidor ou transportador.",
     "roleFarmer": "Agricultor",
     "roleBuyer": "Comprador",
@@ -94,7 +94,7 @@
   },
   "completeProfile": {
     "title": "Completa o teu perfil",
-    "subtitle": "Só falta dizeres-nos quem és para começares a usar a AgriLink.",
+    "subtitle": "Só falta dizeres-nos quem és para começares a usar a NongLink.",
     "roleLabel": "Sou",
     "phoneOptional": "Telefone (opcional)",
     "submitting": "A guardar...",
@@ -492,7 +492,7 @@
   "privacyPolicy": {
     "title": "Política de Privacidade",
     "lastUpdated": "Última atualização: 21 de agosto de 2026",
-    "intro": "A AgriLink (\"nós\", \"a plataforma\") liga agricultores, compradores, distribuidores e transportadores em Angola, na República Democrática do Congo, na República do Congo e na China. Esta política explica que dados pessoais recolhemos, porque os recolhemos e como os utilizamos e protegemos.",
+    "intro": "A NongLink (\"nós\", \"a plataforma\") liga agricultores, compradores, distribuidores e transportadores em Angola, na República Democrática do Congo, na República do Congo e na China. Esta política explica que dados pessoais recolhemos, porque os recolhemos e como os utilizamos e protegemos.",
     "sections": [
       {
         "heading": "1. Dados que recolhemos",
@@ -526,7 +526,7 @@
         "heading": "4. Partilha de dados com terceiros",
         "body": [
           "Nunca vendemos os teus dados pessoais. Partilhamos apenas o estritamente necessário com: PayPal, para processar pagamentos; Google Earth Engine, para análise de imagens de satélite das coordenadas da tua lavra; Google e Facebook, apenas se escolheres iniciar sessão através destes serviços; e transportadores, para permitir a entrega das tuas encomendas.",
-          "Podemos também divulgar dados quando exigido por lei ou para proteger os direitos e a segurança da AgriLink e dos seus utilizadores."
+          "Podemos também divulgar dados quando exigido por lei ou para proteger os direitos e a segurança da NongLink e dos seus utilizadores."
         ]
       },
       {
@@ -551,7 +551,7 @@
       {
         "heading": "8. Menores de idade",
         "body": [
-          "A AgriLink não se destina a menores de 18 anos e não recolhe intencionalmente dados de menores."
+          "A NongLink não se destina a menores de 18 anos e não recolhe intencionalmente dados de menores."
         ]
       },
       {
@@ -563,7 +563,7 @@
       {
         "heading": "10. Contacto",
         "body": [
-          "Para questões sobre esta política ou sobre os teus dados pessoais, contacta-nos através de contact@agrilink.store."
+          "Para questões sobre esta política ou sobre os teus dados pessoais, contacta-nos através de contact@NongLink.store."
         ]
       }
     ]

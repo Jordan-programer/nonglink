@@ -19,7 +19,7 @@ def generate_invoice_pdf(order: Order) -> bytes:
     width, height = A4
 
     pdf.setFont("Helvetica-Bold", 18)
-    pdf.drawString(LEFT, height - 3 * cm, "AgriLink")
+    pdf.drawString(LEFT, height - 3 * cm, "NongLink")
 
     pdf.setFont("Helvetica-Bold", 13)
     pdf.drawString(LEFT, height - 4 * cm, f"Fatura — Encomenda #{order.id}")

@@ -1,6 +1,6 @@
 """add_countries_multi_country_regions
 
-Expands AgriLink from Angola-only to 4 countries: Angola, China, República
+Expands NongLink from Angola-only to 4 countries: Angola, China, República
 do Congo (Congo-Brazzaville) and República Democrática do Congo. Adds a
 countries table, links regions to a country, backfills the existing 18
 Angolan regions to Angola, and seeds provincial/departmental regions for

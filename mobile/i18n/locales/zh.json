@@ -6,7 +6,7 @@
     "slide2Title": "用数据照顾您的农场",
     "slide2Text": "简单的传感器会提醒您何时浇水，并对田地的风险发出警报。",
     "slide3Title": "放心销售",
-    "slide3Text": "公平的价格、更多的买家，以及 AgriLink 社区的支持。",
+    "slide3Text": "公平的价格、更多的买家，以及 NongLink 社区的支持。",
     "next": "下一步",
     "start": "开始使用",
     "skip": "跳过"
@@ -24,7 +24,7 @@
     "badge": "🌱 为安哥拉打造的农业科技",
     "headingLine1": "从田间到市场，",
     "headingAccent": "无需中间商。",
-    "description": "AgriLink 将农户直接连接到买家，通过物联网传感器监测农田，并利用数据推荐最佳的灌溉、收获和销售时机。",
+    "description": "NongLink 将农户直接连接到买家，通过物联网传感器监测农田，并利用数据推荐最佳的灌溉、收获和销售时机。",
     "exploreMarket": "浏览市场 →",
     "statIncome": "预计收入增长",
     "statWaste": "收获后损耗",
@@ -48,7 +48,7 @@
     "aiForecastInsufficientData": "目前数据不足，无法预测该作物的价格。"
   },
   "login": {
-    "title": "登录 AgriLink",
+    "title": "登录 NongLink",
     "subtitle": "访问您的市场、订单和农场。",
     "identifier": "电子邮箱或电话",
     "identifierPlaceholder": "you@example.com 或 923 000 000",
@@ -66,7 +66,7 @@
     "facebookError": "无法使用 Facebook 登录。"
   },
   "register": {
-    "title": "创建 AgriLink 账户",
+    "title": "创建 NongLink 账户",
     "subtitle": "以农户、买家、经销商或运输商身份加入平台。",
     "roleFarmer": "农户",
     "roleBuyer": "买家",
@@ -94,7 +94,7 @@
   },
   "completeProfile": {
     "title": "完善你的资料",
-    "subtitle": "只需告诉我们你的身份，即可开始使用AgriLink。",
+    "subtitle": "只需告诉我们你的身份，即可开始使用NongLink。",
     "roleLabel": "我是",
     "phoneOptional": "电话（选填）",
     "submitting": "正在保存...",
@@ -492,7 +492,7 @@
   "privacyPolicy": {
     "title": "隐私政策",
     "lastUpdated": "最后更新：2026年8月21日",
-    "intro": "AgriLink（“我们”、“平台”）连接安哥拉、刚果民主共和国、刚果共和国和中国的农民、买家、经销商和运输商。本政策说明我们收集哪些个人数据、为何收集，以及我们如何使用和保护这些数据。",
+    "intro": "NongLink（“我们”、“平台”）连接安哥拉、刚果民主共和国、刚果共和国和中国的农民、买家、经销商和运输商。本政策说明我们收集哪些个人数据、为何收集，以及我们如何使用和保护这些数据。",
     "sections": [
       {
         "heading": "1. 我们收集的数据",
@@ -526,7 +526,7 @@
         "heading": "4. 与第三方共享数据",
         "body": [
           "我们绝不出售您的个人数据。我们仅与以下各方共享严格必要的数据：PayPal（用于处理付款）；谷歌地球引擎（用于分析您农场坐标的卫星影像）；谷歌和脸书（仅当您选择通过这些服务登录时）；以及运输商（用于配送您的订单）。",
-          "在法律要求或为保护AgriLink及其用户的权利和安全时，我们也可能披露数据。"
+          "在法律要求或为保护NongLink及其用户的权利和安全时，我们也可能披露数据。"
         ]
       },
       {
@@ -551,7 +551,7 @@
       {
         "heading": "8. 未成年人",
         "body": [
-          "AgriLink不面向18岁以下的用户，也不会故意收集未成年人的数据。"
+          "NongLink不面向18岁以下的用户，也不会故意收集未成年人的数据。"
         ]
       },
       {
@@ -563,7 +563,7 @@
       {
         "heading": "10. 联系我们",
         "body": [
-          "如对本政策或您的个人数据有任何疑问，请通过 contact@agrilink.store 与我们联系。"
+          "如对本政策或您的个人数据有任何疑问，请通过 contact@NongLink.store 与我们联系。"
         ]
       }
     ]

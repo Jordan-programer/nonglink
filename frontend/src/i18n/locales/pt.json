@@ -28,14 +28,14 @@
     "cooperatives": "Cooperativas",
     "contact": "Contacto",
     "location": "Luanda, Angola",
-    "rights": "© {{year}} AgriLink. Todos os direitos reservados.",
+    "rights": "© {{year}} NongLink. Todos os direitos reservados.",
     "privacyPolicy": "Política de Privacidade"
   },
   "hero": {
     "badge": "AgriTech feita para Angola",
     "titleLine1": "Da lavra ao mercado,",
     "titleHighlight": "sem intermediários.",
-    "description": "AgriLink liga agricultores diretamente a compradores, monitoriza as suas lavras com sensores IoT e usa dados para recomendar a melhor altura de irrigar, colher e vender.",
+    "description": "NongLink liga agricultores diretamente a compradores, monitoriza as suas lavras com sensores IoT e usa dados para recomendar a melhor altura de irrigar, colher e vender.",
     "exploreMarket": "Explorar o mercado",
     "howItWorks": "Como funciona",
     "statIncome": "rendimento estimado",
@@ -52,7 +52,7 @@
   },
   "features": {
     "title": "Um ecossistema completo, não só uma ferramenta",
-    "subtitle": "Diferente de soluções que resolvem apenas uma parte do problema, o AgriLink integra venda, monitorização e inteligência de dados numa única plataforma acessível.",
+    "subtitle": "Diferente de soluções que resolvem apenas uma parte do problema, o NongLink integra venda, monitorização e inteligência de dados numa única plataforma acessível.",
     "marketplaceTitle": "Marketplace agrícola",
     "marketplaceDescription": "Vende diretamente a compradores, distribuidores e consumidores, sem passar por intermediários.",
     "iotTitle": "Monitorização IoT",
@@ -84,11 +84,11 @@
   },
   "cta": {
     "title": "Pronto para vender direto e cultivar com dados?",
-    "subtitle": "Junta-te aos agricultores que já usam o AgriLink para chegar a mais compradores e cuidar melhor das suas lavras.",
+    "subtitle": "Junta-te aos agricultores que já usam o NongLink para chegar a mais compradores e cuidar melhor das suas lavras.",
     "button": "Começar agora"
   },
   "login": {
-    "title": "Entrar no AgriLink",
+    "title": "Entrar no NongLink",
     "subtitle": "Acede ao teu mercado, encomendas e lavras.",
     "email": "Email",
     "password": "Password",
@@ -106,7 +106,7 @@
     "facebookError": "Não foi possível entrar com o Facebook."
   },
   "register": {
-    "title": "Criar conta no AgriLink",
+    "title": "Criar conta no NongLink",
     "subtitle": "Junta-te à plataforma como agricultor, comprador ou distribuidor.",
     "roleFarmer": "Agricultor",
     "roleBuyer": "Comprador",
@@ -255,7 +255,7 @@
   },
   "completeProfile": {
     "title": "Completa o teu perfil",
-    "subtitle": "Só falta dizeres-nos quem és para começares a usar a AgriLink.",
+    "subtitle": "Só falta dizeres-nos quem és para começares a usar a NongLink.",
     "roleLabel": "Sou",
     "phoneOptional": "Telefone (opcional)",
     "submitting": "A guardar...",
@@ -333,7 +333,7 @@
   "verifyEmail": {
     "verifying": "A verificar o teu email...",
     "successTitle": "Email verificado!",
-    "successSubtitle": "A tua conta AgriLink está agora totalmente confirmada.",
+    "successSubtitle": "A tua conta NongLink está agora totalmente confirmada.",
     "continue": "Continuar",
     "errorTitle": "Não foi possível verificar",
     "missingToken": "Este link de verificação está incompleto.",
@@ -342,7 +342,7 @@
   },
   "myOrders": {
     "title": "As minhas encomendas",
-    "subtitle": "Histórico de compras feitas no mercado AgriLink.",
+    "subtitle": "Histórico de compras feitas no mercado NongLink.",
     "noOrdersYet": "Ainda não fizeste nenhuma encomenda.",
     "exploreMarket": "Explorar o mercado",
     "orderNumber": "Encomenda #{{id}}",
@@ -452,7 +452,7 @@
   },
   "buyerDashboard": {
     "greeting": "Olá,",
-    "subtitle": "Aqui tens um resumo do que se passa na tua conta AgriLink.",
+    "subtitle": "Aqui tens um resumo do que se passa na tua conta NongLink.",
     "statOrders": "Encomendas",
     "statPending": "Pendentes",
     "statUnreadMessages": "Mensagens por ler",
@@ -734,7 +734,7 @@
   "privacyPolicy": {
     "title": "Política de Privacidade",
     "lastUpdated": "Última atualização: 21 de agosto de 2026",
-    "intro": "A AgriLink (\"nós\", \"a plataforma\") liga agricultores, compradores, distribuidores e transportadores em Angola, na República Democrática do Congo, na República do Congo e na China. Esta política explica que dados pessoais recolhemos, porque os recolhemos e como os utilizamos e protegemos.",
+    "intro": "A NongLink (\"nós\", \"a plataforma\") liga agricultores, compradores, distribuidores e transportadores em Angola, na República Democrática do Congo, na República do Congo e na China. Esta política explica que dados pessoais recolhemos, porque os recolhemos e como os utilizamos e protegemos.",
     "sections": [
       {
         "heading": "1. Dados que recolhemos",
@@ -768,7 +768,7 @@
         "heading": "4. Partilha de dados com terceiros",
         "body": [
           "Nunca vendemos os teus dados pessoais. Partilhamos apenas o estritamente necessário com: PayPal, para processar pagamentos; Google Earth Engine, para análise de imagens de satélite das coordenadas da tua lavra; Google e Facebook, apenas se escolheres iniciar sessão através destes serviços; e transportadores, para permitir a entrega das tuas encomendas.",
-          "Podemos também divulgar dados quando exigido por lei ou para proteger os direitos e a segurança da AgriLink e dos seus utilizadores."
+          "Podemos também divulgar dados quando exigido por lei ou para proteger os direitos e a segurança da NongLink e dos seus utilizadores."
         ]
       },
       {
@@ -793,7 +793,7 @@
       {
         "heading": "8. Menores de idade",
         "body": [
-          "A AgriLink não se destina a menores de 18 anos e não recolhe intencionalmente dados de menores."
+          "A NongLink não se destina a menores de 18 anos e não recolhe intencionalmente dados de menores."
         ]
       },
       {
@@ -805,7 +805,7 @@
       {
         "heading": "10. Contacto",
         "body": [
-          "Para questões sobre esta política ou sobre os teus dados pessoais, contacta-nos através de contact@agrilink.store."
+          "Para questões sobre esta política ou sobre os teus dados pessoais, contacta-nos através de contact@NongLink.store."
         ]
       }
     ]

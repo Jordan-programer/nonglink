@@ -1,21 +1,21 @@
 {
   "expo": {
-    "name": "AgriLink",
+    "name": "nongLink",
     "slug": "mobile",
     "version": "1.0.0",
-    "scheme": "agrilink",
+    "scheme": "nongLink",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.agrilink.app",
+      "bundleIdentifier": "com.nongLink.app",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
-      "package": "com.agrilink.app",
+      "package": "com.nongLink.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/android-icon-foreground.png",
@@ -37,13 +37,13 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "O AgriLink precisa de acesso às tuas fotos para adicionares imagens dos teus produtos."
+          "photosPermission": "O nongLink precisa de acesso às tuas fotos para adicionares imagens dos teus produtos."
         }
       ],
       [
         "expo-location",
         {
-          "locationWhenInUsePermission": "O AgriLink usa a tua localização para te ajudar a encontrar a tua lavra no mapa."
+          "locationWhenInUsePermission": "O nongLink usa a tua localização para te ajudar a encontrar a tua lavra no mapa."
         }
       ],
       "expo-font",

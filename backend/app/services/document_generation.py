@@ -14,7 +14,7 @@ def generate_pdf(title: str, fields: dict[str, str]) -> bytes:
     width, height = A4
 
     pdf.setFont("Helvetica-Bold", 16)
-    pdf.drawString(2 * cm, height - 3 * cm, "AgriLink")
+    pdf.drawString(2 * cm, height - 3 * cm, "NongLink")
 
     pdf.setFont("Helvetica-Bold", 13)
     pdf.drawString(2 * cm, height - 4 * cm, title)

@@ -66,23 +66,23 @@ def send_verification_email(to_email: str, name: str, token: str) -> None:
     link = f"{settings.FRONTEND_BASE_URL}/verificar-email?token={token}"
     body = (
         f"Olá {name},\n\n"
-        "Confirma o teu email na AgriLink clicando no link abaixo:\n"
+        "Confirma o teu email na NongLink clicando no link abaixo:\n"
         f"{link}\n\n"
         f"Este link expira em {settings.EMAIL_VERIFICATION_TOKEN_EXPIRE_HOURS} horas.\n\n"
         "Se não criaste esta conta, ignora este email."
     )
-    _send(to_email, "Confirma o teu email — AgriLink", body)
+    _send(to_email, "Confirma o teu email — NongLink", body)
 
 
 def send_invoice_email(to_email: str, name: str, order_id: int, pdf_bytes: bytes) -> None:
     body = (
         f"Olá {name},\n\n"
-        f"Segue em anexo a fatura da tua encomenda #{order_id} na AgriLink.\n\n"
-        "Obrigado por comprares na AgriLink."
+        f"Segue em anexo a fatura da tua encomenda #{order_id} na NongLink.\n\n"
+        "Obrigado por comprares na NongLink."
     )
     _send(
         to_email,
-        f"Fatura da encomenda #{order_id} — AgriLink",
+        f"Fatura da encomenda #{order_id} — NongLink",
         body,
         attachment=(pdf_bytes, f"fatura-encomenda-{order_id}.pdf"),
     )

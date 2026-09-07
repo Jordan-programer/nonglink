@@ -35,7 +35,7 @@ export default function GenericHome() {
     >
       <View style={styles.brandRow}>
         <Logo size={32} />
-        <Text style={styles.brand}>AgriLink</Text>
+        <Text style={styles.brand}>NongLink</Text>
       </View>
 
       <View style={styles.badge}>

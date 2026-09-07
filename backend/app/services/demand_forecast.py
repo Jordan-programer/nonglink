@@ -23,7 +23,7 @@ def forecast_demand(
     Cancelled orders are excluded — they never became real demand. Returns
     status="insufficient_data" (no fabricated numbers) when there isn't
     enough real transaction history to fit a model — expected today, since
-    AgriLink has very few real orders yet and no external dataset can
+    NongLink has very few real orders yet and no external dataset can
     substitute marketplace-specific transaction volume.
     """
     rows = (

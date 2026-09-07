@@ -1,4 +1,4 @@
-"""MQTT broker + listener for AgriLink sensors.
+"""MQTT broker + listener for NongLink sensors.
 
 Runs an `amqtt` broker (a real, pip-installable MQTT 3.1.1 broker — used
 instead of a system-level Mosquitto install so this runs without an
