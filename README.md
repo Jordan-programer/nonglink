@@ -2,7 +2,6 @@
 
 > Plataforma de tecnologia agrícola que liga agricultores a mercados, com dados e sensores ao serviço de preços mais justos.
 
-*Anteriormente conhecida como AgriLink.*
 
 ---
 
