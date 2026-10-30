@@ -19,3 +19,17 @@ npm-debug.log*
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Segredos
+.env
+.env.*
+!.env.example
+frontend/.env
+mobile/.env
+mobile/credentials.json
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+.claude/settings.local.json
