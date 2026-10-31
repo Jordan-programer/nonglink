@@ -1,0 +1,10 @@
+.git
+.github
+.claude
+node_modules
+*.log
+.venv
+venv
+nonglink_dev.db
+uploads/*
+!uploads/.gitkeep

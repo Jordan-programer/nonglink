@@ -24,6 +24,7 @@ class Farm(Base):
     sensors = relationship("Sensor", back_populates="farm")
     harvests = relationship("Harvest", back_populates="farm")
     soil_observations = relationship("SoilObservation", back_populates="farm")
+    irrigations = relationship("Irrigation", back_populates="farm", cascade="all, delete-orphan")
 
     @property
     def owner_name(self) -> str:

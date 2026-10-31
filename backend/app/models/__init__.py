@@ -13,6 +13,7 @@ from app.models.conversation import Conversation, Message
 from app.models.transport_route import TransportRoute
 from app.models.soil import SoilObservation, SatelliteSource
 from app.models.payment_method import PaymentMethod, payment_method_countries
+from app.models.irrigation import Irrigation, IrrigationStatus
 
 __all__ = [
     "Country",
@@ -36,4 +37,6 @@ __all__ = [
     "SatelliteSource",
     "PaymentMethod",
     "payment_method_countries",
+    "Irrigation",
+    "IrrigationStatus",
 ]

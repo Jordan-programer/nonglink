@@ -141,3 +141,18 @@ CREATE TABLE IF NOT EXISTS sensor_readings (
     FOREIGN KEY (sensor_id) REFERENCES sensors(id) ON DELETE CASCADE,
     INDEX idx_sensor_recorded (sensor_id, recorded_at)
 );
+
+-- Irrigation schedules: tracks scheduled, completed, and cancelled farm irrigation
+CREATE TABLE IF NOT EXISTS irrigations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    farm_id INT NOT NULL,
+    scheduled_time DATETIME NOT NULL,
+    duration_minutes INT NOT NULL,
+    notes VARCHAR(255),
+    status ENUM('agendada', 'concluida', 'cancelada') NOT NULL DEFAULT 'agendada',
+    criada_via TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (farm_id) REFERENCES farms(id) ON DELETE CASCADE,
+    INDEX idx_irrigation_farm (farm_id),
+    CONSTRAINT check_duration_minutes_range CHECK (duration_minutes >= 1 AND duration_minutes <= 600)
+);
