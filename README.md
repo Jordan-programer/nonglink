@@ -24,6 +24,7 @@ Em muitos mercados africanos, os pequenos agricultores vendem sem informação d
 ## Funcionalidades
 
 - Listagem e negociação de produtos agrícolas
+- Agendamento e gestão de rega inteligente por parcela (Fase 2A)
 - Ingestão de dados de sensores IoT em tempo real
 - Previsão de preço e procura (XGBoost e Prophet)
 - Painel de inteligência de preços
@@ -73,40 +74,74 @@ Em muitos mercados africanos, os pequenos agricultores vendem sem informação d
 
 - Python 3.10+
 - Node.js 18+
-- MySQL 8+
 - Docker e Docker Compose (recomendado)
 
-### Instalação
+### Execução com Docker (Full Stack)
+
+O projecto inclui configuração completa de Docker Compose com MySQL 8, Backend FastAPI, Frontend React e Painel Admin:
 
 ```bash
-# 1. Clonar o repositório
-git clone https://github.com/<organizacao>/nonglink.git
-cd nonglink
-
-# 2. Configurar variáveis de ambiente
+# 1. Configurar variáveis de ambiente
 cp .env.example .env
 
-# 3. Arrancar os serviços
-docker compose up --build
+# 2. Iniciar todos os serviços com build
+docker compose up -d --build
+
+# 3. Ver logs dos serviços
+docker compose logs -f
 ```
 
-### Desenvolvimento local (sem Docker)
+Serviços disponibilizados:
+- **Frontend (Marketplace):** [http://localhost](http://localhost) (porta `80`)
+- **Admin Dashboard:** [http://localhost:5174](http://localhost:5174) (porta `5174`)
+- **Backend API & Swagger:** [http://localhost:8000/docs](http://localhost:8000/docs) (porta `8000`)
+- **API Health Check:** [http://localhost:8000/health](http://localhost:8000/health)
+
+### Script de Deploy e Produção
+
+Para ambientes VPS ou servidores dedicados, o script `deploy.sh` automatiza todo o ciclo (pull do Git, build dos contentores, health check do backend, migrações Alembic e limpeza de imagens antigas):
 
 ```bash
+# Tornar executável (em Linux / macOS / VPS)
+chmod +x deploy.sh
+
+# Deploy padrão (git pull + build + migrações)
+./deploy.sh
+
+# Deploy sem git pull (manual/local)
+./deploy.sh --skip-pull
+
+# Deploy reconstruindo imagens sem cache Docker
+./deploy.sh --no-cache
+```
+
+> **CI/CD Automático:** O repositório está configurado com GitHub Actions em `.github/workflows/deploy.yml` que aciona automaticamente o `deploy.sh` na branch `main` via SSH no directório `/var/www/agrilink/deploy.sh`.
+
+### Desenvolvimento local (sem Docker completo)
+
+Se preferir correr apenas o MySQL em Docker e os serviços localmente:
+
+```bash
+# Iniciar apenas a base de dados MySQL de desenvolvimento
+docker compose -f docker-compose.dev.yml up -d
+
 # Backend
 cd backend
-python -m venv venv
-source venv/bin/activate
+python -m venv .venv
+source .venv/bin/activate  # ou .venv\Scripts\activate no Windows
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 
-# Web
-cd ../web
+# Frontend
+cd ../frontend
+npm install
+npm run dev
+
+# Admin
+cd ../admin
 npm install
 npm run dev
 ```
-
-> **Nota:** ajusta os caminhos e comandos acima à estrutura real do repositório.
 
 ---
 
@@ -114,11 +149,15 @@ npm run dev
 
 ```
 NongLink/
-├── backend/    # API em Python (FastAPI) + SQLAlchemy
-├── frontend/   # Aplicação web em React (Vite + TypeScript)
+├── backend/    # API em Python (FastAPI) + SQLAlchemy + Alembic
+├── frontend/   # Aplicação web em React (Vite + TypeScript) + Nginx
+├── admin/      # Painel de administração em React (Vite + TypeScript) + Nginx
 ├── mobile/     # Aplicação mobile em React Native (Expo + TypeScript)
 ├── database/   # Schema e seed do MySQL
-└── docs/       # Documentação do projeto
+├── docs/       # Documentação do projeto
+├── docker-compose.yml     # Orquestração de todos os serviços (Produção / Local)
+├── docker-compose.dev.yml # Base de dados isolada para desenvolvimento local
+└── deploy.sh   # Script de deploy contínuo para VPS e GitHub Actions
 ```
 
 ---
