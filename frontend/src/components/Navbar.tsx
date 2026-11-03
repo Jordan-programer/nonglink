@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
+  Bot,
+  ExternalLink,
   LayoutDashboard,
   LogOut,
   Menu,
@@ -17,6 +19,7 @@ import LanguageSwitcher from './LanguageSwitcher'
 import { useAuth } from '../context/AuthContext'
 import { useCart } from '../context/CartContext'
 import { fetchConversations } from '../api/client'
+import { AGENT_URL } from '../config/agent'
 
 export default function Navbar() {
   const { t } = useTranslation()
@@ -72,7 +75,7 @@ export default function Navbar() {
           <span className="text-lg tracking-tight">NongLink</span>
         </Link>
 
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav className="hidden items-center gap-6 lg:gap-8 md:flex">
           {links.map((link) => (
             <NavLink
               key={link.to}
@@ -87,6 +90,20 @@ export default function Navbar() {
               {link.label}
             </NavLink>
           ))}
+          <a
+            href={AGENT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={t('agent.ariaLabel')}
+            className="group inline-flex items-center gap-1.5 rounded-full border border-leaf-300 bg-white/80 px-3 py-1.5 text-xs font-semibold text-leaf-900 shadow-xs transition-colors hover:border-leaf-500 hover:bg-leaf-50"
+          >
+            <Bot size={14} className="text-leaf-600 transition-transform group-hover:scale-110" />
+            <span>{t('agent.button')}</span>
+            <span className="rounded-full bg-leaf-100 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-leaf-800">
+              {t('agent.demoBadge')}
+            </span>
+            <ExternalLink size={12} className="text-leaf-950/40" />
+          </a>
         </nav>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -175,6 +192,26 @@ export default function Navbar() {
                 {link.label}
               </NavLink>
             ))}
+
+            <a
+              href={AGENT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+              aria-label={t('agent.ariaLabel')}
+              className="group flex items-center justify-between rounded-xl border border-leaf-300 bg-white/90 p-2.5 text-sm font-semibold text-leaf-900 shadow-xs transition-colors hover:border-leaf-500 hover:bg-leaf-50"
+            >
+              <div className="flex items-center gap-2">
+                <Bot size={16} className="text-leaf-600 transition-transform group-hover:scale-110" />
+                <span>{t('agent.button')}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="rounded-full bg-leaf-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-leaf-800">
+                  {t('agent.demoBadge')}
+                </span>
+                <ExternalLink size={13} className="text-leaf-950/40" />
+              </div>
+            </a>
 
             <Link
               to="/carrinho"

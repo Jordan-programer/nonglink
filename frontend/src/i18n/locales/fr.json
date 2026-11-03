@@ -2,6 +2,11 @@
   "common": {
     "loading": "Chargement..."
   },
+  "agent": {
+    "button": "Essayer l'Agent NongLink",
+    "demoBadge": "Démo",
+    "ariaLabel": "Essayer l'Agent NongLink (s'ouvre dans un nouvel onglet)"
+  },
   "nav": {
     "home": "Accueil",
     "market": "Marché",
