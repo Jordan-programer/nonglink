@@ -56,3 +56,4 @@ class SensorAlert(Base):
 
     sensor = relationship("Sensor", back_populates="alerts")
     reading = relationship("SensorReading")
+
