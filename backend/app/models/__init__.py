@@ -19,6 +19,7 @@ from app.models.importer_profile import ImporterProfile
 from app.models.transporter_document import TransporterDocument
 from app.models.transporter_profile import TransporterProfile
 from app.models.vehicle import Vehicle
+from app.models.irrigation import Irrigation
 
 __all__ = [
     "Country",
@@ -48,4 +49,5 @@ __all__ = [
     "TransporterDocument",
     "TransporterProfile",
     "Vehicle",
+    "Irrigation",
 ]
