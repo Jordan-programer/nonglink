@@ -13,6 +13,12 @@ from app.models.conversation import Conversation, Message
 from app.models.transport_route import TransportRoute
 from app.models.soil import SoilObservation, SatelliteSource
 from app.models.payment_method import PaymentMethod, payment_method_countries
+from app.models.delivery_stop import DeliveryStop
+from app.models.export_batch import ExportBatch
+from app.models.importer_profile import ImporterProfile
+from app.models.transporter_document import TransporterDocument
+from app.models.transporter_profile import TransporterProfile
+from app.models.vehicle import Vehicle
 
 __all__ = [
     "Country",
@@ -36,10 +42,10 @@ __all__ = [
     "SatelliteSource",
     "PaymentMethod",
     "payment_method_countries",
+    "DeliveryStop",
+    "ExportBatch",
+    "ImporterProfile",
+    "TransporterDocument",
+    "TransporterProfile",
+    "Vehicle",
 ]
-from app.models.delivery_stop import DeliveryStop
-from app.models.export_batch import ExportBatch
-from app.models.importer_profile import ImporterProfile
-from app.models.transporter_document import TransporterDocument
-from app.models.transporter_profile import TransporterProfile
-from app.models.vehicle import Vehicle
