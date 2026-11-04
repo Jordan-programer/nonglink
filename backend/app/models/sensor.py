@@ -16,7 +16,7 @@ class SensorType(str, enum.Enum):
 class Sensor(Base):
     __tablename__ = "sensors"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(BigInteger, primary_key=True, index=True)
     farm_id = Column(Integer, ForeignKey("farms.id"), nullable=False)
     type = Column(db_enum(SensorType), nullable=False)
     label = Column(String(120), nullable=True)
@@ -31,7 +31,7 @@ class Sensor(Base):
 class SensorReading(Base):
     __tablename__ = "sensor_readings"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(BigInteger, primary_key=True, index=True)
     sensor_id = Column(Integer, ForeignKey("sensors.id"), nullable=False)
     value = Column(Float, nullable=False)
     recorded_at = Column(DateTime, server_default=func.now())
@@ -46,9 +46,9 @@ class AlertSeverity(str, enum.Enum):
 class SensorAlert(Base):
     __tablename__ = "sensor_alerts"
 
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(BigInteger, primary_key=True, index=True)
     sensor_id = Column(Integer, ForeignKey("sensors.id"), nullable=False)
-    reading_id = Column(BigInteger, ForeignKey("sensor_readings.id"), nullable=False)
+    reading_id = Column(Integer, ForeignKey("sensor_readings.id"), nullable=False)
     severity = Column(db_enum(AlertSeverity), default=AlertSeverity.CRITICAL, nullable=False)
     message = Column(String(255), nullable=False)
     acknowledged = Column(Boolean, default=False, nullable=False)
