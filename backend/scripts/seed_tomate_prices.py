@@ -28,9 +28,20 @@ def seed_prices():
         base_prices = {
             "Tomate": 800.0,
             "Milho": 450.0,
-            "Mandioca": 350.0,
+            "Arroz": 950.0,
             "Feijão": 1200.0,
+            "Feijão-macunde": 1100.0,
+            "Amendoim": 1000.0,
+            "Mandioca": 350.0,
+            "Batata-doce": 500.0,
             "Batata": 600.0,
+            "Banana": 400.0,
+            "Cebola": 750.0,
+            "Repolho": 600.0,
+            "Café": 2500.0,
+            "Cana-de-açúcar": 300.0,
+            "Girassol": 850.0,
+            "Outros": 700.0,
         }
 
         now = datetime.now()
