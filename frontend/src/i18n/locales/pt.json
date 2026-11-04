@@ -2,6 +2,11 @@
   "common": {
     "loading": "A carregar..."
   },
+  "agent": {
+    "button": "Experimentar o Agente NongLink",
+    "demoBadge": "Demonstração",
+    "ariaLabel": "Experimentar o Agente NongLink (abre num novo separador)"
+  },
   "nav": {
     "home": "Início",
     "market": "Mercado",

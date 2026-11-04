@@ -2,6 +2,11 @@
   "common": {
     "loading": "正在加载..."
   },
+  "agent": {
+    "button": "体验 NongLink 智能体",
+    "demoBadge": "演示",
+    "ariaLabel": "体验 NongLink 智能体（在新标签页中打开）"
+  },
   "nav": {
     "home": "首页",
     "market": "市场",
