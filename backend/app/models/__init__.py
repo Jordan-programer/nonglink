@@ -37,3 +37,9 @@ __all__ = [
     "PaymentMethod",
     "payment_method_countries",
 ]
+from app.models.delivery_stop import DeliveryStop
+from app.models.export_batch import ExportBatch
+from app.models.importer_profile import ImporterProfile
+from app.models.transporter_document import TransporterDocument
+from app.models.transporter_profile import TransporterProfile
+from app.models.vehicle import Vehicle

@@ -14,6 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from app.core.database import SessionLocal
+import app.models
 from app.models.user import User, UserRole
 from app.utils.security import hash_password
 
