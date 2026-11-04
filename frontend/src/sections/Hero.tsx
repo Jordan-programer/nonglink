@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, Bot, Droplets, ExternalLink, Sprout, Thermometer } from 'lucide-react'
+import { ArrowRight, Droplets, ExternalLink, Sparkles, Sprout, Thermometer } from 'lucide-react'
 import { AGENT_URL } from '../config/agent'
 import { useTranslation } from 'react-i18next'
 
@@ -51,7 +51,7 @@ export default function Hero() {
               aria-label={t('agent.ariaLabel')}
               className="group inline-flex items-center gap-2 rounded-full border border-leaf-300 bg-white/90 px-5 py-3 text-sm font-semibold text-leaf-900 shadow-xs transition-all hover:border-leaf-500 hover:bg-leaf-50 hover:shadow-md"
             >
-              <Bot size={18} className="text-leaf-600 transition-transform group-hover:scale-110" />
+              <Sparkles size={18} className="text-leaf-600 transition-transform group-hover:scale-110" />
               <span>{t('agent.button')}</span>
               <span className="rounded-full bg-leaf-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-leaf-800">
                 {t('agent.demoBadge')}

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
-  Bot,
   ExternalLink,
   LayoutDashboard,
   LogOut,
@@ -9,6 +8,7 @@ import {
   MessageCircle,
   ShieldCheck,
   ShoppingCart,
+  Sparkles,
   Truck,
   User,
   X,
@@ -94,15 +94,15 @@ export default function Navbar() {
             href={AGENT_URL}
             target="_blank"
             rel="noopener noreferrer"
+            title="Agente IA NongLink"
             aria-label={t('agent.ariaLabel')}
-            className="group inline-flex items-center gap-1.5 rounded-full border border-leaf-300 bg-white/80 px-3 py-1.5 text-xs font-semibold text-leaf-900 shadow-xs transition-colors hover:border-leaf-500 hover:bg-leaf-50"
+            className="group relative flex h-9 w-9 items-center justify-center rounded-full border border-leaf-300 bg-white/90 text-leaf-700 shadow-xs transition-all hover:scale-105 hover:border-leaf-500 hover:bg-leaf-50"
           >
-            <Bot size={14} className="text-leaf-600 transition-transform group-hover:scale-110" />
-            <span>{t('agent.button')}</span>
-            <span className="rounded-full bg-leaf-100 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-leaf-800">
-              {t('agent.demoBadge')}
+            <Sparkles size={17} className="text-leaf-600 transition-transform group-hover:rotate-12" />
+            <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-leaf-400 opacity-75"></span>
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-leaf-500"></span>
             </span>
-            <ExternalLink size={12} className="text-leaf-950/40" />
           </a>
         </nav>
 
@@ -170,13 +170,29 @@ export default function Navbar() {
           <LanguageSwitcher />
         </div>
 
-        <button
-          className="rounded-lg p-2 text-leaf-900 md:hidden"
-          onClick={() => setOpen((v) => !v)}
-          aria-label={t('nav.openMenu')}
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+        <div className="flex items-center gap-2 md:hidden">
+          <a
+            href={AGENT_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Agente IA NongLink"
+            aria-label={t('agent.ariaLabel')}
+            className="group relative flex h-8 w-8 items-center justify-center rounded-full border border-leaf-300 bg-white/90 text-leaf-700 shadow-xs"
+          >
+            <Sparkles size={16} className="text-leaf-600" />
+            <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-leaf-400 opacity-75"></span>
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-leaf-500"></span>
+            </span>
+          </a>
+          <button
+            className="rounded-lg p-2 text-leaf-900"
+            onClick={() => setOpen((v) => !v)}
+            aria-label={t('nav.openMenu')}
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
 
       {open && (
@@ -199,18 +215,15 @@ export default function Navbar() {
               rel="noopener noreferrer"
               onClick={() => setOpen(false)}
               aria-label={t('agent.ariaLabel')}
-              className="group flex items-center justify-between rounded-xl border border-leaf-300 bg-white/90 p-2.5 text-sm font-semibold text-leaf-900 shadow-xs transition-colors hover:border-leaf-500 hover:bg-leaf-50"
+              className="group flex items-center justify-between rounded-xl border border-leaf-200 bg-leaf-50/50 p-2.5 text-sm font-semibold text-leaf-900 shadow-xs transition-colors hover:border-leaf-400 hover:bg-leaf-50"
             >
-              <div className="flex items-center gap-2">
-                <Bot size={16} className="text-leaf-600 transition-transform group-hover:scale-110" />
-                <span>{t('agent.button')}</span>
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full border border-leaf-200 bg-white text-leaf-700">
+                  <Sparkles size={14} className="text-leaf-600" />
+                </div>
+                <span>Agente IA</span>
               </div>
-              <div className="flex items-center gap-1.5">
-                <span className="rounded-full bg-leaf-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-leaf-800">
-                  {t('agent.demoBadge')}
-                </span>
-                <ExternalLink size={13} className="text-leaf-950/40" />
-              </div>
+              <ExternalLink size={13} className="text-leaf-950/40" />
             </a>
 
             <Link
